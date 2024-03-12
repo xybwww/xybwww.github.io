@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>字数查询</title>
+
+
+    <style>
+        div {
+            border: 2px solid gray;
+        }
+
+        .more {
+            background-color: transparent;
+            border: none;
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>字数查询</h1>
+    <label for="inputText">查询文字：</label>
+    <textarea kype="text" id="inputText" placeholder="要查询字数的文字..."></textarea>
+    <br />
+    <br />
+    <div></div>
+    <p id="alert"></p>
+
+    <input type="button" id="more" class="more" value="更多∨" onclick="more()">
+    <script>
+        document.getElementById('inputText').addEventListener('input', function () {
+            const text = document.getElementById("inputText").value;
+            var letterCount = 0,
+                numberCount = 0,
+                chineseCharCount = 0,
+                otherCount = 0,
+                englishWorlds = (text.match(/\b[a-zA-Z]+\b/g) || []).length;
+
+            for (const iterator of text.split("")) {
+                if (iterator >= "a" && iterator <= "z" || iterator >= "A" && iterator <= "Z") {//如果是字母
+                    letterCount++;
+                } else if (Number(iterator)) {
+                    numberCount++;
+                } else if (iterator >= "\u4e00" && iterator <= "\u9fff" || iterator >= "\u3400" && iterator <= "\u4dbf") {//如果是汉字
+                    chineseCharCount++;
+                } else {
+                    otherCount++;
+                }
+            }
+
+            document.getElementById("alert").innerHTML =
+                "总字数：" + text.length +
+                "<br>数字数：" + numberCount +
+                "<br>字母数：" + letterCount +
+                "<br>单词数：" + englishWorlds +
+                "<br>汉字数：" + chineseCharCount +
+                "<br>其他字符数：" + otherCount;
+        })
+        var more = false;
+        function more() {
+            more = !more;
+            document.getElementById("more").value=(more?"更少∧":"更多∨");
+        }
+
+    </script>
+</body>
+
+</html>
