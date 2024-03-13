@@ -41,7 +41,7 @@
             for (const iterator of text.split("")) {
                 if (iterator >= "a" && iterator <= "z" || iterator >= "A" && iterator <= "Z") {//如果是字母
                     letterCount++;
-                } else if (Number(iterator)) {
+                } else if (/^\d$/.test(iterator)) {
                     numberCount++;
                 } else if (iterator >= "\u4e00" && iterator <= "\u9fff" || iterator >= "\u3400" && iterator <= "\u4dbf") {//如果是汉字
                     chineseCharCount++;
