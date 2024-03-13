@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>字数查询</title>
-    
+
     <style>
         div {
             border: 2px solid gray;
@@ -27,7 +27,7 @@
     <div></div>
     <p id="alert"></p>
 
-    <button type="button" id="more" onclick="more()">更多∨</button>
+    <button id="more">更多∨</button>
     <script>
         document.getElementById('inputText').addEventListener('input', function () {
             const text = document.getElementById("inputText").value;
@@ -58,11 +58,10 @@
                 "<br>其他字符数：" + otherCount;
         })
         var more = false;
-        function more() {
+        document.getElementById("more").addEventListener('click', function () {
             more = !more;
             document.getElementById("more").textContent = (more ? "更少∧" : "更多∨");
-        }
-
+        });
     </script>
 </body>
 
