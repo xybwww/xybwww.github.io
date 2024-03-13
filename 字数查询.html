@@ -11,7 +11,7 @@
             border: 2px solid gray;
         }
 
-        .more {
+        #more {
             background-color: transparent;
             border: none;
             color: blue;
@@ -28,7 +28,7 @@
     <div></div>
     <p id="alert"></p>
 
-    <input type="button" id="more" class="more" value="更多∨" onclick="more()">
+    <button type="button" id="more" onclick="more()">更多∨</button>
     <script>
         document.getElementById('inputText').addEventListener('input', function () {
             const text = document.getElementById("inputText").value;
@@ -61,7 +61,7 @@
         var more = false;
         function more() {
             more = !more;
-            document.getElementById("more").value=(more?"更少∧":"更多∨");
+            document.getElementById("more").textContent = (more ? "更少∧" : "更多∨");
         }
 
     </script>
