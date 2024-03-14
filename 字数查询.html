@@ -21,8 +21,6 @@
     <br>
     <br>
     <p id="alert"></p>
-
-    <button id="more">更多∨</button>
     <script>
         document.getElementById('inputText').addEventListener('input', function () {
             const text = document.getElementById("inputText").value;
@@ -51,11 +49,6 @@
                 "<br>单词数：" + englishWorlds +
                 "<br>汉字数：" + chineseCharCount +
                 "<br>其他字符数：" + otherCount;
-        })
-        var more = false;
-        document.getElementById("more").addEventListener('click', function () {
-            more = !more;
-            document.getElementById("more").textContent = (more ? "更少∧" : "更多∨");
         });
     </script>
 </body>
