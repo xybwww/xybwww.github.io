@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>电梯</title>
+    <script>
+
+        window.onscroll = adjust();
+
+        //调整位置
+        function adjust() {
+            window.scrollTo(0, 0);
+        }
+
+        function change(floor) {
+            onFloor(floor)
+        }
+
+        function onFloor(number) {
+            document.body.style.setProperty("--elevatorHeight", number * 120 - 833 + 'px')
+        }
+
+/*
+        // 定义窗口大小改变事件的处理函数
+        function handleResize() {
+            if (window.innerHeight / 6 > window.innerWidth / 5) {
+                document.body.style.setProperty("--scale", window.innerWidth / 600)
+            } else {
+                document.body.style.setProperty("--scale", window.innerHeight / 720)
+            }
+            adjust()
+        }
+
+        // 添加窗口大小改变事件的监听器
+        window.addEventListener('resize', handleResize);
+*/
+
+    </script>
+    <style>
+        body {
+            transform: scale(var(--scale));
+            overflow: hidden;
+        }
+
+        .first,
+        .second,
+        .third,
+        .fourth,
+        .fifth,
+        .sixth {
+            width: 600px;
+            height: 120px;
+        }
+
+        .first {
+            background-color: #FBC59F;
+        }
+
+        .second {
+            background-color: #FFE193;
+        }
+
+        .third {
+            background-color: #B2F8CF;
+        }
+
+        .fourth {
+            background-color: #A9E0FF;
+        }
+
+        .fifth {
+            background-color: #B494F9;
+        }
+
+        .sixth {
+            background-color: #FFAFDF;
+        }
+
+        .elevator {
+            width: 400px;
+            height: 100px;
+            border: 3px solid black;
+            margin-left: 100px;
+            margin-top: var(--elevatorHeight);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="first" onclick="change(1)"></div>
+    <div class="second" onclick="change(2)"></div>
+    <div class="third" onclick="change(3)"></div>
+    <div class="fourth" onclick="change(4)"></div>
+    <div class="fifth" onclick="change(5)"></div>
+    <div class="sixth" onclick="change(6)"></div>
+    <div class="elevator"></div>
+</body>
+
+</html>
