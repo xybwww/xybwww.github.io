@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>机械笔</title>
+    <style>
+        body,
+        html {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            display: flex;
+        }
+
+        #div {
+            background-color: lightgray;
+            width: 170px;
+            height: 100%;
+            padding: 10px 15px;
+            /*可滑动*/
+            overflow-y: auto;
+            /*自动换行*/
+            word-wrap: break-word;
+        }
+
+        #fixedDiv {
+            margin: 5px 0px;
+        }
+
+        button {
+            width: 100px;
+            margin: 5px 0px;
+            padding: 0px;
+            font-size: 20px;
+            color: black;
+        }
+
+        h1,
+        h2 {
+            margin: 5px 0px;
+        }
+
+        h3,
+        p {
+            margin: 0px;
+        }
+
+        p {
+            color: gray;
+            font-size: 15px;
+        }
+
+        .list {
+            margin: 10px 0px;
+            padding: 8px;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+        input[type="text"] {
+            width: 80px;
+            font-size: 15px;
+        }
+
+        input[type="number"] {
+            width: 40px;
+            font-size: 15px;
+        }
+
+        select {
+            font-size: 15px;
+            color: black;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <svg id="svg" width="1000" height="1000" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="div">
+        <div id="home" class="show">
+            <h1>主页</h1>
+            <h2>画笔</h2>
+            <button id="add">添加</button>
+            <div id="brushList"></div>
+        </div>
+        <div id="setting" class="hide">
+            <h1>设置</h1>
+            <button id="ok">完成</button>
+            <h2>名称</h2>
+            <input type="text" id="name">
+            <h2>起点位置</h2>
+            <input type="radio" id="fixed" name="location" value="fixed">
+            <label for="fixed">固定坐标</label>
+            <br>
+            <div id="fixedDiv">
+                <label for="fixedX">x:</label>
+                <input type="number" id="fixedX">
+                <label>px</label>
+                <br>
+                <label for="fixedY">y:</label>
+                <input type="number" id="fixedY">
+                <label>px</label>
+            </div>
+            <input type="radio" id="fllow" name="location" value="fllow">
+            <label for="fllow">跟随移动</label>
+            <br>
+            <select id="fllowSelect">
+            </select>
+            <h2>角度</h2>
+            <input type="number" id="angle">
+            <label>°</label>
+            <br>
+            <h2>长度</h2>
+            <input type="number" id="length">
+            <label>px</label>
+            <br>
+            <h2>旋转速度</h2>
+            <input type="number" id="speed">
+            <label>°/s</label>
+            <br>
+            <h2>颜色</h2>
+            <select id="color">
+                <option value="none">不着色</option>
+                <option value="black">黑色</option>
+                <option value="red">红色</option>
+                <option value="blue">蓝色</option>
+                <option value="goldenrod">黄色</option>
+                <option value="green">绿色</option>
+            </select>
+        </div>
+        <div id="run" class="hide">
+            <h1>运行</h1>
+        </div>
+    </div>
+
+    <script>
+        // 获取元素
+        const svg = document.getElementById('svg');
+        const home = document.getElementById('home');
+        const setting = document.getElementById('setting');
+        const run = document.getElementById('run');
+        const add = document.getElementById('add');
+        const ok = document.getElementById('ok');
+        const brushList = document.getElementById('brushList');
+        const settingName = document.getElementById('name');
+        const settingFixed = document.getElementById('fixed');
+        const settingFixedDiv = document.getElementById('fixedDiv');
+        const settingFixedX = document.getElementById('fixedX');
+        const settingFixedY = document.getElementById('fixedY');
+        const settingFllow = document.getElementById('fllow');
+        const settingFllowSelect = document.getElementById('fllowSelect');
+        const settingAngle = document.getElementById('angle');
+        const settingLength = document.getElementById('length');
+        const settingSpeed = document.getElementById('speed');
+        const settingColor = document.getElementById('color');
+
+        // 初始化画笔数组
+        var brush = [
+            { 'name': '画笔1', 'angle': 200, 'length': 200, 'x': 10, 'y': 0, 'connection': false, 'speed': 20, 'color': 'none' },
+            { 'name': '画笔2', 'angle': 100, 'length': 150, 'x': 0, 'y': 0, 'connection': '画笔1', 'speed': 30, 'color': 'black' }
+        ];
+
+        //设置索引
+        var settingIndex;
+
+        // 画线函数
+        function line(startX, startY, angle, length) {
+            const angleInRadians = angle * (Math.PI / 180);
+            const endX = startX + length * Math.cos(angleInRadians);
+            const endY = startY + length * Math.sin(angleInRadians);
+            const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            newLine.setAttribute('x1', startX + svg.getAttribute('width') / 2);
+            newLine.setAttribute('y1', svg.getAttribute('height') / 2 - startY);
+            newLine.setAttribute('x2', endX + svg.getAttribute('width') / 2);
+            newLine.setAttribute('y2', svg.getAttribute('height') / 2 - endY);
+            newLine.setAttribute('stroke', strokeColor);
+            newLine.setAttribute('stroke-width', strokeWidth);
+            svg.appendChild(newLine);
+            return { 'x': endX, 'y': endY };
+        }
+
+        // 绘制函数
+        function draw(name, x, y, angle, length) {
+            const end = line(x, y, angle, length, settingIndex !== undefined && name === brush[settingIndex].name);
+            brush.forEach(function (item) {
+                if (item.connection === name) {
+                    draw(item.name, end.x, end.y, item.angle, item.length);
+                }
+            });
+        }
+
+        // 更新画布内容
+        function updateCanvas() {
+            //svg.innerHTML = '';
+            brushList.innerHTML = '';
+            brush.forEach(function (item, index) {
+                const div = document.createElement("div");
+                div.name = index;
+                div.className = 'list';
+                const h3 = document.createElement("h3");
+                h3.textContent = item.name;
+                div.appendChild(h3);
+                const p = document.createElement("p");
+                p.textContent = '位置：' + (item.connection ? item.connection : '(' + item.x + ',' + item.y + ')');
+                div.appendChild(p);
+                div.addEventListener('click', function () {
+                    home.className = 'hide';
+                    setting.className = 'show';
+                    settingIndex = this.name;
+                    updateSetting();
+                    updateCanvas();
+                });
+                /*div.addEventListener('mouseenter', function () {
+                    settingIndex = this.name;
+                    updateCanvas();
+                });
+                div.addEventListener('mouseleave', function () {
+                    settingIndex = undefined;
+                    updateCanvas();
+                });*/
+                brushList.appendChild(div);
+                if (!item.connection) {
+                    draw(item.name, item.x, item.y, item.angle, item.length);
+                }
+            });
+        }
+
+        //更新设置
+        function updateSetting() {
+            settingName.value = brush[settingIndex].name;
+            if (brush[settingIndex].connection) {
+                settingFllow.checked = true;
+                settingFixedDiv.className = 'hide';
+                settingFllowSelect.className = 'show';
+            } else {
+                settingFixed.checked = true;
+                settingFllowSelect.className = 'hide';
+                settingFixedDiv.className = 'show';
+            }
+            //重置select
+            while (settingFllowSelect.firstChild) {
+                settingFllowSelect.removeChild(settingFllowSelect.firstChild);
+            }
+            brush.forEach(function (element, index) {
+                if (element.name !== brush[settingIndex].name && element.connection !== brush[settingIndex].name) {
+                    const option = document.createElement("option");
+                    option.text = element.name;
+                    settingFllowSelect.appendChild(option);
+                    if (brush[settingIndex].connection === element.name) {
+                        settingFllowSelect.selectedIndex = index;
+                    }
+                }
+            });
+            settingAngle.value = brush[settingIndex].angle;
+            settingLength.value = brush[settingIndex].length;
+            settingSpeed.value = brush[settingIndex].speed;
+            settingColor.value = brush[settingIndex].color;
+        }
+
+        //设置输入框离开焦点
+        settingName.addEventListener('blur', function () {
+            settingName.value = settingName.value.replace(/\s/g, '');
+            if (settingName.value === '') {
+                settingName.value = brush[settingIndex].name;
+            } else if (settingName.value !== brush[settingIndex].name) {
+                if (brush.some(function (obj) {
+                    return obj.hasOwnProperty('name') && obj.name == settingName.value;
+                })) {
+                    alert('该名称已存在');
+                    settingName.value = brush[settingIndex].name;
+                } else {
+                    brush[settingIndex].name = settingName.value;
+                    updateCanvas();
+                }
+            }
+        });
+        //设置单选框改变
+        settingFixed.addEventListener('change', function () {
+            settingFllowSelect.className = 'hide';
+            settingFixedDiv.className = 'show';
+        });
+        settingFllow.addEventListener('change', function () {
+            settingFixedDiv.className = 'hide';
+            settingFllowSelect.className = 'show';
+        });
+
+
+
+        // 添加按钮点击事件
+        add.addEventListener('click', function () {
+            //取名字
+            let maxNumber = 0;
+            brush.forEach(obj => {
+                if (typeof obj.name === 'string' && obj.name.startsWith('画笔')) {
+                    let number = parseInt(obj.name.replace('画笔', ''), 10);
+                    if (!isNaN(number)) {
+                        if (number > maxNumber) {
+                            maxNumber = number;
+                        }
+                    }
+                }
+            });
+            brush.push({ 'name': '画笔' + (maxNumber + 1), 'angle': 0, 'length': 150, 'x': 0, 'y': 0, 'connection': brush[brush.length - 1].name, 'speed': 30, 'color': 'none' })
+            home.className = 'hide';
+            setting.className = 'show';
+            settingIndex = brush.length - 1;
+            updateSetting();
+            updateCanvas();
+        });
+        ok.addEventListener('click', function () {
+            setting.className = 'hide';
+            home.className = 'show';
+            settingIndex = undefined;
+            updateCanvas();
+        });
+
+        // 更新canvas宽度
+        function updateCanvasWidth() {
+            svg.setAttribute('width', window.innerWidth - 200);
+            svg.setAttribute('height', window.innerHeight);
+            updateCanvas();
+        }
+
+        // 监听窗口大小变化和DOM内容加载完成事件
+        window.addEventListener('resize', updateCanvasWidth);
+        window.addEventListener('DOMContentLoaded', updateCanvasWidth);
+    </script>
+
+</body>
+
+</html>
