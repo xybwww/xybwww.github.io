@@ -466,6 +466,7 @@
                 brush = JSON.parse(textList.value);
                 updateCanvas();
             } catch (error) {
+                alert(error);
                 textList.value = '[' +
                     brush.map(function (brushObj) {
                         return `{name: '${brushObj.name}',angle: ${brushObj.angle},length: ${brushObj.length},x: ${brushObj.x},y: ${brushObj.y},connected: ${brushObj.connected},connection: '${brushObj.connection}',speed: ${brushObj.speed},color: '${brushObj.color}'}`;
