@@ -187,6 +187,7 @@
         const add = document.getElementById("add");
         const ok = document.getElementById("ok");
         const brushList = document.getElementById("brushList");
+        const textList = document.getElementById("textList");
         const settingName = document.getElementById("name");
         const settingFixed = document.getElementById("fixed");
         const settingFixedDiv = document.getElementById("fixedDiv");
@@ -268,6 +269,11 @@
         function updateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             brushList.innerHTML = "";
+            textList.value = '[' +
+                brush.map(function (brushObj) {
+                    return `{name: '${brushObj.name}',angle: ${brushObj.angle},length: ${brushObj.length},x: ${brushObj.x},y: ${brushObj.y},connected: ${brushObj.connected},connection: '${brushObj.connection}',speed: ${brushObj.speed},color: '${brushObj.color}'}`;
+                })
+                + ']';
             brush.forEach(function (item, index) {
                 const div = document.createElement("div");
                 div.name = index;
@@ -451,6 +457,20 @@
                 home.className = "show";
                 settingIndex = undefined;
                 updateCanvas();
+            }
+        });
+
+        //textList失去焦点
+        textList.addEventListener('blur', function () {
+            try {
+                brush = JSON.parse(textList.value);
+                updateCanvas();
+            } catch (error) {
+                textList.value = '[' +
+                    brush.map(function (brushObj) {
+                        return `{name: '${brushObj.name}',angle: ${brushObj.angle},length: ${brushObj.length},x: ${brushObj.x},y: ${brushObj.y},connected: ${brushObj.connected},connection: '${brushObj.connection}',speed: ${brushObj.speed},color: '${brushObj.color}'}`;
+                    })
+                    + ']';
             }
         });
 
