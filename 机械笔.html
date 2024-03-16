@@ -271,7 +271,7 @@
             brushList.innerHTML = "";
             textList.value = '[' +
                 brush.map(function (brushObj) {
-                    return `{'name': '${brushObj.name}','angle': ${brushObj.angle},'length': ${brushObj.length},'x': ${brushObj.x},'y': ${brushObj.y},'connected': ${brushObj.connected},'connection': '${brushObj.connection}','speed': ${brushObj.speed},'color': '${brushObj.color}'}`;
+                    return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
                 })
                 + ']';
             brush.forEach(function (item, index) {
@@ -464,7 +464,7 @@
                 alert(error);
                 textList.value = '[' +
                     brush.map(function (brushObj) {
-                        return `{'name': '${brushObj.name}','angle': ${brushObj.angle},'length': ${brushObj.length},'x': ${brushObj.x},'y': ${brushObj.y},'connected': ${brushObj.connected},'connection': '${brushObj.connection}','speed': ${brushObj.speed},'color': '${brushObj.color}'}`;
+                        return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
                     })
                     + ']';
             }
