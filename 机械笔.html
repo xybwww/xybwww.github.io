@@ -373,6 +373,11 @@
                     alert("该名称已存在");
                     settingName.value = brush[settingIndex].name;
                 } else {
+                    brush.forEach(function (element) {
+                        if (element.connection===brush[settingIndex].name) {
+                            element.connection=settingName.value;
+                        }
+                    });
                     brush[settingIndex].name = settingName.value;
                     updateCanvas();
                 }
