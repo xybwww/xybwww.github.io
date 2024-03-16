@@ -432,9 +432,7 @@
         });
         settingDelete.addEventListener("click", function () {
             if (confirm("确认删除吗")) {
-                brush[settingIndex].color =
-                    settingColor.options[settingColor.selectedIndex].value;
-                updateCanvas();
+                brush.splice(settingIndex, 1);
             }
         });
 
