@@ -445,6 +445,9 @@
                         return `{name: '${brushObj.name}',angle: ${brushObj.angle},length: ${brushObj.length},x: ${brushObj.x},y: ${brushObj.y},connected: ${brushObj.connected},onnection: '${brushObj.connection}',speed: ${brushObj.speed},color: '${brushObj.color}'}`;
                     })
                     + ']');
+                setting.className = "hide";
+                home.className = "show";
+                settingIndex = undefined;
                 updateCanvas();
             }
         });
