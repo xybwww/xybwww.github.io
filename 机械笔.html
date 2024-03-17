@@ -173,7 +173,7 @@
         </div>
     </div>
     <br />
-    <a id="link" src="https://xybwww.github.io/">⠀⠀⠀⠀⠀by xybwww</a>
+    <a id="link" href="https://xybwww.github.io/">⠀⠀⠀⠀⠀by xybwww</a>
 
     <script>
         // 获取元素
@@ -210,7 +210,7 @@
                 x: 10,
                 y: 0,
                 connected: false,
-                connection: undefined,
+                connection: "画笔2",
                 speed: 20,
                 color: "none",
             },
@@ -452,6 +452,13 @@
         });
         settingDelete.addEventListener("click", function () {
             if (confirm("确认删除吗")) {
+                brush.forEach(function (element) {
+                    if (element.connection===brush[settingIndex].name) {
+                        if(element.connection===brush[settingIndex].connection){
+                            
+                        }
+                    }
+                });
                 brush.splice(settingIndex, 1);
                 setting.className = "hide";
                 home.className = "show";
