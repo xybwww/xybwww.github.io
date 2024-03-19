@@ -278,35 +278,38 @@
                 })
                 + ']';
             brush.forEach(function (item, index) {
-                const div = document.createElement("div");
-                div.name = index;
-                div.className = "list";
-                const h3 = document.createElement("h3");
-                h3.textContent = item.name;
-                div.appendChild(h3);
-                const p = document.createElement("p");
-                p.textContent =
-                    "位置：" +
-                    (item.connected
-                        ? item.connection
-                        : "(" + item.x + "," + item.y + ")");
-                div.appendChild(p);
-                div.addEventListener("click", function () {
-                    home.className = "hide";
-                    setting.className = "show";
+                if (interval) {
+                } else {
+                    const div = document.createElement("div");
+                    div.name = index;
+                    div.className = "list";
+                    const h3 = document.createElement("h3");
+                    h3.textContent = item.name;
+                    div.appendChild(h3);
+                    const p = document.createElement("p");
+                    p.textContent =
+                        "位置：" +
+                        (item.connected
+                            ? item.connection
+                            : "(" + item.x + "," + item.y + ")");
+                    div.appendChild(p);
+                    div.addEventListener("click", function () {
+                        home.className = "hide";
+                        setting.className = "show";
+                        settingIndex = this.name;
+                        updateSetting();
+                        updateCanvas();
+                    });
+                    /*div.addEventListener('mouseenter', function () {
                     settingIndex = this.name;
-                    updateSetting();
                     updateCanvas();
                 });
-                /*div.addEventListener('mouseenter', function () {
-                settingIndex = this.name;
-                updateCanvas();
-            });
-            div.addEventListener('mouseleave', function () {
-                settingIndex = undefined;
-                updateCanvas();
-            });*/
-                brushList.appendChild(div);
+                div.addEventListener('mouseleave', function () {
+                    settingIndex = undefined;
+                    updateCanvas();
+                });*/
+                    brushList.appendChild(div);
+                }
                 if (!item.connected) {
                     draw(
                         item.name,
@@ -532,7 +535,7 @@
             updateCanvas();
         });
         //运行
-        var interval, backup;
+        var interval, backup, stroke = [];
         runButton.addEventListener("click", function () {
             home.className = "hide";
             run.className = "show";
