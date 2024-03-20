@@ -393,11 +393,13 @@
       settingFllowSelect.className = "hide";
       settingFixedDiv.className = "show";
       brush[settingIndex].connected = false;
+      updateCanvas();
     });
     settingFllow.addEventListener("change", function () {
       settingFixedDiv.className = "hide";
       settingFllowSelect.className = "show";
       brush[settingIndex].connected = true;
+      updateCanvas();
     });
     settingFixedX.addEventListener("blur", function () {
       const inputValue = parseFloat(settingFixedX.value);
