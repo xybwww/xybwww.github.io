@@ -251,7 +251,7 @@
     }
 
     // 绘制函数
-    function draw(name, x, y, angle, length, color) {
+    function draw(name, x, y, angle, length, color, last, brushIndex) {
       ctx.strokeStyle = "black";
       if (settingIndex !== undefined) {
         if (name === brush[settingIndex].name) {
@@ -263,9 +263,9 @@
         }
       }
       const end = line(x, y, angle, length);
-      brush.forEach(function (item) {
+      brush.forEach(function (item, index) {
         if (item.connected && item.connection === name) {
-          draw(item.name, end.x, end.y, item.angle, item.length);
+          draw(item.name, end.x, end.y, item.angle, item.length, item.color, item.last, index);
         }
       });
     }
@@ -313,7 +313,7 @@
           brushList.appendChild(div);
         }
         if (!item.connected) {
-          draw(item.name, item.x, item.y, item.angle, item.length);
+          draw(item.name, item.x, item.y, item.angle, item.length, item.color, item.last, index);
         }
       });
     }
