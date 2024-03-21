@@ -112,7 +112,7 @@
 </head>
 
 <body>
-  <canvas id=""></canvas>
+  <canvas id="stroke"></canvas>
   <canvas id="canvas"></canvas>
   <div id="div">
     <div id="home" class="show">
@@ -180,6 +180,8 @@
 
   <script>
     // 获取元素
+    const strokeCanvas = document.getElementById("canvas");
+    const strokeCtx = canvas.getContext("2d");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const mainDiv = document.getElementById("div");
@@ -249,7 +251,7 @@
     }
 
     // 绘制函数
-    function draw(name, x, y, angle, length) {
+    function draw(name, x, y, angle, length, color) {
       ctx.strokeStyle = "black";
       if (settingIndex !== undefined) {
         if (name === brush[settingIndex].name) {
@@ -316,7 +318,8 @@
             item.x,
             item.y,
             item.angle,
-            item.length
+            item.length,
+            item.color
           );
         }
       });
@@ -557,6 +560,8 @@
     function updateCanvasWidth() {
       canvas.width = window.innerWidth - 200;
       canvas.height = window.innerHeight;
+      strokeCanvas.width = window.innerWidth - 200;
+      strokeCanvas.height = window.innerHeight;
       mainDiv.style.height = window.innerHeight - 50 + "px";
       updateCanvas();
     }
