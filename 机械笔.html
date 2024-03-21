@@ -181,7 +181,7 @@
   <script>
     // 获取元素
     const strokeCanvas = document.getElementById("canvas");
-    const strokeCtx = canvas.getContext("2d");
+    const strokeCtx = strokeCanvas.getContext("2d");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const mainDiv = document.getElementById("div");
@@ -313,7 +313,7 @@
           brushList.appendChild(div);
         }
         if (!item.connected) {
-          draw(item);
+          draw(item.name, item.x, item.y, item.angle, item.length);
         }
       });
     }
