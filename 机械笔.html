@@ -263,6 +263,13 @@
         }
       }
       const end = line(x, y, angle, length);
+      if (color!=='none') {
+        if (last) {
+          
+        } else {
+          
+        }
+      }
       brush.forEach(function (item, index) {
         if (item.connected && item.connection === name) {
           draw(item.name, end.x, end.y, item.angle, item.length, item.color, item.last, index);
@@ -280,7 +287,7 @@
         })
         + ']';
       brush.forEach(function (item, index) {
-        if (interval) {
+        if (backup) {
         } else {
           const div = document.createElement("div");
           div.name = index;
@@ -534,7 +541,7 @@
       updateCanvas();
     });
     //运行
-    var interval, backup, stroke = [];
+    var interval, backup;
     runButton.addEventListener("click", function () {
       home.className = "hide";
       run.className = "show";
