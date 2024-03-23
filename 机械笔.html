@@ -185,7 +185,7 @@
         <input type="radio" name="look" id="hideBrush" />
         <label for="hideBrush">隐藏画笔</label>
         <br />
-        <input type="radio" name="look" id="showBrush" checked/>
+        <input type="radio" name="look" id="showBrush" checked />
         <label for="showBrush">显示画笔</label>
         <br />
         <input type="radio" name="look" id="ghostingBrush" />
@@ -264,7 +264,7 @@
         const angleInRadians = angle * (Math.PI / 180);
         const endX = startX + length * Math.cos(angleInRadians);
         const endY = startY + length * Math.sin(angleInRadians);
-        if (!hideBrush.checked) {
+        if (!hideBrush.checked||!backup) {
           ctx.beginPath();
           ctx.moveTo(startX + canvas.width / 2, canvas.height / 2 - startY);
           ctx.lineTo(endX + canvas.width / 2, canvas.height / 2 - endY);
@@ -305,7 +305,7 @@
         } else {
           ctx.fillStyle = "gray";
         }
-        if (!hideBrush.checked) {
+        if (showBrush.checked||!backup) {
           ctx.rect(
             end.x + strokeCanvas.width / 2 - 2,
             strokeCanvas.height / 2 - end.y - 2,
@@ -612,7 +612,6 @@ updateCanvas();
         }, 100);
       });
       goBack.addEventListener("click", function () {
-        hideBrush.checked = false;
         run.className = "hide";
         home.className = "show";
         clearInterval(interval);
