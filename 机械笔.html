@@ -12,6 +12,10 @@
       height: 100%;
     }
 
+    * {
+      font-family: "Microsoft YaHei", "Heiti SC", tahoma, arial, "Hiragino Sans GB", sans-serif;
+    }
+
     canvas {
       position: absolute;
       top: 0px;
@@ -173,6 +177,7 @@
     </div>
     <div id="run" class="hide">
       <h1>运行</h1>
+      <button id="goBack">返回</button>
     </div>
   </div>
   <br />
@@ -180,7 +185,7 @@
 
   <script>
     // 获取元素
-    const strokeCanvas = document.getElementById("canvas");
+    const strokeCanvas = document.getElementById("stroke");
     const strokeCtx = strokeCanvas.getContext("2d");
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
@@ -191,6 +196,7 @@
     const runButton = document.getElementById("runButton");
     const add = document.getElementById("add");
     const ok = document.getElementById("ok");
+    const goBack = document.getElementById("goBack");
     const brushList = document.getElementById("brushList");
     const textList = document.getElementById("textList");
     const settingName = document.getElementById("name");
@@ -227,7 +233,7 @@
         y: 0,
         connected: true,
         connection: "画笔1",
-        speed: 30,
+        speed: -30,
         color: "black",
       },
     ];
@@ -253,26 +259,29 @@
     // 绘制函数
     function draw(name, x, y, angle, length, color, last, brushIndex) {
       ctx.strokeStyle = "black";
+      ctx.lineWidth = 1;
       if (settingIndex !== undefined) {
         if (name === brush[settingIndex].name) {
           ctx.strokeStyle = "brown";
-          line(x + 1, y, angle, length);
-          line(x - 1, y, angle, length);
-          line(x, y + 1, angle, length);
-          line(x, y - 1, angle, length);
+          ctx.lineWidth = 2;
         }
       }
       const end = line(x, y, angle, length);
-      if (color!=='none') {
+      if (color !== 'none') {
         if (last) {
-          
-        } else {
-          
+          strokeCtx.strokeStyle = "black";
+          strokeCtx.beginPath();
+          strokeCtx.moveTo(last.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - last.y);
+          strokeCtx.lineTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y);
+          strokeCtx.stroke();
+          brush[brushIndex].last = end;
+        } else if (backup) {
+          brush[brushIndex].last = end;
         }
       }
-      brush.forEach(function (item, index) {
-        if (item.connected && item.connection === name) {
-          draw(item.name, end.x, end.y, item.angle, item.length, item.color, item.last, index);
+      brush.forEach(function (element, index) {
+        if (element.connected && element.connection === name) {
+          draw(element.name, end.x, end.y, element.angle, element.length, element.color, element.last, index);
         }
       });
     }
@@ -286,21 +295,21 @@
           return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
         })
         + ']';
-      brush.forEach(function (item, index) {
+      brush.forEach(function (element, index) {
         if (backup) {
         } else {
           const div = document.createElement("div");
           div.name = index;
           div.className = "list";
           const h3 = document.createElement("h3");
-          h3.textContent = item.name;
+          h3.textContent = element.name;
           div.appendChild(h3);
           const p = document.createElement("p");
           p.textContent =
             "位置：" +
-            (item.connected
-              ? item.connection
-              : "(" + item.x + "," + item.y + ")");
+            (element.connected
+              ? element.connection
+              : "(" + element.x + "," + element.y + ")");
           div.appendChild(p);
           div.addEventListener("click", function () {
             home.className = "hide";
@@ -319,8 +328,8 @@
       });*/
           brushList.appendChild(div);
         }
-        if (!item.connected) {
-          draw(item.name, item.x, item.y, item.angle, item.length, item.color, item.last, index);
+        if (!element.connected) {
+          draw(element.name, element.x, element.y, element.angle, element.length, element.color, element.last, index);
         }
       });
     }
@@ -547,15 +556,26 @@
       run.className = "show";
       settingIndex = undefined;
       updateCanvas();
-      backup = brush.slice();
+      backup = brush.slice(0);
       interval = setInterval(function () {
-        brush.forEach(function (value) {
-          value.angle += value.speed / 10;
+        brush.forEach(function (element) {
+          element.angle += element.speed / 10;
         });
         updateCanvas();
       }, 100);
     });
-
+    goBack.addEventListener("click", function () {
+      run.className = "hide";
+      home.className = "show";
+      clearInterval(interval);
+      interval = null;
+      brush = backup.slice(0);
+      console.log(brush);
+      backup = undefined;
+      strokeCtx.clearRect(0, 0, strokeCanvas.width, strokeCanvas.height);
+      updateCanvas();
+    });
+    
     // 更新canvas宽度
     function updateCanvasWidth() {
       canvas.width = window.innerWidth - 200;
