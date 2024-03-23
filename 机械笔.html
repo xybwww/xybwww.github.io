@@ -269,7 +269,7 @@
       const end = line(x, y, angle, length);
       if (color !== 'none') {
         if (last) {
-          strokeCtx.strokeStyle = "black";
+          strokeCtx.strokeStyle = color;
           strokeCtx.beginPath();
           strokeCtx.moveTo(last.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - last.y);
           strokeCtx.lineTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y);
@@ -556,7 +556,7 @@
       run.className = "show";
       settingIndex = undefined;
       updateCanvas();
-      backup = brush.slice(0);
+      backup = JSON.stringify(brush);
       interval = setInterval(function () {
         brush.forEach(function (element) {
           element.angle += element.speed / 10;
@@ -569,13 +569,13 @@
       home.className = "show";
       clearInterval(interval);
       interval = null;
-      brush = backup.slice(0);
+      brush = JSON.parse(backup);
       console.log(brush);
       backup = undefined;
       strokeCtx.clearRect(0, 0, strokeCanvas.width, strokeCanvas.height);
       updateCanvas();
     });
-    
+
     // 更新canvas宽度
     function updateCanvasWidth() {
       canvas.width = window.innerWidth - 200;
