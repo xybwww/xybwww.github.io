@@ -596,8 +596,6 @@ updateCanvas();
         settingIndex = undefined;
         updateCanvas();
         backup = JSON.stringify(brush);
-        strokeCtx.fillStyle = "white";
-        strokeCtx.fillRect(0, 0, strokeCanvas.width, strokeCanvas.height);
         interval = setInterval(function () {
           brush.forEach(function (element) {
             element.angle += element.speed / 10;
@@ -614,7 +612,8 @@ updateCanvas();
         brush = JSON.parse(backup);
         console.log(brush);
         backup = undefined;
-        strokeCtx.clearRect(0, 0, strokeCanvas.width, strokeCanvas.height);
+        strokeCtx.fillStyle = "white";
+        strokeCtx.fillRect(0, 0, strokeCanvas.width, strokeCanvas.height);
         updateCanvas();
       });
       saveCanvas.addEventListener("click", function () {
