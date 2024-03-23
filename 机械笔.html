@@ -1,618 +1,644 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>机械笔</title>
+    <style>
+      body,
+      html {
+        margin: 0px;
+        padding: 0px;
+        height: 100%;
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <title>机械笔</title>
-  <style>
-    body,
-    html {
-      margin: 0px;
-      padding: 0px;
-      height: 100%;
-    }
+      * {
+        font-family: "Microsoft YaHei", "Heiti SC", tahoma, arial, "Hiragino Sans GB", sans-serif;
+      }
 
-    * {
-      font-family: "Microsoft YaHei", "Heiti SC", tahoma, arial, "Hiragino Sans GB", sans-serif;
-    }
+      canvas {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
 
-    canvas {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-    }
+      #stroke {
+        background-color: white;
+      }
 
-    #stroke {
-      background-color: white;
-    }
+      #div {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background-color: lightgray;
+        width: 170px;
+        padding: 10px 15px;
+        /*可滑动*/
+        overflow-y: auto;
+        /*自动换行*/
+        word-wrap: break-word;
+      }
 
-    #div {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      background-color: lightgray;
-      width: 170px;
-      padding: 10px 15px;
-      /*可滑动*/
-      overflow-y: auto;
-      /*自动换行*/
-      word-wrap: break-word;
-    }
+      #fixedDiv {
+        margin: 5px 0px;
+      }
 
-    #fixedDiv {
-      margin: 5px 0px;
-    }
+      #textList {
+        margin: 0px;
+        width: 155px;
+        height: 100px;
+        font-size: 15px;
+        resize: vertical;
+      }
 
-    #textList {
-      margin: 0px;
-      width: 155px;
-      height: 100px;
-      font-size: 15px;
-      resize: vertical;
-    }
+      button {
+        width: 100px;
+        margin: 5px 0px;
+        padding: 0px;
+        font-size: 20px;
+        color: black;
+      }
 
-    button {
-      width: 100px;
-      margin: 5px 0px;
-      padding: 0px;
-      font-size: 20px;
-      color: black;
-    }
+      h1,
+      h2 {
+        margin: 5px 0px;
+      }
 
-    h1,
-    h2 {
-      margin: 5px 0px;
-    }
+      h3,
+      p {
+        margin: 0px;
+      }
 
-    h3,
-    p {
-      margin: 0px;
-    }
+      p {
+        color: gray;
+        font-size: 15px;
+      }
 
-    p {
-      color: gray;
-      font-size: 15px;
-    }
+      .list {
+        margin: 10px 0px;
+        padding: 8px;
+        border-radius: 5px;
+        background-color: white;
+      }
 
-    .list {
-      margin: 10px 0px;
-      padding: 8px;
-      border-radius: 5px;
-      background-color: white;
-    }
+      input[type="text"] {
+        width: 80px;
+        font-size: 15px;
+      }
 
-    input[type="text"] {
-      width: 80px;
-      font-size: 15px;
-    }
+      input[type="number"] {
+        width: 40px;
+        font-size: 15px;
+      }
 
-    input[type="number"] {
-      width: 40px;
-      font-size: 15px;
-    }
+      select {
+        font-size: 15px;
+        color: black;
+      }
 
-    select {
-      font-size: 15px;
-      color: black;
-    }
+      .hide {
+        display: none;
+      }
 
-    .hide {
-      display: none;
-    }
+      .show {
+        display: block;
+      }
 
-    .show {
-      display: block;
-    }
+      #link {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        height: 30px;
+        width: 120px;
+        background-color: dimgray;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        padding-left: 80px;
+      }
+    </style>
+  </head>
 
-    #link {
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      height: 30px;
-      width: 120px;
-      background-color: dimgray;
-      color: white;
-      font-size: 20px;
-      text-decoration: none;
-      padding-left: 80px;
-    }
-  </style>
-</head>
-
-<body>
-  <canvas id="stroke"></canvas>
-  <canvas id="canvas"></canvas>
-  <div id="div">
-    <div id="home" class="show">
-      <h1>主页</h1>
-      <button id="runButton">运行</button>
-      <h2>画笔</h2>
-      <button id="add">添加</button>
-      <div id="brushList"></div>
-      <h2>列表管理</h2>
-      <textarea id="textList"></textarea>
-    </div>
-    <div id="setting" class="hide">
-      <h1>设置</h1>
-      <button id="ok">完成</button>
-      <h2>名称</h2>
-      <input type="text" id="name" />
-      <h2>起点位置</h2>
-      <input type="radio" id="fixed" name="location" value="fixed" />
-      <label for="fixed">固定坐标</label>
-      <br />
-      <div id="fixedDiv">
-        <label for="fixedX">x:</label>
-        <input type="number" id="fixedX" />
+  <body>
+    <canvas id="stroke"></canvas>
+    <canvas id="canvas"></canvas>
+    <div id="div">
+      <div id="home" class="show">
+        <h1>主页</h1>
+        <button id="runButton">运行</button>
+        <h2>画笔</h2>
+        <button id="add">添加</button>
+        <div id="brushList"></div>
+        <h2>列表管理</h2>
+        <textarea id="textList"></textarea>
+      </div>
+      <div id="setting" class="hide">
+        <h1>设置</h1>
+        <button id="ok">完成</button>
+        <h2>名称</h2>
+        <input type="text" id="name" />
+        <h2>起点位置</h2>
+        <input type="radio" id="fixed" name="location" value="fixed" />
+        <label for="fixed">固定坐标</label>
+        <br />
+        <div id="fixedDiv">
+          <label for="fixedX">x:</label>
+          <input type="number" id="fixedX" />
+          <label>px</label>
+          <br />
+          <label for="fixedY">y:</label>
+          <input type="number" id="fixedY" />
+          <label>px</label>
+        </div>
+        <input type="radio" id="fllow" name="location" value="fllow" />
+        <label for="fllow">跟随移动</label>
+        <br />
+        <select id="fllowSelect"></select>
+        <h2>角度</h2>
+        <input type="number" id="angle" />
+        <label>°</label>
+        <br />
+        <h2>长度</h2>
+        <input type="number" id="length" />
         <label>px</label>
         <br />
-        <label for="fixedY">y:</label>
-        <input type="number" id="fixedY" />
-        <label>px</label>
+        <h2>旋转速度</h2>
+        <input type="number" id="speed" />
+        <label>°/s</label>
+        <br />
+        <h2>颜色</h2>
+        <select id="color">
+          <option value="none">不着色</option>
+          <option value="black">黑色</option>
+          <option value="red">红色</option>
+          <option value="blue">蓝色</option>
+          <option value="goldenrod">黄色</option>
+          <option value="green">绿色</option>
+        </select>
+        <br />
+        <br />
+        <button id="delete">删除</button>
       </div>
-      <input type="radio" id="fllow" name="location" value="fllow" />
-      <label for="fllow">跟随移动</label>
-      <br />
-      <select id="fllowSelect"></select>
-      <h2>角度</h2>
-      <input type="number" id="angle" />
-      <label>°</label>
-      <br />
-      <h2>长度</h2>
-      <input type="number" id="length" />
-      <label>px</label>
-      <br />
-      <h2>旋转速度</h2>
-      <input type="number" id="speed" />
-      <label>°/s</label>
-      <br />
-      <h2>颜色</h2>
-      <select id="color">
-        <option value="none">不着色</option>
-        <option value="black">黑色</option>
-        <option value="red">红色</option>
-        <option value="blue">蓝色</option>
-        <option value="goldenrod">黄色</option>
-        <option value="green">绿色</option>
-      </select>
-      <br />
-      <br />
-      <button id="delete">删除</button>
+      <div id="run" class="hide">
+        <h1>运行</h1>
+        <button id="goBack">返回</button>
+        <h2>查看</h2>
+        <input type="checkbox" id="hideBrush" />
+        <label for="hideBrush">隐藏画笔</label>
+        <h2>图片</h2>
+        <button id="saveCanvas">下载</button>
+      </div>
     </div>
-    <div id="run" class="hide">
-      <h1>运行</h1>
-      <button id="goBack">返回</button>
-      <h2>查看</h2>
-      <h2>图片</h2>
-      <button id="saveCanvas">下载</button>
-    </div>
-  </div>
-  <br />
-  <a id="link" href="../">by xybwww</a>
+    <br />
+    <a id="link" href="../">by xybwww</a>
 
-  <script>
-    // 获取元素
-    const strokeCanvas = document.getElementById("stroke");
-    const strokeCtx = strokeCanvas.getContext("2d");
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    const mainDiv = document.getElementById("div");
-    const home = document.getElementById("home");
-    const setting = document.getElementById("setting");
-    const run = document.getElementById("run");
-    const runButton = document.getElementById("runButton");
-    const add = document.getElementById("add");
-    const ok = document.getElementById("ok");
-    const goBack = document.getElementById("goBack");
-    const saveCanvas = document.getElementById("saveCanvas");
-    const brushList = document.getElementById("brushList");
-    const textList = document.getElementById("textList");
-    const settingName = document.getElementById("name");
-    const settingFixed = document.getElementById("fixed");
-    const settingFixedDiv = document.getElementById("fixedDiv");
-    const settingFixedX = document.getElementById("fixedX");
-    const settingFixedY = document.getElementById("fixedY");
-    const settingFllow = document.getElementById("fllow");
-    const settingFllowSelect = document.getElementById("fllowSelect");
-    const settingAngle = document.getElementById("angle");
-    const settingLength = document.getElementById("length");
-    const settingSpeed = document.getElementById("speed");
-    const settingColor = document.getElementById("color");
-    const settingDelete = document.getElementById("delete");
+    <script>
+      // 获取元素
+      const strokeCanvas = document.getElementById("stroke");
+      const strokeCtx = strokeCanvas.getContext("2d");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      const mainDiv = document.getElementById("div");
+      const home = document.getElementById("home");
+      const setting = document.getElementById("setting");
+      const run = document.getElementById("run");
+      const runButton = document.getElementById("runButton");
+      const add = document.getElementById("add");
+      const ok = document.getElementById("ok");
+      const goBack = document.getElementById("goBack");
+      const hideBrush = document.getElementById("hideBrush");
+      const saveCanvas = document.getElementById("saveCanvas");
+      const brushList = document.getElementById("brushList");
+      const textList = document.getElementById("textList");
+      const settingName = document.getElementById("name");
+      const settingFixed = document.getElementById("fixed");
+      const settingFixedDiv = document.getElementById("fixedDiv");
+      const settingFixedX = document.getElementById("fixedX");
+      const settingFixedY = document.getElementById("fixedY");
+      const settingFllow = document.getElementById("fllow");
+      const settingFllowSelect = document.getElementById("fllowSelect");
+      const settingAngle = document.getElementById("angle");
+      const settingLength = document.getElementById("length");
+      const settingSpeed = document.getElementById("speed");
+      const settingColor = document.getElementById("color");
+      const settingDelete = document.getElementById("delete");
 
-    // 初始化画笔数组
-    var brush = [
-      {
-        name: "画笔1",
-        angle: 200,
-        length: 200,
-        x: 10,
-        y: 0,
-        connected: false,
-        connection: undefined,
-        speed: 20,
-        color: "none",
-      },
-      {
-        name: "画笔2",
-        angle: 100,
-        length: 150,
-        x: 0,
-        y: 0,
-        connected: true,
-        connection: "画笔1",
-        speed: -30,
-        color: "black",
-      },
-    ];
+      // 初始化画笔数组
+      var brush = [
+        {
+          name: "画笔1",
+          angle: 200,
+          length: 200,
+          x: 10,
+          y: 0,
+          connected: false,
+          connection: undefined,
+          speed: 20,
+          color: "none",
+        },
+        {
+          name: "画笔2",
+          angle: 100,
+          length: 150,
+          x: 0,
+          y: 0,
+          connected: true,
+          connection: "画笔1",
+          speed: -30,
+          color: "black",
+        },
+      ];
 
-    //设置索引
-    var settingIndex;
+      //设置索引
+      var settingIndex;
 
-    // 画线函数
-    function line(startX, startY, angle, length) {
-      const angleInRadians = angle * (Math.PI / 180);
-      const endX = startX + length * Math.cos(angleInRadians);
-      const endY = startY + length * Math.sin(angleInRadians);
-      ctx.beginPath();
-      ctx.moveTo(
-        startX + canvas.width / 2,
-        canvas.height / 2 - startY
-      );
-      ctx.lineTo(endX + canvas.width / 2, canvas.height / 2 - endY);
-      ctx.stroke();
-      return { x: endX, y: endY };
-    }
-
-    // 绘制函数
-    function draw(name, x, y, angle, length, color, last, brushIndex) {
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 1;
-      if (settingIndex !== undefined) {
-        if (name === brush[settingIndex].name) {
-          ctx.strokeStyle = "brown";
-          ctx.lineWidth = 2;
+      // 画线函数
+      function line(startX, startY, angle, length) {
+        const angleInRadians = angle * (Math.PI / 180);
+        const endX = startX + length * Math.cos(angleInRadians);
+        const endY = startY + length * Math.sin(angleInRadians);
+        if (!hideBrush.checked) {
+          ctx.beginPath();
+          ctx.moveTo(startX + canvas.width / 2, canvas.height / 2 - startY);
+          ctx.lineTo(endX + canvas.width / 2, canvas.height / 2 - endY);
+          ctx.stroke();
         }
+        return { x: endX, y: endY };
       }
-      const end = line(x, y, angle, length);
-      if (color !== 'none') {
-        if (last) {
-          strokeCtx.strokeStyle = color;
-          strokeCtx.beginPath();
-          strokeCtx.moveTo(last.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - last.y);
-          strokeCtx.lineTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y);
-          strokeCtx.stroke();
-          brush[brushIndex].last = end;
-        } else if (backup) {
-          brush[brushIndex].last = end;
-        }
-        ctx.fillStyle = color;
-      } else {
-        ctx.fillStyle = 'gray';
-      }
-      ctx.rect(end.x + strokeCanvas.width / 2 - 2, strokeCanvas.height / 2 - end.y - 2, 4, 4);
-      ctx.fill();
-      brush.forEach(function (element, index) {
-        if (element.connected && element.connection === name) {
-          draw(element.name, end.x, end.y, element.angle, element.length, element.color, element.last, index);
-        }
-      });
-    }
 
-    // 更新画布内容
-    function updateCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      brushList.innerHTML = "";
-      textList.value = '[' +
-        brush.map(function (brushObj) {
-          return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
-        })
-        + ']';
-      brush.forEach(function (element, index) {
-        if (backup) {
-        } else {
-          const div = document.createElement("div");
-          div.name = index;
-          div.className = "list";
-          const h3 = document.createElement("h3");
-          h3.textContent = element.name;
-          div.appendChild(h3);
-          const p = document.createElement("p");
-          p.textContent =
-            "位置：" +
-            (element.connected
-              ? element.connection
-              : "(" + element.x + "," + element.y + ")");
-          div.appendChild(p);
-          div.addEventListener("click", function () {
-            home.className = "hide";
-            setting.className = "show";
-            settingIndex = this.name;
-            updateSetting();
-            updateCanvas();
-          });
-          /*div.addEventListener('mouseenter', function () {
-          settingIndex = this.name;
-          updateCanvas();
-      });
-      div.addEventListener('mouseleave', function () {
-          settingIndex = undefined;
-          updateCanvas();
-      });*/
-          brushList.appendChild(div);
-        }
-        if (!element.connected) {
-          draw(element.name, element.x, element.y, element.angle, element.length, element.color, element.last, index);
-        }
-      });
-    }
-
-    //更新设置
-    function updateSetting() {
-      settingName.value = brush[settingIndex].name;
-      if (brush[settingIndex].connected) {
-        settingFllow.checked = true;
-        settingFixedDiv.className = "hide";
-        settingFllowSelect.className = "show";
-      } else {
-        settingFixed.checked = true;
-        settingFllowSelect.className = "hide";
-        settingFixedDiv.className = "show";
-      }
-      settingFixedX.value = brush[settingIndex].x;
-      settingFixedY.value = brush[settingIndex].y;
-      //重置select
-      while (settingFllowSelect.firstChild) {
-        settingFllowSelect.removeChild(
-          settingFllowSelect.firstChild
-        );
-      }
-      brush.forEach(function (element, index) {
-        if (
-          element.name !== brush[settingIndex].name &&
-          (element.connection !== brush[settingIndex].name ||
-            !element.connected)
-        ) {
-          const option = document.createElement("option");
-          option.text = element.name;
-          settingFllowSelect.appendChild(option);
-          if (brush[settingIndex].connection === element.name) {
-            settingFllowSelect.selectedIndex = index;
+      // 绘制函数
+      function draw(name, x, y, angle, length, color, last, brushIndex) {
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 1;
+        if (settingIndex !== undefined) {
+          if (name === brush[settingIndex].name) {
+            ctx.strokeStyle = "brown";
+            ctx.lineWidth = 2;
           }
         }
-      });
-      settingAngle.value = brush[settingIndex].angle;
-      settingLength.value = brush[settingIndex].length;
-      settingSpeed.value = brush[settingIndex].speed;
-      settingColor.value = brush[settingIndex].color;
-    }
-
-    //设置被更改
-    settingName.addEventListener("blur", function () {
-      settingName.value = settingName.value.replace(/\s/g, "");
-      if (settingName.value === "") {
-        settingName.value = brush[settingIndex].name;
-      } else if (settingName.value !== brush[settingIndex].name) {
-        if (
-          brush.some(function (obj) {
-            return (
-              obj.hasOwnProperty("name") &&
-              obj.name == settingName.value
+        const end = line(x, y, angle, length);
+        if (color !== "none") {
+          if (last) {
+            strokeCtx.strokeStyle = color;
+            strokeCtx.beginPath();
+            strokeCtx.moveTo(
+              last.x + strokeCanvas.width / 2,
+              strokeCanvas.height / 2 - last.y
             );
-          })
-        ) {
-          alert("该名称已存在");
-          settingName.value = brush[settingIndex].name;
+            strokeCtx.lineTo(
+              end.x + strokeCanvas.width / 2,
+              strokeCanvas.height / 2 - end.y
+            );
+            strokeCtx.stroke();
+            brush[brushIndex].last = end;
+          } else if (backup) {
+            brush[brushIndex].last = end;
+          }
+          ctx.fillStyle = color;
         } else {
-          brush.forEach(function (element) {
-            if (element.connection === brush[settingIndex].name) {
-              element.connection = settingName.value;
-            }
-          });
-          brush[settingIndex].name = settingName.value;
-          updateCanvas();
+          ctx.fillStyle = "gray";
         }
+        if (!hideBrush.checked) {
+          ctx.rect(
+            end.x + strokeCanvas.width / 2 - 2,
+            strokeCanvas.height / 2 - end.y - 2,
+            4,
+            4
+          );
+          ctx.fill();
+        }
+        brush.forEach(function (element, index) {
+          if (element.connected && element.connection === name) {
+            draw(
+              element.name,
+              end.x,
+              end.y,
+              element.angle,
+              element.length,
+              element.color,
+              element.last,
+              index
+            );
+          }
+        });
       }
-    });
-    settingFixed.addEventListener("change", function () {
-      settingFllowSelect.className = "hide";
-      settingFixedDiv.className = "show";
-      brush[settingIndex].connected = false;
-      updateCanvas();
-    });
-    settingFllow.addEventListener("change", function () {
-      settingFixedDiv.className = "hide";
-      settingFllowSelect.className = "show";
-      brush[settingIndex].connected = true;
-      updateCanvas();
-    });
-    settingFixedX.addEventListener("blur", function () {
-      const inputValue = parseFloat(settingFixedX.value);
-      if (isNaN(inputValue)) {
-      } else {
-        brush[settingIndex].x = inputValue;
-        updateCanvas();
+
+      // 更新画布内容
+      function updateCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        brushList.innerHTML = "";
+        textList.value =
+          "[" +
+          brush.map(function (brushObj) {
+            return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
+          }) +
+          "]";
+        brush.forEach(function (element, index) {
+          if (backup) {
+          } else {
+            const div = document.createElement("div");
+            div.name = index;
+            div.className = "list";
+            const h3 = document.createElement("h3");
+            h3.textContent = element.name;
+            div.appendChild(h3);
+            const p = document.createElement("p");
+            p.textContent =
+              "位置：" +
+              (element.connected
+                ? element.connection
+                : "(" + element.x + "," + element.y + ")");
+            div.appendChild(p);
+            div.addEventListener("click", function () {
+              home.className = "hide";
+              setting.className = "show";
+              settingIndex = this.name;
+              updateSetting();
+              updateCanvas();
+            });
+            /*div.addEventListener('mouseenter', function () {
+settingIndex = this.name;
+updateCanvas();
+});
+div.addEventListener('mouseleave', function () {
+settingIndex = undefined;
+updateCanvas();
+});*/
+            brushList.appendChild(div);
+          }
+          if (!element.connected) {
+            draw(
+              element.name,
+              element.x,
+              element.y,
+              element.angle,
+              element.length,
+              element.color,
+              element.last,
+              index
+            );
+          }
+        });
       }
-      settingFixedX.value = brush[settingIndex].x;
-    });
-    settingFixedY.addEventListener("blur", function () {
-      const inputValue = parseFloat(settingFixedY.value);
-      if (isNaN(inputValue)) {
-      } else {
-        brush[settingIndex].y = inputValue;
-        updateCanvas();
-      }
-      settingFixedY.value = brush[settingIndex].y;
-    });
-    settingFllowSelect.addEventListener("change", function () {
-      brush[settingIndex].connection =
-        settingFllowSelect.options[
-          settingFllowSelect.selectedIndex
-        ].text;
-      updateCanvas();
-    });
-    settingAngle.addEventListener("blur", function () {
-      const inputValue = parseFloat(settingAngle.value);
-      if (isNaN(inputValue)) {
-      } else {
-        brush[settingIndex].angle = inputValue;
-        updateCanvas();
-      }
-      settingAngle.value = brush[settingIndex].angle;
-    });
-    settingLength.addEventListener("blur", function () {
-      const inputValue = parseFloat(settingLength.value);
-      if (isNaN(inputValue)) {
-      } else {
-        brush[settingIndex].length = inputValue;
-        updateCanvas();
-      }
-      settingLength.value = brush[settingIndex].length;
-    });
-    settingSpeed.addEventListener("blur", function () {
-      const inputValue = parseFloat(settingSpeed.value);
-      if (isNaN(inputValue)) {
-      } else {
-        brush[settingIndex].speed = inputValue;
-        updateCanvas();
-      }
-      settingSpeed.value = brush[settingIndex].speed;
-    });
-    settingColor.addEventListener("change", function () {
-      brush[settingIndex].color =
-        settingColor.options[settingColor.selectedIndex].value;
-      updateCanvas();
-    });
-    settingDelete.addEventListener("click", function () {
-      if (confirm("确认删除吗")) {
-        brush.forEach(function (element) {
-          if (element.connection === brush[settingIndex].name) {
-            if (element.name === brush[settingIndex].connection) {
-              element.connection = undefined;
-            } else {
-              element.connection = brush[settingIndex].connection;
-            }
-            if (!brush[settingIndex].connected) {
-              element.x = brush[settingIndex].x;
-              element.y = brush[settingIndex].y;
-              element.connected = false;
+
+      //更新设置
+      function updateSetting() {
+        settingName.value = brush[settingIndex].name;
+        if (brush[settingIndex].connected) {
+          settingFllow.checked = true;
+          settingFixedDiv.className = "hide";
+          settingFllowSelect.className = "show";
+        } else {
+          settingFixed.checked = true;
+          settingFllowSelect.className = "hide";
+          settingFixedDiv.className = "show";
+        }
+        settingFixedX.value = brush[settingIndex].x;
+        settingFixedY.value = brush[settingIndex].y;
+        //重置select
+        while (settingFllowSelect.firstChild) {
+          settingFllowSelect.removeChild(settingFllowSelect.firstChild);
+        }
+        brush.forEach(function (element, index) {
+          if (
+            element.name !== brush[settingIndex].name &&
+            (element.connection !== brush[settingIndex].name ||
+              !element.connected)
+          ) {
+            const option = document.createElement("option");
+            option.text = element.name;
+            settingFllowSelect.appendChild(option);
+            if (brush[settingIndex].connection === element.name) {
+              settingFllowSelect.selectedIndex = index;
             }
           }
         });
-        brush.splice(settingIndex, 1);
+        settingAngle.value = brush[settingIndex].angle;
+        settingLength.value = brush[settingIndex].length;
+        settingSpeed.value = brush[settingIndex].speed;
+        settingColor.value = brush[settingIndex].color;
+      }
+
+      //设置被更改
+      settingName.addEventListener("blur", function () {
+        settingName.value = settingName.value.replace(/\s/g, "");
+        if (settingName.value === "") {
+          settingName.value = brush[settingIndex].name;
+        } else if (settingName.value !== brush[settingIndex].name) {
+          if (
+            brush.some(function (obj) {
+              return (
+                obj.hasOwnProperty("name") && obj.name == settingName.value
+              );
+            })
+          ) {
+            alert("该名称已存在");
+            settingName.value = brush[settingIndex].name;
+          } else {
+            brush.forEach(function (element) {
+              if (element.connection === brush[settingIndex].name) {
+                element.connection = settingName.value;
+              }
+            });
+            brush[settingIndex].name = settingName.value;
+            updateCanvas();
+          }
+        }
+      });
+      settingFixed.addEventListener("change", function () {
+        settingFllowSelect.className = "hide";
+        settingFixedDiv.className = "show";
+        brush[settingIndex].connected = false;
+        updateCanvas();
+      });
+      settingFllow.addEventListener("change", function () {
+        settingFixedDiv.className = "hide";
+        settingFllowSelect.className = "show";
+        brush[settingIndex].connected = true;
+        updateCanvas();
+      });
+      settingFixedX.addEventListener("blur", function () {
+        const inputValue = parseFloat(settingFixedX.value);
+        if (isNaN(inputValue)) {
+        } else {
+          brush[settingIndex].x = inputValue;
+          updateCanvas();
+        }
+        settingFixedX.value = brush[settingIndex].x;
+      });
+      settingFixedY.addEventListener("blur", function () {
+        const inputValue = parseFloat(settingFixedY.value);
+        if (isNaN(inputValue)) {
+        } else {
+          brush[settingIndex].y = inputValue;
+          updateCanvas();
+        }
+        settingFixedY.value = brush[settingIndex].y;
+      });
+      settingFllowSelect.addEventListener("change", function () {
+        brush[settingIndex].connection =
+          settingFllowSelect.options[settingFllowSelect.selectedIndex].text;
+        updateCanvas();
+      });
+      settingAngle.addEventListener("blur", function () {
+        const inputValue = parseFloat(settingAngle.value);
+        if (isNaN(inputValue)) {
+        } else {
+          brush[settingIndex].angle = inputValue;
+          updateCanvas();
+        }
+        settingAngle.value = brush[settingIndex].angle;
+      });
+      settingLength.addEventListener("blur", function () {
+        const inputValue = parseFloat(settingLength.value);
+        if (isNaN(inputValue)) {
+        } else {
+          brush[settingIndex].length = inputValue;
+          updateCanvas();
+        }
+        settingLength.value = brush[settingIndex].length;
+      });
+      settingSpeed.addEventListener("blur", function () {
+        const inputValue = parseFloat(settingSpeed.value);
+        if (isNaN(inputValue)) {
+        } else {
+          brush[settingIndex].speed = inputValue;
+          updateCanvas();
+        }
+        settingSpeed.value = brush[settingIndex].speed;
+      });
+      settingColor.addEventListener("change", function () {
+        brush[settingIndex].color =
+          settingColor.options[settingColor.selectedIndex].value;
+        updateCanvas();
+      });
+      settingDelete.addEventListener("click", function () {
+        if (confirm("确认删除吗")) {
+          brush.forEach(function (element) {
+            if (element.connection === brush[settingIndex].name) {
+              if (element.name === brush[settingIndex].connection) {
+                element.connection = undefined;
+              } else {
+                element.connection = brush[settingIndex].connection;
+              }
+              if (!brush[settingIndex].connected) {
+                element.x = brush[settingIndex].x;
+                element.y = brush[settingIndex].y;
+                element.connected = false;
+              }
+            }
+          });
+          brush.splice(settingIndex, 1);
+          setting.className = "hide";
+          home.className = "show";
+          settingIndex = undefined;
+          updateCanvas();
+        }
+      });
+
+      //textList失去焦点
+      textList.addEventListener("blur", function () {
+        try {
+          brush = JSON.parse(textList.value);
+          updateCanvas();
+        } catch (error) {
+          alert(error);
+          textList.value =
+            "[" +
+            brush.map(function (brushObj) {
+              return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
+            }) +
+            "]";
+        }
+      });
+
+      // 添加按钮点击事件
+      add.addEventListener("click", function () {
+        //取名字
+        let maxNumber = 0;
+        brush.forEach(function (obj) {
+          if (typeof obj.name === "string" && obj.name.startsWith("画笔")) {
+            let number = parseInt(obj.name.replace("画笔", ""), 10);
+            if (!isNaN(number)) {
+              if (number > maxNumber) {
+                maxNumber = number;
+              }
+            }
+          }
+        });
+        brush.push({
+          name: "画笔" + (maxNumber + 1),
+          angle: 0,
+          length: 150,
+          x: 0,
+          y: 0,
+          connected: true,
+          connection: brush[brush.length - 1].name,
+          speed: 30,
+          color: "none",
+        });
+        home.className = "hide";
+        setting.className = "show";
+        settingIndex = brush.length - 1;
+        updateSetting();
+        updateCanvas();
+      });
+      ok.addEventListener("click", function () {
         setting.className = "hide";
         home.className = "show";
         settingIndex = undefined;
         updateCanvas();
-      }
-    });
-
-    //textList失去焦点
-    textList.addEventListener('blur', function () {
-      try {
-        brush = JSON.parse(textList.value);
-        updateCanvas();
-      } catch (error) {
-        alert(error);
-        textList.value = '[' +
-          brush.map(function (brushObj) {
-            return `{"name": "${brushObj.name}","angle": ${brushObj.angle},"length": ${brushObj.length},"x": ${brushObj.x},"y": ${brushObj.y},"connected": ${brushObj.connected},"connection": "${brushObj.connection}","speed": ${brushObj.speed},"color": "${brushObj.color}"}`;
-          })
-          + ']';
-      }
-    });
-
-    // 添加按钮点击事件
-    add.addEventListener("click", function () {
-      //取名字
-      let maxNumber = 0;
-      brush.forEach(function (obj) {
-        if (
-          typeof obj.name === "string" &&
-          obj.name.startsWith("画笔")
-        ) {
-          let number = parseInt(obj.name.replace("画笔", ""), 10);
-          if (!isNaN(number)) {
-            if (number > maxNumber) {
-              maxNumber = number;
-            }
-          }
-        }
       });
-      brush.push({
-        name: "画笔" + (maxNumber + 1),
-        angle: 0,
-        length: 150,
-        x: 0,
-        y: 0,
-        connected: true,
-        connection: brush[brush.length - 1].name,
-        speed: 30,
-        color: "none",
-      });
-      home.className = "hide";
-      setting.className = "show";
-      settingIndex = brush.length - 1;
-      updateSetting();
-      updateCanvas();
-    });
-    ok.addEventListener("click", function () {
-      setting.className = "hide";
-      home.className = "show";
-      settingIndex = undefined;
-      updateCanvas();
-    });
-    //运行
-    var interval, backup;
-    runButton.addEventListener("click", function () {
-      home.className = "hide";
-      run.className = "show";
-      settingIndex = undefined;
-      updateCanvas();
-      backup = JSON.stringify(brush);
-      interval = setInterval(function () {
-        brush.forEach(function (element) {
-          element.angle += element.speed / 10;
-        });
+      //运行
+      var interval, backup;
+      runButton.addEventListener("click", function () {
+        home.className = "hide";
+        run.className = "show";
+        settingIndex = undefined;
         updateCanvas();
-      }, 100);
-    });
-    goBack.addEventListener("click", function () {
-      run.className = "hide";
-      home.className = "show";
-      clearInterval(interval);
-      interval = null;
-      brush = JSON.parse(backup);
-      console.log(brush);
-      backup = undefined;
-      strokeCtx.clearRect(0, 0, strokeCanvas.width, strokeCanvas.height);
-      updateCanvas();
-    });
-    saveCanvas.addEventListener("click", function () {
-      const downloadLink = document.createElement('a');
-      downloadLink.href = strokeCanvas.toDataURL('image/jpeg');
-      downloadLink.download = '机械笔.jpg';
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-    });
+        backup = JSON.stringify(brush);
+        interval = setInterval(function () {
+          brush.forEach(function (element) {
+            element.angle += element.speed / 10;
+          });
+          updateCanvas();
+        }, 100);
+      });
+      goBack.addEventListener("click", function () {
+        hideBrush.checked = false;
+        run.className = "hide";
+        home.className = "show";
+        clearInterval(interval);
+        interval = null;
+        brush = JSON.parse(backup);
+        console.log(brush);
+        backup = undefined;
+        strokeCtx.clearRect(0, 0, strokeCanvas.width, strokeCanvas.height);
+        updateCanvas();
+      });
+      saveCanvas.addEventListener("click", function () {
+        const downloadLink = document.createElement("a");
+        downloadLink.href = strokeCanvas.toDataURL("image/jpeg");
+        downloadLink.download = "机械笔.jpg";
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      });
 
-    // 更新canvas宽度
-    function updateCanvasWidth() {
-      canvas.width = window.innerWidth - 200;
-      canvas.height = window.innerHeight;
-      strokeCanvas.width = window.innerWidth - 200;
-      strokeCanvas.height = window.innerHeight;
-      strokeCtx.fillStyle = 'white';
-      strokeCtx.fillRect(0, 0, strokeCanvas.width, strokeCanvas.height);
-      mainDiv.style.height = window.innerHeight - 50 + "px";
-      updateCanvas();
-    }
+      // 更新canvas宽度
+      function updateCanvasWidth() {
+        canvas.width = window.innerWidth - 200;
+        canvas.height = window.innerHeight;
+        strokeCanvas.width = window.innerWidth - 200;
+        strokeCanvas.height = window.innerHeight;
+        strokeCtx.fillStyle = "white";
+        strokeCtx.fillRect(0, 0, strokeCanvas.width, strokeCanvas.height);
+        mainDiv.style.height = window.innerHeight - 50 + "px";
+        updateCanvas();
+      }
 
-    // 监听窗口大小变化和DOM内容加载完成事件
-    window.addEventListener("resize", updateCanvasWidth);
-    window.addEventListener("DOMContentLoaded", updateCanvasWidth);
-  </script>
-</body>
-
+      // 监听窗口大小变化和DOM内容加载完成事件
+      window.addEventListener("resize", updateCanvasWidth);
+      window.addEventListener("DOMContentLoaded", updateCanvasWidth);
+    </script>
+  </body>
 </html>
