@@ -22,6 +22,10 @@
       left: 0px;
     }
 
+    #stroke {
+      background-color: white;
+    }
+
     #div {
       position: absolute;
       top: 0px;
@@ -178,6 +182,7 @@
     <div id="run" class="hide">
       <h1>运行</h1>
       <button id="goBack">返回</button>
+      <button id="saveCanvas">下载</button>
     </div>
   </div>
   <br />
@@ -197,6 +202,7 @@
     const add = document.getElementById("add");
     const ok = document.getElementById("ok");
     const goBack = document.getElementById("goBack");
+    const saveCanvas = document.getElementById("saveCanvas");
     const brushList = document.getElementById("brushList");
     const textList = document.getElementById("textList");
     const settingName = document.getElementById("name");
@@ -574,6 +580,14 @@
       backup = undefined;
       strokeCtx.clearRect(0, 0, strokeCanvas.width, strokeCanvas.height);
       updateCanvas();
+    });
+    saveCanvas.addEventListener("click", function () {
+      const downloadLink = document.createElement('a');
+      downloadLink.href = strokeCanvas.toDataURL('image/jpeg');
+      downloadLink.download = '机械笔.jpg';
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
     });
 
     // 更新canvas宽度
