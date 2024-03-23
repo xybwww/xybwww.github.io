@@ -604,8 +604,8 @@ updateCanvas();
         home.className = "hide";
         run.className = "show";
         settingIndex = undefined;
-        updateCanvas();
         backup = JSON.stringify(brush);
+        updateCanvas();
         interval = setInterval(function () {
           brush.forEach(function (element) {
             element.angle += element.speed / 10;
