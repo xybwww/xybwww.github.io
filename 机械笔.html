@@ -185,7 +185,7 @@
         <input type="radio" name="look" id="hideBrush" />
         <label for="hideBrush">隐藏画笔</label>
         <br />
-        <input type="radio" name="look" id="showBrush" />
+        <input type="radio" name="look" id="showBrush" checked/>
         <label for="showBrush">显示画笔</label>
         <br />
         <input type="radio" name="look" id="ghostingBrush" />
@@ -212,6 +212,8 @@
       const ok = document.getElementById("ok");
       const goBack = document.getElementById("goBack");
       const hideBrush = document.getElementById("hideBrush");
+      const showBrush = document.getElementById("showBrush");
+      const ghostingBrush = document.getElementById("ghostingBrush");
       const saveCanvas = document.getElementById("saveCanvas");
       const brushList = document.getElementById("brushList");
       const textList = document.getElementById("textList");
