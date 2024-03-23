@@ -264,7 +264,7 @@
         const angleInRadians = angle * (Math.PI / 180);
         const endX = startX + length * Math.cos(angleInRadians);
         const endY = startY + length * Math.sin(angleInRadians);
-        if (!hideBrush.checked||!backup) {
+        if (!hideBrush.checked || !backup) {
           ctx.beginPath();
           ctx.moveTo(startX + canvas.width / 2, canvas.height / 2 - startY);
           ctx.lineTo(endX + canvas.width / 2, canvas.height / 2 - endY);
@@ -305,7 +305,7 @@
         } else {
           ctx.fillStyle = "gray";
         }
-        if (showBrush.checked||!backup) {
+        if (showBrush.checked || !backup) {
           ctx.rect(
             end.x + strokeCanvas.width / 2 - 2,
             strokeCanvas.height / 2 - end.y - 2,
@@ -332,7 +332,9 @@
 
       // 更新画布内容
       function updateCanvas() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (!ghostingBrush.checked || !backup) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
         brushList.innerHTML = "";
         textList.value =
           "[" +
@@ -631,7 +633,11 @@ updateCanvas();
         downloadLink.click();
         document.body.removeChild(downloadLink);
       });
-
+      ghostingBrush.addEventListener("change", function () {
+        if (ghostingBrush.checked) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+      });
       // 更新canvas宽度
       function updateCanvasWidth() {
         canvas.width = window.innerWidth - 200;
