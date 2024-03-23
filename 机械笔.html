@@ -274,6 +274,15 @@
       }
       const end = line(x, y, angle, length);
       if (color !== 'none') {
+        ctx.strokeStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(end.x + strokeCanvas.width / 2 + 1, strokeCanvas.height / 2 - end.y);
+        ctx.lineTo(end.x + strokeCanvas.width / 2 - 1, strokeCanvas.height / 2 - end.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y + 1);
+        ctx.lineTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y - 1);
+        ctx.stroke();
         if (last) {
           strokeCtx.strokeStyle = color;
           strokeCtx.beginPath();
