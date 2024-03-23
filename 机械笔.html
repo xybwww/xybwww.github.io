@@ -274,15 +274,6 @@
       }
       const end = line(x, y, angle, length);
       if (color !== 'none') {
-        ctx.strokeStyle = color;
-        ctx.beginPath();
-        ctx.moveTo(end.x + strokeCanvas.width / 2 + 1, strokeCanvas.height / 2 - end.y);
-        ctx.lineTo(end.x + strokeCanvas.width / 2 - 1, strokeCanvas.height / 2 - end.y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y + 1);
-        ctx.lineTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y - 1);
-        ctx.stroke();
         if (last) {
           strokeCtx.strokeStyle = color;
           strokeCtx.beginPath();
@@ -293,7 +284,12 @@
         } else if (backup) {
           brush[brushIndex].last = end;
         }
+        ctx.fillStyle = color;
+      } else {
+        ctx.fillStyle = 'gray';
       }
+      ctx.rect(end.x + strokeCanvas.width / 2 - 2, strokeCanvas.height / 2 - end.y - 2, 5, 5);
+      ctx.fill();
       brush.forEach(function (element, index) {
         if (element.connected && element.connection === name) {
           draw(element.name, end.x, end.y, element.angle, element.length, element.color, element.last, index);
