@@ -596,6 +596,8 @@
       canvas.height = window.innerHeight;
       strokeCanvas.width = window.innerWidth - 200;
       strokeCanvas.height = window.innerHeight;
+      strokeCtx.fillStyle = 'white';
+      strokeCtx.fillRect(0, 0, strokeCanvas.width, strokeCanvas.height);
       mainDiv.style.height = window.innerHeight - 50 + "px";
       updateCanvas();
     }
