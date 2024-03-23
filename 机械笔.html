@@ -605,6 +605,7 @@ updateCanvas();
         run.className = "show";
         settingIndex = undefined;
         backup = JSON.stringify(brush);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         updateCanvas();
         interval = setInterval(function () {
           brush.forEach(function (element) {
