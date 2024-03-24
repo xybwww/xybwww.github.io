@@ -236,7 +236,7 @@
           name: "画笔1",
           angle: 200,
           length: 200,
-          x: 10,
+          x: 0,
           y: 0,
           connected: false,
           connection: undefined,
@@ -286,18 +286,20 @@
         const end = line(x, y, angle, length);
         if (color !== "none") {
           if (last) {
-            strokeCtx.strokeStyle = color;
-            strokeCtx.beginPath();
-            strokeCtx.moveTo(
-              last.x + strokeCanvas.width / 2,
-              strokeCanvas.height / 2 - last.y
-            );
-            strokeCtx.lineTo(
-              end.x + strokeCanvas.width / 2,
-              strokeCanvas.height / 2 - end.y
-            );
-            strokeCtx.stroke();
-            brush[brushIndex].last = end;
+            for (let index = 0; index <= 1; index++) {
+              strokeCtx.strokeStyle = index ? color : "white";
+              strokeCtx.beginPath();
+              strokeCtx.moveTo(
+                last.x + strokeCanvas.width / 2,
+                strokeCanvas.height / 2 - last.y
+              );
+              strokeCtx.lineTo(
+                end.x + strokeCanvas.width / 2,
+                strokeCanvas.height / 2 - end.y
+              );
+              strokeCtx.stroke();
+              brush[brushIndex].last = end;
+            }
           } else if (backup) {
             brush[brushIndex].last = end;
           }
