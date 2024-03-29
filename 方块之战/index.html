@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+      .nullGird {
+        height: 10px;
+        width: 10px;
+        background-color: lightgreen;
+        border: 1px solid greenyellow;
+        display: inline-block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      const girdHeight = 100;
+      const girdWidth = 100;
+      for (let thisHeight = 0; thisHeight < girdHeight; thisHeight++) {
+        for (let thisWidth = 0; thisWidth < girdWidth; thisWidth++) {
+          const newGird = document.createElement("div");
+          newGird.id = `${thisHeight},${thisWidth}`;
+          newGird.className = "nullGird";
+          document.body.appendChild(newGird);
+        }
+      }
+    </script>
+  </body>
+</html>
