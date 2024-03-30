@@ -15,12 +15,18 @@
         width: 100%;
         line-height:0;
       }
-      .noPawnGird {
-        height: 10px;
-        width: 10px;
-        background-color: darkgray;
-        border: 1px solid white;
+
+      .gird{
+        height: 9px;
+        width: 9px;
+        border-width: 1px;
         display: inline-block;
+      }
+      .noPawnGird {
+        background-color: darkgray;
+      }
+      .noLandGird{
+        border: 1px solid white;
       }
     </style>
   </head>
@@ -34,7 +40,7 @@
         for (let thisWidth = 0; thisWidth < girdWidth; thisWidth++) {
           const newGird = document.createElement("div");
           newGird.id = `${thisHeight},${thisWidth}`;
-          newGird.className = "nullGird";
+          newGird.classList.add('gird', 'noPawnGird', 'noLandGird');
           document.getElementById("ground").appendChild(newGird);
         }
       }
