@@ -14,7 +14,7 @@
         box-sizing: border-box;
         overflow-x: hidden;
       }
-      
+
       body {
         background-color: dimgray;
         display: flex;
@@ -40,15 +40,35 @@
       .noLandGird {
         border: 1px solid darkgray;
       }
+
+
+      button {
+        height: 10vw;
+        width: 10vw;
+        border: 0.2vw solid black;
+        opacity: 0.5;
+        border-radius: 5vw;
+        position: absolute;
+      }
+
+      .redButton {
+        border-color: red;
+      }
+
+      .blueButton {
+        border-color: blue;
+      }
+
+      #redLeft {
+        left: 5vw;
+        bottom: 5vw;
+      }
     </style>
   </head>
 
   <body>
     <div id="ground"></div>
-    <div id="redControl">
-      <button id="redLeft"></button>
-      
-    </div>
+    <button id="redLeft" class="redButton">←</button>
     <script>
       const girdHeight = Math.floor((document.body.offsetHeight - 20) / 10);
       const girdWidth = Math.floor((document.body.offsetWidth - 20) / 10);
