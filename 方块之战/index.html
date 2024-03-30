@@ -11,8 +11,8 @@
         background-color: dimgray;
       }
       #ground{
-        height: 100%;
-        width: 100%;
+        height: 1000px;
+        width: 1000px;
         line-height:0;
       }
 
@@ -26,7 +26,7 @@
         background-color: darkgray;
       }
       .noLandGird{
-        border: 1px solid white;
+        border: 1px solid gray;
       }
     </style>
   </head>
@@ -40,8 +40,13 @@
         for (let thisWidth = 0; thisWidth < girdWidth; thisWidth++) {
           const newGird = document.createElement("div");
           newGird.id = `${thisHeight},${thisWidth}`;
-          newGird.classList.add('gird', 'noPawnGird', 'noLandGird');
+          newGird.classList.add("gird", "noPawnGird", "noLandGird");
           document.getElementById("ground").appendChild(newGird);
+        }
+        if (thisHeight !== girdHeight - 1) {
+          document
+            .getElementById("ground")
+            .appendChild(document.createElement("br"));
         }
       }
     </script>
