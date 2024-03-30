@@ -10,11 +10,11 @@
         width: 100%;
         line-height:0;
       }
-      .nullGird {
+      .noPawnGird {
         height: 10px;
         width: 10px;
-        background-color: lightgreen;
-        border: 1px solid greenyellow;
+        background-color: darkgray;
+        border: 1px solid white;
         display: inline-block;
       }
     </style>
@@ -30,7 +30,7 @@
           const newGird = document.createElement("div");
           newGird.id = `${thisHeight},${thisWidth}`;
           newGird.className = "nullGird";
-          document.getElementById('ground').appendChild(newGird);
+          document.getElementById("ground").appendChild(newGird);
         }
       }
     </script>
