@@ -49,6 +49,15 @@
             .appendChild(document.createElement("br"));
         }
       }
+      
+      //
+      document.addEventListener(
+        "touchmove",
+        function (event) {
+          event.preventDefault();
+        },
+        { passive: false }
+      );
     </script>
   </body>
 </html>
