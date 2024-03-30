@@ -5,25 +5,40 @@
     <title></title>
 
     <style>
-      html,body{
-        padding: 0px;
-        margin: 0px;
-        background-color: dimgray;
-      }
-      #ground{
-        line-height:0;
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
       }
 
-      .gird{
+      html {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      body {
+        padding: 10px;
+        background-color: dimgray;
+      }
+
+      #ground {
+        line-height: 0;
+      }
+
+      .gird {
         height: 8px;
         width: 8px;
         border-width: 1px;
         display: inline-block;
       }
+
       .noPawnGird {
         background-color: darkgray;
       }
-      .noLandGird{
+
+      .noLandGird {
         border: 1px solid darkgray;
       }
     </style>
@@ -32,8 +47,8 @@
   <body>
     <div id="ground"></div>
     <script>
-      const girdHeight = window.innerHeight / 10-100;
-      const girdWidth = window.innerWidth / 10;
+      const girdHeight = (document.body.offsetHeight - 100) / 10;
+      const girdWidth = document.body.offsetWidth / 10;
       document.getElementById("ground").style.height = girdHeight * 10;
       document.getElementById("ground").style.width = girdWidth * 10;
       for (let thisHeight = 0; thisHeight < girdHeight; thisHeight++) {
