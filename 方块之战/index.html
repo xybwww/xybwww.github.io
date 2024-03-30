@@ -17,8 +17,8 @@
       }
 
       .gird{
-        height: 9px;
-        width: 9px;
+        height: 8px;
+        width: 8px;
         border-width: 1px;
         display: inline-block;
       }
@@ -34,8 +34,8 @@
   <body>
     <div id="ground"></div>
     <script>
-      const girdHeight = 50;
-      const girdWidth = 50;
+      const girdHeight = 100;
+      const girdWidth = 100;
       for (let thisHeight = 0; thisHeight < girdHeight; thisHeight++) {
         for (let thisWidth = 0; thisWidth < girdWidth; thisWidth++) {
           const newGird = document.createElement("div");
@@ -53,6 +53,7 @@
         "touchmove",
         function (event) {
           event.preventDefault();
+          window.moveTo(0, 0)
         },
         { passive: false }
       );
