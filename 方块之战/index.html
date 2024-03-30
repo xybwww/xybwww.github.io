@@ -25,6 +25,9 @@
 
       #ground {
         line-height: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .gird {
@@ -47,8 +50,8 @@
   <body>
     <div id="ground"></div>
     <script>
-      const girdHeight = (document.body.offsetHeight - 100) / 10;
-      const girdWidth = (document.body.offsetWidth - 20) / 10;
+      const girdHeight = Math.floor((document.body.offsetHeight - 100) / 10);
+      const girdWidth = Math.floor((document.body.offsetWidth - 20) / 10);
       document.getElementById("ground").style.height = girdHeight * 10;
       document.getElementById("ground").style.width = girdWidth * 10;
       for (let thisHeight = 0; thisHeight < girdHeight; thisHeight++) {
