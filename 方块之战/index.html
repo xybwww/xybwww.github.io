@@ -45,8 +45,12 @@
 
   <body>
     <div id="ground"></div>
+    <div id="redControl">
+      <button id="redLeft"></button>
+      
+    </div>
     <script>
-      const girdHeight = Math.floor((document.body.offsetHeight - 100) / 10);
+      const girdHeight = Math.floor((document.body.offsetHeight - 20) / 10);
       const girdWidth = Math.floor((document.body.offsetWidth - 20) / 10);
       document.getElementById("ground").style.height = girdHeight * 10;
       document.getElementById("ground").style.width = girdWidth * 10;
