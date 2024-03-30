@@ -5,6 +5,11 @@
     <title></title>
 
     <style>
+      #ground{
+        height: 100%;
+        width: 100%;
+        line-height:0;
+      }
       .nullGird {
         height: 10px;
         width: 10px;
@@ -16,6 +21,7 @@
   </head>
 
   <body>
+    <div id="ground"></div>
     <script>
       const girdHeight = 100;
       const girdWidth = 100;
@@ -24,7 +30,7 @@
           const newGird = document.createElement("div");
           newGird.id = `${thisHeight},${thisWidth}`;
           newGird.className = "nullGird";
-          document.body.appendChild(newGird);
+          document.getElementById('ground').appendChild(newGird);
         }
       }
     </script>
