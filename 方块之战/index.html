@@ -95,6 +95,7 @@
     <button id="redButtom" class="redButton">↓</button>
     <button id="redAdd" class="redButton">+</button>
     <script>
+      //生成网格
       const girdHeight = Math.floor((document.body.offsetHeight - 20) / 10);
       const girdWidth = Math.floor((document.body.offsetWidth - 20) / 10);
       document.getElementById("ground").style.height = girdHeight * 10;
@@ -124,6 +125,14 @@
       window.addEventListener("resize", function () {
         window.moveTo(0, 0);
       });
+
+      //判断是否添加摇杆
+      if (/Mac OS X|Windows|Linux/.test(navigator.userAgent)) {
+        document.querySelectorAll("button").forEach(function (button) {
+          button.remove();
+        });
+      } else {
+      }
     </script>
   </body>
 </html>
