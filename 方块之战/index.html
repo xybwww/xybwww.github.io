@@ -59,14 +59,6 @@
         border-color: blue;
       }
 
-      #redLeft {
-        left: 3vw;
-        bottom: 9vw;
-      }
-      #redRight {
-        left: 15vw;
-        bottom: 9vw;
-      }
       #redButtom{
         left: 9vw;
         bottom: 3vw;
@@ -74,6 +66,14 @@
       #redUp{
         left: 9vw;
         bottom: 15vw;
+      }
+      #redLeft {
+        left: 3vw;
+        bottom: 9vw;
+      }
+      #redRight {
+        left: 15vw;
+        bottom: 9vw;
       }
       #redAdd{
         border-radius: 2vw;
@@ -89,11 +89,19 @@
 
   <body>
     <div id="ground"></div>
-    <button id="redLeft" class="redButton">←</button>
-    <button id="redRight" class="redButton">→</button>
-    <button id="redUp" class="redButton">↑</button>
-    <button id="redButtom" class="redButton">↓</button>
-    <button id="redAdd" class="redButton">+</button>
+    <button id="redUp" class="redButton" onclick="directionChange('red',1)">
+      ↑
+    </button>
+    <button id="redButtom" class="redButton" onclick="directionChange('red',2)">
+      ↓
+    </button>
+    <button id="redLeft" class="redButton" onclick="directionChange('red',3)">
+      ←
+    </button>
+    <button id="redRight" class="redButton" onclick="directionChange('red',4)">
+      →
+    </button>
+    <button id="redAdd" class="redButton" onclick="addPawn('red')">+</button>
     <script>
       //生成网格
       const girdHeight = Math.floor((document.body.offsetHeight - 20) / 10);
@@ -126,13 +134,22 @@
         window.moveTo(0, 0);
       });
 
-      //判断是否添加摇杆
+      var direction = { red: 0, blue: 0 };
       if (/Mac OS X|Windows|Linux/.test(navigator.userAgent)) {
+        //判断是否添加摇杆
         document.querySelectorAll("button").forEach(function (button) {
           button.remove();
         });
+
+        //改变方向函数
       } else {
-        const moveMode = { redLeft: { camp: "red", direction: 0 } };
+        function directionChange(camp, directionToChange) {
+          if (direction[camp] === directionToChange) {
+            direction[camp] = 0;
+          } else {
+            direction[camp] = directionToChange;
+          }
+        }
       }
     </script>
   </body>
