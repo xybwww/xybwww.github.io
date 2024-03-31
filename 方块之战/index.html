@@ -163,9 +163,11 @@
           direction[camp] = 0;
           this.style.backgroundColor = "whitesmoke";
         } else {
-          document.getElementById(
-            camp + directionToChange
-          ).style.backgroundColor = "whitesmoke";
+          if (direction[camp] !== 0) {
+            document.getElementById(
+              camp + direction[camp]
+            ).style.backgroundColor = "whitesmoke";
+          }
           direction[camp] = directionToChange;
           this.style.backgroundColor = "gray";
         }
