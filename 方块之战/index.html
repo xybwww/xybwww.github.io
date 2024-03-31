@@ -49,8 +49,9 @@
         padding: 0px;
         height: 6vw;
         width: 6vw;
+        background-color: whitesmoke;
         border: 0.2vw solid black;
-        opacity: 0.5;
+        opacity: 0.3;
         border-radius: 3vw;
         position: absolute;
         line-height: 0;
@@ -65,19 +66,19 @@
         border-color: blue;
       }
 
-      #redButtom{
-        left: 9vw;
-        bottom: 3vw;
-      }
-      #redUp{
+      #red1{
         left: 9vw;
         bottom: 15vw;
       }
-      #redLeft {
+      #red2{
+        left: 9vw;
+        bottom: 3vw;
+      }
+      #red3 {
         left: 3vw;
         bottom: 9vw;
       }
-      #redRight {
+      #red4 {
         left: 15vw;
         bottom: 9vw;
       }
@@ -95,16 +96,16 @@
 
   <body>
     <div id="ground"></div>
-    <button id="redUp" class="redButton" onclick="directionChange('red',1)">
+    <button id="red1" class="redButton" onclick="directionChange('red',1)">
       ↑
     </button>
-    <button id="redButtom" class="redButton" onclick="directionChange('red',2)">
+    <button id="red2" class="redButton" onclick="directionChange('red',2)">
       ↓
     </button>
-    <button id="redLeft" class="redButton" onclick="directionChange('red',3)">
+    <button id="red3" class="redButton" onclick="directionChange('red',3)">
       ←
     </button>
-    <button id="redRight" class="redButton" onclick="directionChange('red',4)">
+    <button id="red4" class="redButton" onclick="directionChange('red',4)">
       →
     </button>
     <button id="redAdd" class="redButton" onclick="addPawn('red')">+</button>
@@ -151,20 +152,22 @@
       });
 
       var direction = { red: 0, blue: 0 };
-      if (/Mac OS X|Windows|Linux/.test(navigator.userAgent)) {
-        //判断是否添加摇杆
+      /*删除摇杆
         document.querySelectorAll("button").forEach(function (button) {
           //button.remove();
-        });
+        });*/
 
-        //改变方向函数
-      } else {
-        function directionChange(camp, directionToChange) {
-          if (direction[camp] === directionToChange) {
-            direction[camp] = 0;
-          } else {
-            direction[camp] = directionToChange;
-          }
+      //改变方向函数
+      function directionChange(camp, directionToChange) {
+        if (direction[camp] === directionToChange) {
+          direction[camp] = 0;
+          this.style.backgroundColor = "whitesmoke";
+        } else {
+          document.getElementById(
+            camp + directionToChange
+          ).style.backgroundColor = "whitesmoke";
+          direction[camp] = directionToChange;
+          this.style.backgroundColor = "gray";
         }
       }
     </script>
