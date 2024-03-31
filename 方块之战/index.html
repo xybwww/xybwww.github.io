@@ -114,27 +114,24 @@
       const girdWidth = Math.floor((document.body.offsetWidth - 20) / 10);
       document.getElementById("ground").style.height = girdHeight * 10;
       document.getElementById("ground").style.width = girdWidth * 10;
-      for (let thisHeight = 0; thisHeight < girdHeight; thisHeight++) {
-        for (let thisWidth = 0; thisWidth < girdWidth; thisWidth++) {
+      for (let y = 0; y < girdHeight; y++) {
+        for (let x = 0; x < girdWidth; x++) {
           const newGird = document.createElement("div");
-          newGird.id = `${thisHeight},${thisWidth}`;
+          newGird.id = `${y},${x}`;
           newGird.classList.add("gird", "noPawnGird");
-          if (
-            thisWidth === 0 &&
-            Math.abs(Math.floor(thisHeight - girdHeight)) <= 1
-          ) {
+          if (x === 0 && Math.abs(Math.floor(y - girdHeight / 2)) <= 1) {
             newGird.classList.add("redLandGird");
           } else if (
-            thisWidth === girdHeight - 1 &&
-            Math.abs(Math.ceil(thisHeight - girdHeight)) <= 1
+            x === girdWidth - 1 &&
+            Math.abs(Math.ceil(y - girdHeight / 2)) <= 1
           ) {
             newGird.classList.add("blueLandGird");
           } else {
-            newGird.classList.add("noLangGird");
+            newGird.classList.add("noLandGird");
           }
           document.getElementById("ground").appendChild(newGird);
         }
-        if (thisHeight !== girdHeight - 1) {
+        if (y !== girdHeight - 1) {
           document
             .getElementById("ground")
             .appendChild(document.createElement("br"));
