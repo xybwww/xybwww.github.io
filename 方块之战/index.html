@@ -37,6 +37,12 @@
       .noLandGird {
         border: 1px solid darkgray;
       }
+      .redLandGird {
+        border: 1px solid darkred;
+      }
+      .blueLandGird {
+        border: 1px solid darkblue;
+      }
 
 
       button {
@@ -112,7 +118,20 @@
         for (let thisWidth = 0; thisWidth < girdWidth; thisWidth++) {
           const newGird = document.createElement("div");
           newGird.id = `${thisHeight},${thisWidth}`;
-          newGird.classList.add("gird", "noPawnGird", "noLandGird");
+          newGird.classList.add("gird", "noPawnGird");
+          if (
+            thisWidth === 0 &&
+            Math.abs(Math.floor(thisHeight - girdHeight)) <= 1
+          ) {
+            newGird.classList.add("redLandGird");
+          } else if (
+            thisWidth === girdHeight - 1 &&
+            Math.abs(Math.ceil(thisHeight - girdHeight)) <= 1
+          ) {
+            newGird.classList.add("blueLandGird");
+          } else {
+            newGird.classList.add("noLangGird");
+          }
           document.getElementById("ground").appendChild(newGird);
         }
         if (thisHeight !== girdHeight - 1) {
