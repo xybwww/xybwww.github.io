@@ -161,7 +161,9 @@
       function directionChange(camp, directionToChange) {
         if (direction[camp] === directionToChange) {
           direction[camp] = 0;
-          this.style.backgroundColor = "whitesmoke";
+          document.getElementById(
+            camp + directionToChange
+          ).style.backgroundColor = "whitesmoke";
         } else {
           if (direction[camp] !== 0) {
             document.getElementById(
