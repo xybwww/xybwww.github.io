@@ -25,22 +25,22 @@
         line-height: 0;
       }
 
-      .gird {
+      .grid {
         height: 8px;
         width: 8px;
         border-width: 1px;
         display: inline-block;
       }
-      .noPawnGird {
+      .noPawnGrid {
         background-color: darkgray;
       }
-      .noLandGird {
+      .noLandGrid {
         border: 1px solid darkgray;
       }
-      .redLandGird {
+      .redLandGrid {
         border: 1px solid red;
       }
-      .blueLandGird {
+      .blueLandGrid {
         border: 1px solid blue;
       }
 
@@ -111,28 +111,28 @@
     <button id="redAdd" class="redButton" onclick="addPawn('red')">+</button>
     <script>
       //生成网格
-      const girdHeight = Math.floor((document.body.offsetHeight - 20) / 10);
-      const girdWidth = Math.floor((document.body.offsetWidth - 20) / 10);
-      document.getElementById("ground").style.height = girdHeight * 10;
-      document.getElementById("ground").style.width = girdWidth * 10;
-      for (let y = 0; y < girdHeight; y++) {
-        for (let x = 0; x < girdWidth; x++) {
-          const newGird = document.createElement("div");
-          newGird.id = `${y},${x}`;
-          newGird.classList.add("gird", "noPawnGird");
-          if (x === 0 && Math.abs(Math.floor(y - girdHeight / 2)) <= 1) {
-            newGird.classList.add("redLandGird");
+      const gridHeight = Math.floor((document.body.offsetHeight - 20) / 10);
+      const gridWidth = Math.floor((document.body.offsetWidth - 20) / 10);
+      document.getElementById("ground").style.height = gridHeight * 10;
+      document.getElementById("ground").style.width = gridWidth * 10;
+      for (let y = 0; y < gridHeight; y++) {
+        for (let x = 0; x < gridWidth; x++) {
+          const newGrid = document.createElement("div");
+          newGrid.id = `${y},${x}`;
+          newGrid.classList.add("grid", "noPawnGrid");
+          if (x === 0 && Math.abs(Math.floor(y - gridHeight / 2)) <= 1) {
+            newGrid.classList.add("redLandGrid");
           } else if (
-            x === girdWidth - 1 &&
-            Math.abs(Math.ceil(y - girdHeight / 2)) <= 1
+            x === gridWidth - 1 &&
+            Math.abs(Math.ceil(y - gridHeight / 2)) <= 1
           ) {
-            newGird.classList.add("blueLandGird");
+            newGrid.classList.add("blueLandGrid");
           } else {
-            newGird.classList.add("noLandGird");
+            newGrid.classList.add("noLandGrid");
           }
-          document.getElementById("ground").appendChild(newGird);
+          document.getElementById("ground").appendChild(newGrid);
         }
-        if (y !== girdHeight - 1) {
+        if (y !== gridHeight - 1) {
           document
             .getElementById("ground")
             .appendChild(document.createElement("br"));
