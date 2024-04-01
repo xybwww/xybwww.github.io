@@ -34,6 +34,12 @@
       .noPawnGrid {
         background-color: darkgray;
       }
+      .redPawnGrid {
+        background-color: red;
+      }
+      .bluePawnGrid {
+        background-color: blue;
+      }
       .noLandGrid {
         border: 1px solid darkgray;
       }
@@ -196,6 +202,7 @@
           )
         )) {
           if (!iterator.classList.contains(camp + "PawnGrid")) {
+            iterator.classList.remove("noPawnGrid");
             iterator.classList.add(camp + "PawnGrid");
             break;
           }
