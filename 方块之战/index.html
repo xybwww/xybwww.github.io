@@ -190,6 +190,16 @@
           return array;
         }
         //随机遍历所有己方领地
+        for (const iterator of shuffleArray(
+          Array.prototype.slice.call(
+            document.getElementsByClassName(camp + "LandGrid")
+          )
+        )) {
+          if (!iterator.classList.contains(camp + "PawnGrid")) {
+            iterator.classList.add(camp + "PawnGrid");
+            break;
+          }
+        }
       }
     </script>
   </body>
