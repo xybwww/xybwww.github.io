@@ -162,7 +162,7 @@
       for (let y = 0; y < gridHeight; y++) {
         for (let x = 0; x < gridWidth; x++) {
           const newGrid = document.createElement("div");
-          newGrid.id = `${y},${x}`;
+          newGrid.id = `${x},${y}`;
           newGrid.classList.add("grid", "noPawnGrid");
           if (x === 0 && Math.abs(Math.floor(y - gridHeight / 2)) <= 1) {
             newGrid.classList.add("redLandGrid");
@@ -183,24 +183,7 @@
         }
       }
 
-      //禁止滑动
-      document.addEventListener(
-        "touchmove",
-        function (event) {
-          event.preventDefault();
-        },
-        { passive: false }
-      );
-      window.addEventListener("resize", function () {
-        window.moveTo(0, 0);
-      });
-
       var direction = { red: 0, blue: 0 };
-      /*删除摇杆
-        document.querySelectorAll("button").forEach(function (button) {
-          //button.remove();
-        });*/
-
       //改变方向函数
       function directionChange(camp, directionToChange) {
         if (direction[camp] === directionToChange) {
@@ -234,10 +217,10 @@
           landList[j] = temp;
         }
         //随机遍历所有己方领地
-        for (const iterator of landList) {
-          if (!iterator.classList.contains(camp + "PawnGrid")) {
-            iterator.classList.remove("noPawnGrid");
-            iterator.classList.add(camp + "PawnGrid");
+        for (const element of landList) {
+          if (!element.classList.contains(camp + "PawnGrid")) {
+            element.classList.remove("noPawnGrid");
+            element.classList.add(camp + "PawnGrid");
             break;
           }
         }
@@ -247,8 +230,57 @@
       var moveCamp = "red";
       var intervalId = setInterval(function () {
         if (direction[moveCamp]) {
+          let pawnList = Array.prototype.slice.call(
+            document.getElementsByClassName(moveCamp + "PawnGrid")
+          );
+          if (direction[moveCamp] % 2 === 0) {
+            pawnList.reverse();
+          }
+          for (const element of pawnList) {
+            let endX = parseInt(element.id.split(",")[0], 10),
+              endY = parseInt(element.id.split(",")[1], 10);
+            switch (direction[moveCamp]) {
+              case 1:
+                endY--;
+                break;
+              case 2:
+                endY++;
+                break;
+              case 3:
+                endX--;
+                break;
+              case 4:
+                endX++;
+                break;
+            }
+            if (
+              endX >= 0 &&
+              endX < gridWidth &&
+              endY >= 0 &&
+              endY < gridHeight
+            ) {
+              const end = document.getElementById(`${endX},${endY}`);
+              element.classList.remove(camp + "PawnGrid");
+              element.classList.add("noPawnGrid");
+              end.classList.remove("noPawnGrid");
+              end.classList.add(camp + "PawnGrid");
+            } else {
+            }
+          }
         }
       }, 200);
+
+      //禁止滑动
+      document.addEventListener(
+        "touchmove",
+        function (event) {
+          event.preventDefault();
+        },
+        { passive: false }
+      );
+      window.addEventListener("resize", function () {
+        window.moveTo(0, 0);
+      });
     </script>
   </body>
 </html>
