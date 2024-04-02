@@ -223,23 +223,18 @@
 
       //添加函数
       function addPawn(camp) {
-      var landList=
+        var landList = Array.prototype.slice.call(
+          document.getElementsByClassName(camp + "LandGrid")
+        );
         // 打乱数组的顺序
-        function shuffleArray(array) {
-          for (var i = array.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-          }
-          return array;
+        for (var i = landList.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = landList[i];
+          landList[i] = landList[j];
+          landList[j] = temp;
         }
         //随机遍历所有己方领地
-        for (const iterator of shuffleArray(
-          Array.prototype.slice.call(
-            document.getElementsByClassName(camp + "LandGrid")
-          )
-        )) {
+        for (const iterator of landList) {
           if (!iterator.classList.contains(camp + "PawnGrid")) {
             iterator.classList.remove("noPawnGrid");
             iterator.classList.add(camp + "PawnGrid");
