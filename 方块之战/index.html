@@ -260,10 +260,10 @@
               endY < gridHeight
             ) {
               const end = document.getElementById(`${endX},${endY}`);
-              element.classList.remove(camp + "PawnGrid");
+              element.classList.remove(moveCamp + "PawnGrid");
               element.classList.add("noPawnGrid");
               end.classList.remove("noPawnGrid");
-              end.classList.add(camp + "PawnGrid");
+              end.classList.add(moveCamp + "PawnGrid");
             } else {
             }
           }
