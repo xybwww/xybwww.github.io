@@ -89,12 +89,37 @@
         bottom: 9vw;
       }
       #redAdd{
-        border-radius: 2vw;
-        font-size: 4vw;
-        height: 4vw;
-        width: 4vw;
-        left: 10vw;
-        bottom: 10vw;
+        border-radius: 2.5vw;
+        font-size: 5vw;
+        height: 5vw;
+        width: 5vw;
+        left: 9.5vw;
+        bottom: 9.5vw;
+        line-height: 0;
+      }
+      #blue1{
+        right: 9vw;
+        bottom: 15vw;
+      }
+      #blue2{
+        right: 9vw;
+        bottom: 3vw;
+      }
+      #blue3 {
+        right: 3vw;
+        bottom: 9vw;
+      }
+      #blue4 {
+        right: 15vw;
+        bottom: 9vw;
+      }
+      #blueAdd{
+        border-radius: 2.5vw;
+        font-size: 5vw;
+        height: 5vw;
+        width: 5vw;
+        right: 9.5vw;
+        bottom: 9.5vw;
         line-height: 0;
       }
     </style>
@@ -115,6 +140,19 @@
       →
     </button>
     <button id="redAdd" class="redButton" onclick="addPawn('red')">+</button>
+    <button id="blue1" class="blueButton" onclick="directionChange('blue',1)">
+      ↑
+    </button>
+    <button id="blue2" class="blueButton" onclick="directionChange('blue',2)">
+      ↓
+    </button>
+    <button id="blue3" class="blueButton" onclick="directionChange('blue',3)">
+      ←
+    </button>
+    <button id="blue4" class="blueButton" onclick="directionChange('blue',4)">
+      →
+    </button>
+    <button id="blueAdd" class="blueButton" onclick="addPawn('blue')">+</button>
     <script>
       //生成网格
       const gridHeight = Math.floor((document.body.offsetHeight - 20) / 10);
@@ -185,6 +223,7 @@
 
       //添加函数
       function addPawn(camp) {
+      var landList=
         // 打乱数组的顺序
         function shuffleArray(array) {
           for (var i = array.length - 1; i > 0; i--) {
