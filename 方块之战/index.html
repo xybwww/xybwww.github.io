@@ -50,7 +50,6 @@
         border: 1px solid blue;
       }
 
-
       button {
         padding: 0px;
         height: 6vw;
@@ -72,11 +71,11 @@
         border-color: blue;
       }
 
-      #red1{
+      #red1 {
         left: 9vw;
         bottom: 15vw;
       }
-      #red2{
+      #red2 {
         left: 9vw;
         bottom: 3vw;
       }
@@ -88,7 +87,7 @@
         left: 15vw;
         bottom: 9vw;
       }
-      #redAdd{
+      #redAdd {
         border-radius: 2.5vw;
         font-size: 5vw;
         height: 5vw;
@@ -97,11 +96,11 @@
         bottom: 9.5vw;
         line-height: 0;
       }
-      #blue1{
+      #blue1 {
         right: 9vw;
         bottom: 15vw;
       }
-      #blue2{
+      #blue2 {
         right: 9vw;
         bottom: 3vw;
       }
@@ -113,7 +112,7 @@
         right: 3vw;
         bottom: 9vw;
       }
-      #blueAdd{
+      #blueAdd {
         border-radius: 2.5vw;
         font-size: 5vw;
         height: 5vw;
@@ -127,31 +126,15 @@
 
   <body>
     <div id="ground"></div>
-    <button id="red1" class="redButton" onclick="directionChange('red',1)">
-      ↑
-    </button>
-    <button id="red2" class="redButton" onclick="directionChange('red',2)">
-      ↓
-    </button>
-    <button id="red3" class="redButton" onclick="directionChange('red',3)">
-      ←
-    </button>
-    <button id="red4" class="redButton" onclick="directionChange('red',4)">
-      →
-    </button>
+    <button id="red1" class="redButton" onclick="directionChange('red',1)">↑</button>
+    <button id="red2" class="redButton" onclick="directionChange('red',2)">↓</button>
+    <button id="red3" class="redButton" onclick="directionChange('red',3)">←</button>
+    <button id="red4" class="redButton" onclick="directionChange('red',4)">→</button>
     <button id="redAdd" class="redButton" onclick="addPawn('red')">+</button>
-    <button id="blue1" class="blueButton" onclick="directionChange('blue',1)">
-      ↑
-    </button>
-    <button id="blue2" class="blueButton" onclick="directionChange('blue',2)">
-      ↓
-    </button>
-    <button id="blue3" class="blueButton" onclick="directionChange('blue',3)">
-      ←
-    </button>
-    <button id="blue4" class="blueButton" onclick="directionChange('blue',4)">
-      →
-    </button>
+    <button id="blue1" class="blueButton" onclick="directionChange('blue',1)">↑</button>
+    <button id="blue2" class="blueButton" onclick="directionChange('blue',2)">↓</button>
+    <button id="blue3" class="blueButton" onclick="directionChange('blue',3)">←</button>
+    <button id="blue4" class="blueButton" onclick="directionChange('blue',4)">→</button>
     <button id="blueAdd" class="blueButton" onclick="addPawn('blue')">+</button>
     <script>
       //生成网格
@@ -166,10 +149,7 @@
           newGrid.classList.add("grid", "noPawnGrid");
           if (x === 0 && Math.abs(Math.floor(y - gridHeight / 2)) <= 1) {
             newGrid.classList.add("redLandGrid");
-          } else if (
-            x === gridWidth - 1 &&
-            Math.abs(Math.ceil(y - gridHeight / 2)) <= 1
-          ) {
+          } else if (x === gridWidth - 1 && Math.abs(Math.ceil(y - gridHeight / 2)) <= 1) {
             newGrid.classList.add("blueLandGrid");
           } else {
             newGrid.classList.add("noLandGrid");
@@ -177,9 +157,7 @@
           document.getElementById("ground").appendChild(newGrid);
         }
         if (y !== gridHeight - 1) {
-          document
-            .getElementById("ground")
-            .appendChild(document.createElement("br"));
+          document.getElementById("ground").appendChild(document.createElement("br"));
         }
       }
 
@@ -188,27 +166,19 @@
       function directionChange(camp, directionToChange) {
         if (direction[camp] === directionToChange) {
           direction[camp] = 0;
-          document.getElementById(
-            camp + directionToChange
-          ).style.backgroundColor = "whitesmoke";
+          document.getElementById(camp + directionToChange).style.backgroundColor = "whitesmoke";
         } else {
           if (direction[camp] !== 0) {
-            document.getElementById(
-              camp + direction[camp]
-            ).style.backgroundColor = "whitesmoke";
+            document.getElementById(camp + direction[camp]).style.backgroundColor = "whitesmoke";
           }
           direction[camp] = directionToChange;
-          document.getElementById(
-            camp + directionToChange
-          ).style.backgroundColor = "#A0A0A0";
+          document.getElementById(camp + directionToChange).style.backgroundColor = "#A0A0A0";
         }
       }
 
       //添加函数
       function addPawn(camp) {
-        var landList = Array.prototype.slice.call(
-          document.getElementsByClassName(camp + "LandGrid")
-        );
+        var landList = Array.prototype.slice.call(document.getElementsByClassName(camp + "LandGrid"));
         // 打乱数组的顺序
         for (var i = landList.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
@@ -228,11 +198,10 @@
 
       //定时移动
       var moveCamp = "red";
+      const enemy = { red: "blue", blue: "red" };
       var intervalId = setInterval(function () {
         if (direction[moveCamp]) {
-          let pawnList = Array.prototype.slice.call(
-            document.getElementsByClassName(moveCamp + "PawnGrid")
-          );
+          let pawnList = Array.prototype.slice.call(document.getElementsByClassName(moveCamp + "PawnGrid"));
           if (direction[moveCamp] % 2 === 0) {
             pawnList.reverse();
           }
@@ -253,18 +222,53 @@
                 endX++;
                 break;
             }
-            if (
-              endX >= 0 &&
-              endX < gridWidth &&
-              endY >= 0 &&
-              endY < gridHeight
-            ) {
-              const end = document.getElementById(`${endX},${endY}`);
+            const end = document.getElementById(`${endX},${endY}`);
+            if (end !== null || Math.random() < 0.5) {
+              if (end.classList.contains("noLandGrid") || end.classList.contains(moveCamp + "LandGrid")) {
+                if (end.classList.contains("noPawnGrid") || end.classList.contains(enemy[moveCamp] + "PawnGrid")) {
+                  element.classList.remove(moveCamp + "PawnGrid");
+                  element.classList.add("noPawnGrid");
+                  if (end.classList.contains("noPawnGrid") || Math.random() < 0.7) {
+                    end.classList.remove("noPawnGrid");
+                    end.classList.remove(enemy[moveCamp] + "PawnGrid");
+                    end.classList.add(moveCamp + "PawnGrid");
+                  }
+                }
+              } else {
+                element.classList.remove(moveCamp + "PawnGrid");
+                element.classList.add("noPawnGrid");
+                if (end.style.borderStyle === "solid" || !end.style.borderStyle) {
+                  end.style.borderStyle = "dashed";
+                } else {
+                  end.style.borderStyle = "solid";
+                  end.classList.remove(enemy[moveCamp] + "LandGrid");
+                  end.classList.add("noLandGrid");
+                }
+              }
+            } else {
               element.classList.remove(moveCamp + "PawnGrid");
               element.classList.add("noPawnGrid");
-              end.classList.remove("noPawnGrid");
-              end.classList.add(moveCamp + "PawnGrid");
-            } else {
+            }
+          }
+          for (const element of document.getElementsByClassName(moveCamp + "PawnGrid")) {
+            let own = 0;
+            for (const aroundDirection of [
+              { x: 0, y: 1 },
+              { x: 1, y: 0 },
+              { x: -1, y: 0 },
+              { x: 0, y: -1 },
+            ]) {
+              const around = document.getElementById(`${parseInt(element.id.split(",")[0], 10) + aroundDirection.x},${parseInt(element.id.split(",")[1], 10) + aroundDirection.y}`);
+              if (around === null || around.classList.contains(moveCamp + "PawnGrid")) {
+                own++;
+              }
+            }
+            if (own === 4) {
+              element.classList.remove("noLandGrid");
+              element.classList.add(moveCamp + "LandGrid");
+              element.style.border = moveCamp + " solid 1px";
+              element.classList.remove(moveCamp + "PawnGrid");
+              element.classList.add("noPawnGrid");
             }
           }
         }
