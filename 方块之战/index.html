@@ -23,6 +23,10 @@
 
       #ground {
         line-height: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       .grid {
@@ -62,6 +66,10 @@
         line-height: 0;
         color: dimgray;
         font-size: 6vw;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       .redButton {
@@ -200,6 +208,7 @@
       var moveCamp = "red";
       const enemy = { red: "blue", blue: "red" };
       var intervalId = setInterval(function () {
+        addPawn(moveCamp);
         if (direction[moveCamp]) {
           let pawnList = Array.prototype.slice.call(document.getElementsByClassName(moveCamp + "PawnGrid"));
           if (direction[moveCamp] % 2 === 0) {
