@@ -251,19 +251,19 @@
             }
           }
           for (const element of document.getElementsByClassName(moveCamp + "PawnGrid")) {
+            if (element.classList.contains(moveCamp + "LandGrid")) {
+              continue;
+            }
             let own = 0;
-            for (const aroundDirection of [
-              { x: 0, y: 1 },
-              { x: 1, y: 0 },
-              { x: -1, y: 0 },
-              { x: 0, y: -1 },
-            ]) {
-              const around = document.getElementById(`${parseInt(element.id.split(",")[0], 10) + aroundDirection.x},${parseInt(element.id.split(",")[1], 10) + aroundDirection.y}`);
-              if (around === null || around.classList.contains(moveCamp + "PawnGrid")) {
-                own++;
+            for (let y = -1; y <= 1; y++) {
+              for (let x = -1; x <= 1; x++) {
+                const around = document.getElementById(`${parseInt(element.id.split(",")[0], 10) + x},${parseInt(element.id.split(",")[1], 10) + y}`);
+                if (around === null || around.classList.contains(moveCamp + "PawnGrid")) {
+                  own++;
+                }
               }
             }
-            if (own === 4) {
+            if (own >= 5) {
               element.classList.remove("noLandGrid");
               element.classList.add(moveCamp + "LandGrid");
               element.style.border = moveCamp + " solid 1px";
