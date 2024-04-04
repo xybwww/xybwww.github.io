@@ -251,9 +251,7 @@
             }
           }
           for (const element of document.getElementsByClassName(moveCamp + "PawnGrid")) {
-            if (element.classList.contains(moveCamp + "LandGrid")) {
-              continue;
-            }
+            if (element.classList.contains(moveCamp + "LandGrid")) continue;
             let own = 0;
             for (let y = -1; y <= 1; y++) {
               for (let x = -1; x <= 1; x++) {
@@ -272,7 +270,7 @@
             }
           }
         }
-        moveCamp = moveCamp === "red" ? "blue" : "red";
+        moveCamp = enemy[moveCamp];
       }, 100);
 
       //禁止滑动
