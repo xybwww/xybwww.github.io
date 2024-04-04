@@ -223,7 +223,7 @@
                 break;
             }
             const end = document.getElementById(`${endX},${endY}`);
-            if (end !== null || Math.random() < 0.5) {
+            if (end !== null) {
               if (end.classList.contains("noLandGrid") || end.classList.contains(moveCamp + "LandGrid")) {
                 if (end.classList.contains("noPawnGrid") || end.classList.contains(enemy[moveCamp] + "PawnGrid")) {
                   element.classList.remove(moveCamp + "PawnGrid");
@@ -245,7 +245,7 @@
                   end.classList.add("noLandGrid");
                 }
               }
-            } else {
+            } else if (Math.random() < 0.5) {
               element.classList.remove(moveCamp + "PawnGrid");
               element.classList.add("noPawnGrid");
             }
