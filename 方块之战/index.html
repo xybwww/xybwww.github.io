@@ -208,7 +208,7 @@
       var moveCamp = "red";
       const enemy = { red: "blue", blue: "red" };
       var intervalId = setInterval(function () {
-        addPawn(moveCamp);
+        addPawn(enemy[moveCamp]);
         if (direction[moveCamp]) {
           let pawnList = Array.prototype.slice.call(document.getElementsByClassName(moveCamp + "PawnGrid"));
           if (direction[moveCamp] % 2 === 0) {
