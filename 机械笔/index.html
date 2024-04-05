@@ -241,7 +241,7 @@
           connected: false,
           connection: undefined,
           speed: 20,
-          color: "none",
+          color: "none"
         },
         {
           name: "画笔2",
@@ -252,8 +252,8 @@
           connected: true,
           connection: "画笔1",
           speed: -30,
-          color: "black",
-        },
+          color: "black"
+        }
       ];
 
       //设置索引
@@ -286,17 +286,11 @@
         const end = line(x, y, angle, length);
         if (color !== "none") {
           if (last) {
-            for (let index = 0; index <= 1; index++) {
-              strokeCtx.strokeStyle = index ? color : "white";
+            for (let index = 3; index >= 0; index--) {
+              strokeCtx.strokeStyle = index ? "white" : color;
               strokeCtx.beginPath();
-              strokeCtx.moveTo(
-                last.x + strokeCanvas.width / 2,
-                strokeCanvas.height / 2 - last.y
-              );
-              strokeCtx.lineTo(
-                end.x + strokeCanvas.width / 2,
-                strokeCanvas.height / 2 - end.y
-              );
+              strokeCtx.moveTo(last.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - last.y);
+              strokeCtx.lineTo(end.x + strokeCanvas.width / 2, strokeCanvas.height / 2 - end.y);
               strokeCtx.stroke();
               brush[brushIndex].last = end;
             }
@@ -308,26 +302,12 @@
           ctx.fillStyle = "gray";
         }
         if (showBrush.checked || !backup) {
-          ctx.rect(
-            end.x + strokeCanvas.width / 2 - 2,
-            strokeCanvas.height / 2 - end.y - 2,
-            4,
-            4
-          );
+          ctx.rect(end.x + strokeCanvas.width / 2 - 2, strokeCanvas.height / 2 - end.y - 2, 4, 4);
           ctx.fill();
         }
         brush.forEach(function (element, index) {
           if (element.connected && element.connection === name) {
-            draw(
-              element.name,
-              end.x,
-              end.y,
-              element.angle,
-              element.length,
-              element.color,
-              element.last,
-              index
-            );
+            draw(element.name, end.x, end.y, element.angle, element.length, element.color, element.last, index);
           }
         });
       }
@@ -354,11 +334,7 @@
             h3.textContent = element.name;
             div.appendChild(h3);
             const p = document.createElement("p");
-            p.textContent =
-              "位置：" +
-              (element.connected
-                ? element.connection
-                : "(" + element.x + "," + element.y + ")");
+            p.textContent = "位置：" + (element.connected ? element.connection : "(" + element.x + "," + element.y + ")");
             div.appendChild(p);
             div.addEventListener("click", function () {
               home.className = "hide";
@@ -378,16 +354,7 @@ updateCanvas();
             brushList.appendChild(div);
           }
           if (!element.connected) {
-            draw(
-              element.name,
-              element.x,
-              element.y,
-              element.angle,
-              element.length,
-              element.color,
-              element.last,
-              index
-            );
+            draw(element.name, element.x, element.y, element.angle, element.length, element.color, element.last, index);
           }
         });
       }
@@ -411,11 +378,7 @@ updateCanvas();
           settingFllowSelect.removeChild(settingFllowSelect.firstChild);
         }
         brush.forEach(function (element, index) {
-          if (
-            element.name !== brush[settingIndex].name &&
-            (element.connection !== brush[settingIndex].name ||
-              !element.connected)
-          ) {
+          if (element.name !== brush[settingIndex].name && (element.connection !== brush[settingIndex].name || !element.connected)) {
             const option = document.createElement("option");
             option.text = element.name;
             settingFllowSelect.appendChild(option);
@@ -438,9 +401,7 @@ updateCanvas();
         } else if (settingName.value !== brush[settingIndex].name) {
           if (
             brush.some(function (obj) {
-              return (
-                obj.hasOwnProperty("name") && obj.name == settingName.value
-              );
+              return obj.hasOwnProperty("name") && obj.name == settingName.value;
             })
           ) {
             alert("该名称已存在");
@@ -487,8 +448,7 @@ updateCanvas();
         settingFixedY.value = brush[settingIndex].y;
       });
       settingFllowSelect.addEventListener("change", function () {
-        brush[settingIndex].connection =
-          settingFllowSelect.options[settingFllowSelect.selectedIndex].text;
+        brush[settingIndex].connection = settingFllowSelect.options[settingFllowSelect.selectedIndex].text;
         updateCanvas();
       });
       settingAngle.addEventListener("blur", function () {
@@ -519,8 +479,7 @@ updateCanvas();
         settingSpeed.value = brush[settingIndex].speed;
       });
       settingColor.addEventListener("change", function () {
-        brush[settingIndex].color =
-          settingColor.options[settingColor.selectedIndex].value;
+        brush[settingIndex].color = settingColor.options[settingColor.selectedIndex].value;
         updateCanvas();
       });
       settingDelete.addEventListener("click", function () {
@@ -586,7 +545,7 @@ updateCanvas();
           connected: true,
           connection: brush[brush.length - 1].name,
           speed: 30,
-          color: "none",
+          color: "none"
         });
         home.className = "hide";
         setting.className = "show";
