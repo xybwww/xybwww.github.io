@@ -195,13 +195,13 @@
           landList[j] = temp;
         }
         //随机遍历所有己方领地
-        let i = 0;
+        let i = landList.length/10;
         for (const element of landList) {
           if (!element.classList.contains(camp + "PawnGrid")) {
             element.classList.remove("noPawnGrid");
             element.classList.add(camp + "PawnGrid");
-            i++;
-            if (i >= 10) break;
+            i--;
+            if (i <= 0) break;
           }
         }
       }
@@ -273,7 +273,7 @@
                 }
               }
             }
-            if (own >= 5) {
+            if (own >= 7) {
               element.classList.remove("noLandGrid");
               element.classList.add(moveCamp + "LandGrid");
               element.style.border = moveCamp + " solid 1px";
