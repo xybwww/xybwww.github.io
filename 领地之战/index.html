@@ -195,7 +195,7 @@
           landList[j] = temp;
         }
         //随机遍历所有己方领地
-        let i = landList.length/100;
+        let i = landList.length / 100;
         for (const element of landList) {
           if (!element.classList.contains(camp + "PawnGrid")) {
             element.classList.remove("noPawnGrid");
@@ -253,11 +253,11 @@
                 } else {
                   end.style.borderStyle = "solid";
                   end.classList.remove(enemy[moveCamp] + "LandGrid");
-                  end.style.border='';
+                  end.style.border = "";
                   end.classList.add("noLandGrid");
                 }
               }
-            } else if (Math.random() < 0.5) {
+            } else {
               element.classList.remove(moveCamp + "PawnGrid");
               element.classList.add("noPawnGrid");
             }
