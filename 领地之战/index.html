@@ -182,6 +182,38 @@
           document.getElementById(camp + directionToChange).style.backgroundColor = "#A0A0A0";
         }
       }
+      document.addEventListener("keydown", function (event) {
+        let buttons = document.getElementsByTagName("button");
+        for (let i = 0; i < buttons.length; i++) {
+          buttons[i].parentNode.removeChild(buttons[i]);
+        }
+        switch (event.code) {
+          case "KeyW":
+            directionChange("red", 1);
+            break;
+          case "KeyS":
+            directionChange("red", 2);
+            break;
+          case "KeyA":
+            directionChange("red", 3);
+            break;
+          case "KeyD":
+            directionChange("red", 4);
+            break;
+          case "ArrowUp":
+            directionChange("blue", 1);
+            break;
+          case "ArrowDown":
+            directionChange("blue", 2);
+            break;
+          case "ArrowLeft":
+            directionChange("blue", 3);
+            break;
+          case "ArrowRight":
+            directionChange("blue", 4);
+            break;
+        }
+      });
 
       //添加函数
       function addPawn(camp) {
