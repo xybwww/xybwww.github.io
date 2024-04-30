@@ -624,7 +624,7 @@ updateCanvas();
           var target = event.target;
           // 检查目标元素是否是我们希望滑动的div
           while (target && target !== document.body) {
-            if (target.id === "div" && element.scrollHeight > element.clientHeight) {
+            if (target.id === "div" && target.scrollHeight > target.clientHeight) {
               // 如果是，则不阻止默认行为，允许div滑动
               return;
             }
