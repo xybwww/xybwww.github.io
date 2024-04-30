@@ -270,7 +270,7 @@
           ctx.lineTo(endX + canvas.width / 2, canvas.height / 2 - endY);
           ctx.stroke();
         }
-        return { x: endX, y: endY };
+        return {x: endX, y: endY};
       }
 
       // 绘制函数
@@ -615,6 +615,26 @@ updateCanvas();
       // 监听窗口大小变化和DOM内容加载完成事件
       window.addEventListener("resize", updateCanvasWidth);
       window.addEventListener("DOMContentLoaded", updateCanvasWidth);
+
+      //禁止页面滑动
+      document.addEventListener(
+        "touchmove",
+        function (event) {
+          // 获取触摸事件的目标元素
+          var target = event.target;
+          // 检查目标元素是否是我们希望滑动的div
+          while (target && target !== document.body) {
+            if (target.id === "div" && element.scrollHeight > element.clientHeight) {
+              // 如果是，则不阻止默认行为，允许div滑动
+              return;
+            }
+            target = target.parentNode;
+          }
+          // 如果触摸的目标不是我们的div，则阻止默认行为，从而阻止页面滑动
+          event.preventDefault();
+        },
+        {passive: false}
+      );
     </script>
   </body>
 </html>
