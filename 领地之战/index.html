@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>领地之战</title>
-    <link rel="icon" type="image/jpg" sizes="128x128" href="icon.jpg">
+    <link rel="icon" type="image/jpg" sizes="128x128" href="icon.jpg" />
     <style>
       html,
       body {
@@ -194,10 +194,9 @@
         ArrowRight: { camp: "blue", direction: 4 },
       };
       document.addEventListener("keydown", function (event) {
-        let buttons = document.getElementsByTagName("button");
-        for (let i = 0; i < buttons.length; i++) {
-          buttons[i].parentNode.removeChild(buttons[i]);
-        }
+        document.querySelectorAll("button").forEach(function (button) {
+          button.remove();
+        });
         direction[code[event.code].camp] = code[event.code].direction;
       });
       document.addEventListener("keyup", function (event) {
