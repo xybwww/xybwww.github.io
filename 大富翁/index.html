@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>大富翁</title>
+    <style>
+      html {
+        height: 100vh;
+        width: 100vw;
+        background-color: darkgray;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      body {
+        margin: 0px;
+        padding: 0px;
+        height: 110px;
+        width: 110px;
+      }
+      #ground {
+        background-color: lightgray;
+        margin: 0px;
+        padding: 0px;
+        height: 110px;
+        width: 110px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="ground"></div>
+  </body>
+  <script>
+    //生成棋盘
+    function randomPrice(low, high) {
+      return Math.floor(Math.random() * (high - low + 1) + low) * 100;
+    }
+    const price = { 中国: randomPrice(20, 40) };
+
+    // 缩放棋盘大小
+    function updateSize() {
+      document.body.style.transform = `scale(${window.innerWidth > window.innerHeight ? window.innerHeight / 110 : window.innerWidth / 110})`;
+      console.log(price);
+    }
+    window.addEventListener("resize", updateSize);
+    window.addEventListener("DOMContentLoaded", updateSize);
+  </script>
+</html>
