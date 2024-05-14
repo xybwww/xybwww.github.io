@@ -80,7 +80,7 @@
     // 缩放棋盘大小
     function updateSize() {
       document.body.style.transform = `scale(${window.innerWidth > window.innerHeight ? window.innerHeight / 110 : window.innerWidth / 110})`;
-      console.log(price);
+      console.log(places);
     }
     window.addEventListener("resize", updateSize);
     window.addEventListener("DOMContentLoaded", updateSize);
