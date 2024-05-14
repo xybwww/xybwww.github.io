@@ -34,11 +34,10 @@
     <div id="ground"></div>
   </body>
   <script>
-    //生成棋盘
+    //地点对象
     function newPlace(low, high) {
       return {price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: []};
     }
-
     const places = {
       "湖北-武汉": newPlace(18, 22),
       "湖南-长沙": newPlace(17, 21),
@@ -74,6 +73,10 @@
       "澳门": newPlace(100, 150),
       "台湾-台北": newPlace(60, 70)
     };
+    //生成棋盘
+    [].forEach(function () {
+      
+    })
     // 缩放棋盘大小
     function updateSize() {
       document.body.style.transform = `scale(${window.innerWidth > window.innerHeight ? window.innerHeight / 110 : window.innerWidth / 110})`;
