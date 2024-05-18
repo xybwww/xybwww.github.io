@@ -21,6 +21,7 @@
         width: 350px;
         overflow: hidden;
       }
+
       #ground {
         background-color: lightgray;
         margin: 0px;
@@ -29,12 +30,26 @@
         width: 348px;
         border: 1px solid black;
       }
+
+      .grid{
+        border: 1px solid black;
+      }
+      #go{
+        height: 40px;
+        width: 40px;
+        position: absolute;
+      } 
+
+      #go{
+bottom: 0px;
+left: 0px;
+      }
     </style>
   </head>
 
   <body>
     <div id="ground">
-      <div id="go">
+      <div id="go" class="grid">
         <p>GO</p>
       </div>
     </div>
@@ -42,7 +57,7 @@
   <script>
     //地点对象
     function newPlace(low, high) {
-      return { price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: [] };
+      return {price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: []};
     }
     const places = {
       "湖北-武汉": newPlace(18, 22),
