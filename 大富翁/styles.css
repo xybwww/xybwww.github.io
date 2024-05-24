@@ -1,0 +1,40 @@
+html {
+    height: 100vh;
+    width: 100vw;
+    background-color: darkgray;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  body {
+    margin: 0px;
+    padding: 0px;
+    height: 284px;
+    width: 350px;
+    overflow: hidden;
+  }
+
+  #ground {
+    background-color: lightgray;
+    margin: 0px;
+    padding: 0px;
+    height: 282px;
+    width: 348px;
+    border: 1px solid black;
+  }
+
+  .grid {
+    border: 1px solid black;
+  }
+  #go {
+    height: 40px;
+    width: 40px;
+    position: absolute;
+  }
+
+  #go {
+    bottom: 1px;
+    left: 1px;
+  }
