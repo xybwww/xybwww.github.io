@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return {price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: []};
+  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: [] };
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -49,7 +49,12 @@ const places = {
     const div = document.createElement("div");
     div.className = "grid";
     const p = document.createElement("p");
-    p.textContent = element;
+    p.innerHTML = element.replace(/-/, "<br>");
+    if (!element.includes("-")) {
+      p.style.padding = "3px 0px";
+      p.style.height = "4px";
+      p.style.lineHeight = "4px";
+    }
     div.appendChild(p);
     document.getElementById("row" + rowIndex).appendChild(div);
   });

@@ -59,7 +59,12 @@ body {
     display: flex;
     flex-direction: column;
     p{
-      font-size: 5px;
+      margin: 0px;
+      height: 10px;
+      width: 20px;
+      font-size: 4px;
+      background-color: aqua;
+      text-align: center;
     }
   }
 }
