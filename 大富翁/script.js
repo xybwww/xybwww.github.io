@@ -55,7 +55,7 @@ const places = {
 
 // 缩放棋盘大小
 function updateSize() {
-  document.body.style.transform = `scale(${window.innerWidth / 436 > window.innerHeight / 350 ? window.innerHeight / 350 : window.innerWidth / 436})`;
+  document.body.style.transform = `scale(${window.innerWidth / 434 > window.innerHeight / 350 ? window.innerHeight / 350 : window.innerWidth / 434})`;
   console.log(places);
 }
 window.addEventListener("resize", updateSize);
