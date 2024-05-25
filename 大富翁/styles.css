@@ -94,7 +94,9 @@ body {
 }
 #row2 {
   top: 1px;
-  flex-direction: column-reverse !important;
+  div{
+    flex-direction: column-reverse !important;
+  }
 }
 #row3 {
   left: 1px;
