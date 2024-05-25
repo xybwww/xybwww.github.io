@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: [] };
+  return {price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: []};
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -46,10 +46,12 @@ const places = {
   ["甘肃-兰州", "青海-西宁", "宁夏-银川", "新疆-乌鲁木齐", "飞机场", "香港", "澳门", "国际大酒店", "台湾-台北"]
 ].forEach(function (rowElement, rowIndex) {
   rowElement.forEach(function (element, index) {
-    const mainDiv = document.createElement("div");
-    mainDiv.innerText = element;
-    mainDiv.className = "grid";
-    document.getElementById("row" + rowIndex).appendChild(mainDiv);
+    const div = document.createElement("div");
+    div.className = "grid";
+    const p = document.createElement("p");
+    p.textContent = element;
+    div.appendChild(p);
+    document.getElementById("row" + rowIndex).appendChild(div);
   });
 });
 
