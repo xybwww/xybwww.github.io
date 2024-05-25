@@ -1,40 +1,97 @@
+/*全局设置*/
 html {
-    height: 100vh;
-    width: 100vw;
-    background-color: darkgray;
-    margin: 0px;
-    padding: 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  body {
-    margin: 0px;
-    padding: 0px;
-    height: 284px;
-    width: 350px;
-    overflow: hidden;
-  }
+  height: 100vh;
+  width: 100vw;
+  background-color: darkgray;
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 350px;
+  width: 436px;
+  overflow: hidden;
+}
+#ground {
+  background-color: lightgray;
+  margin: 0px;
+  padding: 0px;
+  height: 348px;
+  width: 434px;
+  border: 1px solid black;
+}
 
-  #ground {
-    background-color: lightgray;
-    margin: 0px;
-    padding: 0px;
-    height: 282px;
-    width: 348px;
-    border: 1px solid black;
-  }
-
-  .grid {
-    border: 1px solid black;
-  }
-  #go {
-    height: 40px;
+/*棋盘区域*/
+.grid {
+  border: 1px solid black;
+  padding: 3px;
+}
+#go {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  div {
+    background-color: black;
     width: 40px;
-    position: absolute;
   }
+}
+#row0,
+#row1,
+#row2,
+#row3 {
+  position: absolute;
+  display: flex;
+}
+#row0,
+#row2 {
+  left: 49px;
+  height: 48px;
+  width: 336px;
+  flex-direction: row;
+  div {
+    height: 40px;
+    width: 20px;
+  }
+}
+#row1,
+#row3 {
+  bottom: 49px;
+  height: 252px;
+  width: 48px;
+  flex-direction: column;
+  div {
+    height: 20px;
+    width: 40px;
+  }
+}
+#row0 {
+  bottom: 1px;
+}
+#row1 {
+  right: 1px;
+}
+#row2 {
+  top: 1px;
+}
+#row3 {
+  left: 1px;
+}
 
-  #go {
-    bottom: 1px;
-    left: 1px;
-  }
+/*地方单个*/
+#go {
+  bottom: 1px;
+  left: 1px;
+}
+
+.pawnDiv {
+  background-color: gray;
+  height: 10px;
+  width: 20px;
+}
