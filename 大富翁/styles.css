@@ -1,9 +1,9 @@
 /*全局设置*/
 @font-face {
-  font-family: 'font'; 
-  src: url('font.woff') format('woff'); 
-  font-weight: normal; 
-  font-style: normal; 
+  font-family: "font";
+  src: url("font.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 html {
   height: 100vh;
@@ -21,7 +21,7 @@ body {
   height: 350px;
   width: 434px;
   overflow: hidden;
-  font-family: 'font', sans-serif;
+  font-family: "font", sans-serif;
 }
 #ground {
   background-color: lightgray;
@@ -55,10 +55,10 @@ body {
 #row3 {
   position: absolute;
   display: flex;
-  div{
+  flex-wrap: wrap;
+  div {
     display: flex;
-    flex-direction: column;
-    p{
+    p {
       margin: 0px;
       height: 10px;
       width: 20px;
@@ -66,8 +66,29 @@ body {
       background-color: aqua;
       text-align: center;
     }
+    .price {
+      height: 10px;
+      width: 20px;
+      background-color: coral;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      .range {
+        height: 4px;
+        width: 15px;
+        font-size: 2.5px;
+        background-color: cornflowerblue;
+      }
+      .current {
+        height: 6px;
+        width: 15px;
+        font-size: 4px;
+        background-color: fuchsia;
+      }
+    }
   }
 }
+
 #row0,
 #row2 {
   left: 49px;
@@ -92,20 +113,27 @@ body {
 }
 #row0 {
   bottom: 1px;
+  div {
+    flex-direction: column;
+  }
 }
 #row1 {
   right: 1px;
-  flex-wrap: wrap;
+  div {
+    flex-direction: row;
+  }
 }
 #row2 {
   top: 1px;
-  div{
-    flex-direction: column-reverse !important;
+  div {
+    flex-direction: column-reverse;
   }
 }
 #row3 {
   left: 1px;
-  flex-wrap: wrap-reverse;
+  div {
+    flex-direction: row-reverse;
+  }
 }
 
 /*地方单个*/

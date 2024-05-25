@@ -46,8 +46,10 @@ const places = {
   ["甘肃-兰州", "青海-西宁", "宁夏-银川", "新疆-乌鲁木齐", "飞机场", "香港", "澳门", "国际大酒店", "台湾-台北"]
 ].forEach(function (rowElement, rowIndex) {
   rowElement.forEach(function (element, index) {
-    const div = document.createElement("div");
-    div.className = "grid";
+    //创建主要div
+    const mainDiv = document.createElement("div");
+    mainDiv.className = "grid";
+    //创建p
     const p = document.createElement("p");
     p.innerHTML = element.replace(/-/, "<br>");
     if (!element.includes("-")) {
@@ -55,8 +57,30 @@ const places = {
       p.style.height = "4px";
       p.style.lineHeight = "4px";
     }
-    div.appendChild(p);
-    document.getElementById("row" + rowIndex).appendChild(div);
+    mainDiv.appendChild(p);
+    //创建价格div
+    const priceDiv = document.createElement("div");
+    priceDiv.className = "price";
+    mainDiv.appendChild(priceDiv);
+    //创建金币图案svg
+    const svg = document.createElement("object");
+    svg.type = "image/svg+xml";
+    svg.data = "金币.svg";
+    svg.width = "5px";
+    svg.height = "10px";
+    priceDiv.appendChild(svg);
+    //创建价格范围p
+    const range = document.createElement("p");
+    range.className = "range";
+    range.textContent='12333-16325'
+    priceDiv.appendChild(range);
+    //创建价格范围p
+    const current = document.createElement("p");
+    current.className = "current";
+    current.textContent='12333'
+    priceDiv.appendChild(current);
+
+    document.getElementById("row" + rowIndex).appendChild(mainDiv);
   });
 });
 
