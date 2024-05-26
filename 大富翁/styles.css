@@ -44,10 +44,7 @@ body {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  div {
-    background-color: black;
-    width: 40px;
-  }
+  align-items: center;
 }
 #row0,
 #row1,
@@ -56,15 +53,23 @@ body {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
-  div {
+  .grid {
     display: flex;
-    p {
-      margin: 0px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .container {
       height: 10px;
       width: 20px;
-      font-size: 4px;
+      font-size: 5px;
       background-color: aqua;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      p {
+        margin-top: -1px;
+        text-align: center;
+        line-height: 5px;
+      }
     }
     .price {
       height: 10px;
@@ -80,11 +85,17 @@ body {
         background-color: cornflowerblue;
       }
       .current {
+        line-height: 4.5px;
         height: 6px;
         width: 15px;
-        font-size: 4px;
+        font-size: 4.5px;
         background-color: fuchsia;
       }
+    }
+    .houseDiv{
+      height: 10px;
+      width: 20px;
+      background-color:aquamarine;
     }
   }
 }
@@ -95,7 +106,7 @@ body {
   height: 48px;
   width: 336px;
   flex-direction: row;
-  div {
+  .grid {
     height: 40px;
     width: 20px;
   }
@@ -106,44 +117,47 @@ body {
   height: 252px;
   width: 48px;
   flex-direction: column;
-  div {
+  .grid {
     height: 20px;
     width: 40px;
   }
 }
 #row0 {
   bottom: 1px;
-  div {
+  .grid {
     flex-direction: column;
   }
 }
 #row1 {
   right: 1px;
-  div {
+  .grid {
     flex-direction: row;
   }
 }
 #row2 {
   top: 1px;
-  div {
+  .grid {
     flex-direction: column-reverse;
   }
 }
 #row3 {
   left: 1px;
-  div {
+  .grid {
     flex-direction: row-reverse;
   }
 }
-
+p {
+  margin: 0px;
+}
+.pawnDiv {
+  background-color: gray;
+  height: 10px;
+  width: 20px;
+}
 /*地方单个*/
 #go {
   bottom: 1px;
   left: 1px;
 }
 
-.pawnDiv {
-  background-color: gray;
-  height: 10px;
-  width: 20px;
-}
+

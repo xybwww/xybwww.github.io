@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 100, owner: null, grade: 0, card: [] };
+  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 100, max: high, min: low, owner: null, grade: 0, card: [] };
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -49,36 +49,46 @@ const places = {
     //创建主要div
     const mainDiv = document.createElement("div");
     mainDiv.className = "grid";
+    //创建p容器
+    const pContainer = document.createElement("div");
+    pContainer.className = "container";
+    mainDiv.appendChild(pContainer);
     //创建p
     const p = document.createElement("p");
     p.innerHTML = element.replace(/-/, "<br>");
-    if (!element.includes("-")) {
-      p.style.padding = "3px 0px";
-      p.style.height = "4px";
-      p.style.lineHeight = "4px";
+    pContainer.appendChild(p);
+    //如果是地方
+    if (Object.keys(places).some((key) => key === element)) {
+      //创建价格div
+      const priceDiv = document.createElement("div");
+      priceDiv.className = "price";
+      mainDiv.appendChild(priceDiv);
+      //创建金币图案svg
+      const svg = document.createElement("object");
+      svg.type = "image/svg+xml";
+      svg.data = "金币.svg";
+      svg.width = "5px";
+      svg.height = "10px";
+      priceDiv.appendChild(svg);
+      //创建价格范围p
+      const range = document.createElement("p");
+      range.className = "range";
+      range.textContent = "12333-16325";
+      priceDiv.appendChild(range);
+      //创建当前价格p
+      const current = document.createElement("p");
+      current.className = "current";
+      current.textContent = "12333";
+      priceDiv.appendChild(current);
+      //创建房子div
+      const houseDiv = document.createElement("div");
+      houseDiv.className = "houseDiv";
+      mainDiv.appendChild(houseDiv);
     }
-    mainDiv.appendChild(p);
-    //创建价格div
-    const priceDiv = document.createElement("div");
-    priceDiv.className = "price";
-    mainDiv.appendChild(priceDiv);
-    //创建金币图案svg
-    const svg = document.createElement("object");
-    svg.type = "image/svg+xml";
-    svg.data = "金币.svg";
-    svg.width = "5px";
-    svg.height = "10px";
-    priceDiv.appendChild(svg);
-    //创建价格范围p
-    const range = document.createElement("p");
-    range.className = "range";
-    range.textContent='12333-16325'
-    priceDiv.appendChild(range);
-    //创建价格范围p
-    const current = document.createElement("p");
-    current.className = "current";
-    current.textContent='12333'
-    priceDiv.appendChild(current);
+    //创建棋子div
+    const pawnDiv = document.createElement("div");
+    pawnDiv.className = "pawnDiv";
+    mainDiv.appendChild(pawnDiv);
 
     document.getElementById("row" + rowIndex).appendChild(mainDiv);
   });
