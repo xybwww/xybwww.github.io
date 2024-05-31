@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 100, max: high, min: low, owner: null, grade: 0, card: [] };
+  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: [] };
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -39,13 +39,15 @@ const places = {
 };
 
 //生成棋盘
+let placeIndex = 0;
 [
   ["湖北-武汉", "湖南-长沙", "特大新闻", "广东-广州", "广西-南宁", "海南-海口", "游乐场", "重庆", "四川-成都", "贵州-贵阳", "云南-昆明", "西藏-拉萨"],
   ["上海", "江苏-南京", "特大新闻", "浙江-杭州", "安徽-合肥", "飞机场", "福建-福州", "江西-南昌", "山东-济南"],
   ["北京", "天津", "河北-石家庄", "飞机场", "山西-太原", "辽宁-沈阳", "特大新闻", "吉林-长春", "黑龙江-哈尔滨", "监狱", "内蒙古-呼和浩特", "陕西-西安"],
   ["甘肃-兰州", "青海-西宁", "宁夏-银川", "新疆-乌鲁木齐", "飞机场", "香港", "澳门", "国际大酒店", "台湾-台北"]
 ].forEach(function (rowElement, rowIndex) {
-  rowElement.forEach(function (element, index) {
+  rowElement.forEach(function (element) {
+    placeIndex++;
     //创建主要div
     const mainDiv = document.createElement("div");
     mainDiv.className = "grid";
@@ -66,32 +68,42 @@ const places = {
       //创建金币图案svg
       const svg = document.createElement("object");
       svg.type = "image/svg+xml";
-      svg.data = "金币.svg";
+      svg.data = "coin.svg";
       svg.width = "5px";
-      svg.height = "10px";
+      svg.height = "12px";
       priceDiv.appendChild(svg);
       //创建价格范围p
       const range = document.createElement("p");
       range.className = "range";
-      range.textContent = "12333-16325";
+      range.textContent = places[element].min + "-" + places[element].max;
       priceDiv.appendChild(range);
       //创建当前价格p
       const current = document.createElement("p");
       current.className = "current";
-      current.textContent = "12333";
+      current.textContent = places[element].price;
       priceDiv.appendChild(current);
       //创建房子div
       const houseDiv = document.createElement("div");
       houseDiv.className = "houseDiv";
+      houseDiv.id = "houseDiv" + placeIndex;
       mainDiv.appendChild(houseDiv);
+    } else {
+      //创建空行div
+      if (rowIndex % 2 === 1) {
+        const brDiv = document.createElement("div");
+        brDiv.className = "brDiv";
+        mainDiv.appendChild(brDiv);
+      }
     }
     //创建棋子div
     const pawnDiv = document.createElement("div");
     pawnDiv.className = "pawnDiv";
+    pawnDiv.id = "pawnDiv" + placeIndex;
     mainDiv.appendChild(pawnDiv);
 
     document.getElementById("row" + rowIndex).appendChild(mainDiv);
   });
+  placeIndex++;
 });
 
 // 缩放棋盘大小

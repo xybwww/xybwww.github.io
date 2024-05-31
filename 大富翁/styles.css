@@ -21,7 +21,7 @@ body {
   height: 350px;
   width: 434px;
   overflow: hidden;
-  font-family:zihunchuangcuhei ,font, sans-serif;
+  font-family: zihunchuangcuhei, font, sans-serif;
 }
 #ground {
   background-color: lightgray;
@@ -37,7 +37,7 @@ body {
   border: 1px solid black;
   padding: 3px;
 }
-#go {
+.corner {
   height: 40px;
   width: 40px;
   position: absolute;
@@ -58,7 +58,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-between;
     .container {
-      height: 10px;
+      height: 12px;
       width: 20px;
       font-size: 5px;
       background-color: aqua;
@@ -72,30 +72,35 @@ body {
       }
     }
     .price {
-      height: 10px;
+      height: 12px;
       width: 20px;
       background-color: coral;
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
       .range {
-        height: 4px;
+        line-height: 5px;
+        height: 5px;
         width: 15px;
-        font-size: 2.5px;
+        font-size: 3px;
         background-color: cornflowerblue;
       }
       .current {
-        line-height: 4.5px;
-        height: 6px;
+        line-height: 5px;
+        height: 7px;
         width: 15px;
-        font-size: 4.5px;
+        font-size: 6.5px;
         background-color: fuchsia;
       }
     }
-    .houseDiv{
-      height: 10px;
+    .houseDiv {
+      height: 8px;
       width: 20px;
-      background-color:aquamarine;
+      background-color: aquamarine;
+    }
+    .brDiv {
+      height: 12px;
+      width: 1px;
     }
   }
 }
@@ -105,7 +110,6 @@ body {
   left: 49px;
   height: 48px;
   width: 336px;
-  flex-direction: row;
   .grid {
     height: 40px;
     width: 20px;
@@ -116,7 +120,6 @@ body {
   bottom: 49px;
   height: 252px;
   width: 48px;
-  flex-direction: column;
   .grid {
     height: 20px;
     width: 40px;
@@ -124,24 +127,28 @@ body {
 }
 #row0 {
   bottom: 1px;
+  flex-direction: row;
   .grid {
     flex-direction: column;
   }
 }
 #row1 {
   right: 1px;
+  flex-direction: column-reverse;
   .grid {
     flex-direction: row;
   }
 }
 #row2 {
   top: 1px;
+  flex-direction: row-reverse;
   .grid {
     flex-direction: column-reverse;
   }
 }
 #row3 {
   left: 1px;
+  flex-direction: column;
   .grid {
     flex-direction: row-reverse;
   }
@@ -151,7 +158,7 @@ p {
 }
 .pawnDiv {
   background-color: gray;
-  height: 10px;
+  height: 8px;
   width: 20px;
 }
 /*地方单个*/
@@ -159,5 +166,23 @@ p {
   bottom: 1px;
   left: 1px;
 }
-
-
+#playground {
+  bottom: 1px;
+  right: 1px;
+}
+#school {
+  top: 1px;
+  right: 1px;
+}
+#shop {
+  top: 1px;
+  left: 1px;
+}
+#console {
+  position: absolute;
+  top: 49px;
+  left: 49px;
+  height: 230px;
+  width: 314px;
+  padding: 10px;
+}
