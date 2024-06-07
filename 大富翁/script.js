@@ -106,6 +106,19 @@ let placeIndex = 0;
   placeIndex++;
 });
 
+//显示棋子
+function newPawn(color) {
+  const element = document.createElement("object");
+  element.type = "image/svg+xml";
+  element.data = color+'Pawn.svg';
+  element.width = "30px";
+  element.height = "30px";
+  return element;
+}
+document.querySelectorAll("label").forEach(function (element) {
+  element.appendChild(newPawn(element.dataset.color));
+});
+
 // 缩放棋盘大小
 function updateSize() {
   document.body.style.transform = `scale(${window.innerWidth / 434 > window.innerHeight / 350 ? window.innerHeight / 350 : window.innerWidth / 434})`;

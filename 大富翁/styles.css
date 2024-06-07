@@ -159,7 +159,7 @@ p {
   margin: 0px;
 }
 .pawnDiv {
-  background-color: gray;
+  background-color: grey;
   height: 8px;
   width: 20px;
 }
@@ -200,4 +200,3 @@ p {
     font-size: 20px;
   }
 }
-
