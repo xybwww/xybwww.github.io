@@ -199,4 +199,10 @@ p {
     margin: 0px;
     font-size: 20px;
   }
+  .choosePawn{
+    margin-right: 20px;
+  }
+  #initial{
+    width: 50px;
+  }
 }

@@ -115,9 +115,6 @@ function newPawn(color) {
   element.height = "30px";
   return element;
 }
-document.querySelectorAll("label").forEach(function (element) {
-  element.appendChild(newPawn(element.dataset.color));
-});
 
 // 缩放棋盘大小
 function updateSize() {
