@@ -106,13 +106,34 @@ let placeIndex = 0;
   placeIndex++;
 });
 
+//开始
+var pawns = {};
+document.getElementById("startButton").addEventListener("click", function () {
+  const startDiv = document.getElementById("start");
+  for (const choose of document.getElementsByName("choose")) {
+    if (choose.checked) {
+      pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("initial").value) };
+      document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
+    }
+  }
+  startDiv.parentNode.removeChild(startDiv);
+  console.log(pawns);
+  newDay();
+});
+
+//新的一天
+var day = 0;
+function newDay() {
+  day++;
+}
+
 //显示棋子
 function newPawn(color) {
   const element = document.createElement("object");
   element.type = "image/svg+xml";
-  element.data = color+'Pawn.svg';
-  element.width = "30px";
-  element.height = "30px";
+  element.data = color + "Pawn.svg";
+  element.width = "5px";
+  element.height = "10px";
   return element;
 }
 
