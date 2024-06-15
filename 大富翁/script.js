@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return {price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: []};
+  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: [] };
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -115,24 +115,24 @@ document.getElementById("startButton").addEventListener("click", function () {
   const startDiv = document.getElementById("startDiv");
   for (const choose of document.getElementsByName("choose")) {
     if (choose.checked) {
-      pawns[choose.value] = {place: 0, coin: parseInt(document.getElementById("cionRange").value)};
+      pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("cionRange").value) };
       document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
+      const table = document.getElementById("pawnsTable");
+      const newRow = document.createElement("tr");
+      const svgCell = document.createElement("th");
+      const svgObject = newPawn(choose.value);
+      svgObject.width = "15px";
+      svgObject.height = "15px";
+      svgCell.appendChild(svgObject);
+      const emptyCell1 = document.createElement("th");
+      const emptyCell2 = document.createElement("th");
+      newRow.appendChild(svgCell);
+      newRow.appendChild(emptyCell1);
+      newRow.appendChild(emptyCell2);
+      table.appendChild(newRow);
     }
   }
   startDiv.parentNode.removeChild(startDiv);
-  const table = document.getElementById("pawnsTable");
-  const newRow = document.createElement("tr");
-  const svgCell = document.createElement("th");
-  const svgObject = newPawn(choose.value);
-  svgObject.width = "15px";
-  svgObject.height = "15px";
-  svgCell.appendChild(svgObject);
-  const emptyCell1 = document.createElement("th");
-  const emptyCell2 = document.createElement("th");
-  newRow.appendChild(svgCell);
-  newRow.appendChild(emptyCell1);
-  newRow.appendChild(emptyCell2);
-  table.appendChild(newRow);
   console.log(pawns);
   newDay();
 });
