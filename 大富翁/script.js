@@ -106,6 +106,9 @@ let placeIndex = 0;
   placeIndex++;
 });
 
+//全屏
+document.body.webkitRequestFullscreen();
+
 //开始
 var pawns = {};
 document.getElementById("startButton").addEventListener("click", function () {
