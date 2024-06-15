@@ -125,6 +125,9 @@ document.getElementById("startButton").addEventListener("click", function () {
 var day = 0;
 function newDay() {
   day++;
+  for (const color in pawns) {
+    
+  }
 }
 
 //显示棋子
