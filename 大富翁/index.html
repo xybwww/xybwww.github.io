@@ -25,7 +25,7 @@
         <div id="pawnDiv36" class="pawnDiv"></div>
       </div>
       <div id="console" class="grid">
-        <div id="start">
+        <div id="startDiv">
           <h1>开始</h1>
           <input type="checkbox" name="choose" value="red" />
           <object type="image/svg+xml" data="redPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
@@ -37,8 +37,30 @@
           <object type="image/svg+xml" data="greenPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
           <br />
           <label>初始<object type="image/svg+xml" data="coin.svg" width="20px" height="20px" style="margin-bottom: -5px"></object>：</label>
-          <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()">
-<span id="cionRangeNumber">1000</span>
+          <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()" />
+          <span id="cionRangeNumber">1000</span>
+          <br />
+          <button id="startButton">开始</button>
+        </div>
+        <div id="pawnsDiv">
+          <h1>棋子</h1>
+          <table>
+            <tr>
+              <td width="100px"></td>
+            </tr>
+          </table>
+ <input type="checkbox" name="choose" value="red" />
+          <object type="image/svg+xml" data="redPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
+          <input type="checkbox" name="choose" value="blue" />
+          <object type="image/svg+xml" data="bluePawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
+          <input type="checkbox" name="choose" value="yellow" />
+          <object type="image/svg+xml" data="yellowPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
+          <input type="checkbox" name="choose" value="green" />
+          <object type="image/svg+xml" data="greenPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
+          <br />
+          <label>初始<object type="image/svg+xml" data="coin.svg" width="20px" height="20px" style="margin-bottom: -5px"></object>：</label>
+          <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()" />
+          <span id="cionRangeNumber">1000</span>
           <br />
           <button id="startButton">开始</button>
         </div>

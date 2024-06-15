@@ -203,10 +203,16 @@ p {
     padding: 10px;
     line-height: 30px;
   }
-  #start {
+  #startDiv {
     border: 1px solid green;
     h1{
       font-style: green;
+    }
+  }
+  #pawnsDiv {
+    border: 1px solid red;
+    h1{
+      font-style: red;
     }
   }
   h1 {
@@ -215,8 +221,5 @@ p {
   }
   .choosePawn {
     margin-right: 20px;
-  }
-  #initial {
-    width: 50px;
   }
 }
