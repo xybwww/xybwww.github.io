@@ -120,7 +120,6 @@ document.getElementById("startButton").addEventListener("click", function () {
     }
   }
   startDiv.parentNode.removeChild(startDiv);
-
   const table = document.getElementById("pawnsTable");
   const newRow = document.createElement("tr");
   const svgCell = document.createElement("th");
