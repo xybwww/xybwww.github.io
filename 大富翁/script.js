@@ -115,7 +115,7 @@ document.getElementById("startButton").addEventListener("click", function () {
   const startDiv = document.getElementById("start");
   for (const choose of document.getElementsByName("choose")) {
     if (choose.checked) {
-      pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("cionRange").textContent) };
+      pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById('cionRange').value) };
       document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
     }
   }
@@ -135,7 +135,7 @@ function newDay() {
 
 //金币范围数字调整
 function updateRange() {
-  document.getElementById('cionRange').textContent=this.value;
+  document.getElementById('cionRangeNumber').textContent= document.getElementById('cionRange').value;
 }
 
 //显示棋子
