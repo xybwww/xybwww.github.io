@@ -44,25 +44,13 @@
         </div>
         <div id="pawnsDiv">
           <h1>棋子</h1>
-          <table>
+          <table id="pawnsTable" align="center" cellpadding="10px">
             <tr>
-              <td width="100px"></td>
+              <th width="15px"></th>
+              <th width="50px"><object type="image/svg+xml" data="coin.svg" width="20px" height="20px" style="margin-bottom: -5px"></object></th>
+              <th width="80px"><object type="image/svg+xml" data="skill.svg" width="20px" height="20px" style="margin-bottom: -5px"></object></th>
             </tr>
           </table>
- <input type="checkbox" name="choose" value="red" />
-          <object type="image/svg+xml" data="redPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <input type="checkbox" name="choose" value="blue" />
-          <object type="image/svg+xml" data="bluePawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <input type="checkbox" name="choose" value="yellow" />
-          <object type="image/svg+xml" data="yellowPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <input type="checkbox" name="choose" value="green" />
-          <object type="image/svg+xml" data="greenPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <br />
-          <label>初始<object type="image/svg+xml" data="coin.svg" width="20px" height="20px" style="margin-bottom: -5px"></object>：</label>
-          <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()" />
-          <span id="cionRangeNumber">1000</span>
-          <br />
-          <button id="startButton">开始</button>
         </div>
       </div>
       <div id="row0"></div>
