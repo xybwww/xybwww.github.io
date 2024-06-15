@@ -136,6 +136,7 @@ function newDay() {
 //金币范围数字调整
 function updateRange() {
   document.getElementById('cionRangeNumber').textContent= document.getElementById('cionRange').value;
+  alert(document.getElementById('cionRange').value)
 }
 
 //显示棋子
