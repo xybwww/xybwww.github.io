@@ -112,7 +112,7 @@ document.body.webkitRequestFullscreen();
 //开始
 var pawns = {};
 document.getElementById("startButton").addEventListener("click", function () {
-  const startDiv = document.getElementById("start");
+  const startDiv = document.getElementById("startDiv");
   for (const choose of document.getElementsByName("choose")) {
     if (choose.checked) {
       pawns[choose.value] = {place: 0, coin: parseInt(document.getElementById("cionRange").value)};
