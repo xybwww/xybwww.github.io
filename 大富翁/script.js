@@ -110,21 +110,34 @@ let placeIndex = 0;
 var pawns = {};
 document.getElementById("startButton").addEventListener("click", function () {
   const startDiv = document.getElementById("startDiv");
+  document.getElementById("pawnsDiv").style.display = "block";
   for (const choose of document.getElementsByName("choose")) {
     if (choose.checked) {
       pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("cionRange").value) };
       document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
-      const div = document.createElement("div");
-      const pawn = newPawn(choose.value);
-      svgObject.width = "15px";
-      svgObject.height = "15px";
-      svgCell.appendChild(svgObject);
-      const emptyCell1 = document.createElement("th");
-      const emptyCell2 = document.createElement("th");
-      newRow.appendChild(svgCell);
-      newRow.appendChild(emptyCell1);
-      newRow.appendChild(emptyCell2);
-      table.appendChild(newRow);
+      const mainDiv = document.createElement("div");
+      mainDiv.id = choose.value + "card";
+      const pawnSvg = newPawn(choose.value);
+      pawnSvg.width = "11px";
+      pawnSvg.height = "15px";
+      mainDiv.appendChild(pawnSvg);
+      const coinSvg = document.createElement("object");
+      coinSvg.type = "image/svg+xml";
+      coinSvg.data = "coin.svg";
+      coinSvg.width = "11px";
+      coinSvg.height = "15px";
+      mainDiv.appendChild(coinSvg);
+      const coinSpan = document.createElement("span");
+      coinSpan.textContent = pawns[choose.value].coin;
+      mainDiv.appendChild(coinSpan);
+      mainDiv.appendChild(document.createElement("br"));
+      const skillSvg = document.createElement("object");
+      skillSvg.type = "image/svg+xml";
+      skillSvg.data = "skill.svg";
+      skillSvg.width = "11px";
+      skillSvg.height = "15px";
+      mainDiv.appendChild(skillSvg);
+      document.getElementById("pawnsDiv").appendChild(mainDiv);
     }
   }
   startDiv.parentNode.removeChild(startDiv);
@@ -134,10 +147,11 @@ document.getElementById("startButton").addEventListener("click", function () {
 
 //新的一天
 var day = 0;
+var turn;
 function newDay() {
   day++;
-  for (const color in pawns) {
-  }
+  turn = 0;
+  document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
 }
 
 //金币范围数字调整

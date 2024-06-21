@@ -7,7 +7,6 @@
 }
 * {
   font-family: zihunchuangcuhei, font, sans-serif;
-  user-select: none;
 }
 html {
   height: 100%;
@@ -25,6 +24,7 @@ body {
   height: 350px;
   width: 434px;
   overflow: hidden;
+  user-select: none;
 }
 #ground {
   background-color: lightgray;
@@ -206,14 +206,32 @@ p {
   }
   #startDiv {
     border: 1px solid green;
-    h1{
-      font-style: green;
-    }
   }
   #pawnsDiv {
     border: 1px solid red;
-    h1{
-      font-style: red;
+    display: none;
+    margin-bottom: 10px;
+    div {
+      display: inline-block;
+      margin: 0px 1px;
+      padding: 3px;
+      width: auto;
+      border-radius: 5px;
+      background-color: whitesmoke;
+      line-height: normal;
+      object {
+        margin-bottom: -3px;
+      }
+    }
+    .turn{background-color: lightcoral;}
+  }
+  #consoleDiv {
+    border: 1px solid goldenrod;
+    p{
+      height: 35px;
+      width: 38px;
+      background-color: whitesmoke;
+      border-radius: 5px;
     }
   }
   h1 {
