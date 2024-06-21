@@ -106,9 +106,6 @@ let placeIndex = 0;
   placeIndex++;
 });
 
-//全屏
-document.body.webkitRequestFullscreen();
-
 //开始
 var pawns = {};
 document.getElementById("startButton").addEventListener("click", function () {
@@ -117,10 +114,8 @@ document.getElementById("startButton").addEventListener("click", function () {
     if (choose.checked) {
       pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("cionRange").value) };
       document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
-      const table = document.getElementById("pawnsTable");
-      const newRow = document.createElement("tr");
-      const svgCell = document.createElement("th");
-      const svgObject = newPawn(choose.value);
+      const div = document.createElement("div");
+      const pawn = newPawn(choose.value);
       svgObject.width = "15px";
       svgObject.height = "15px";
       svgCell.appendChild(svgObject);
