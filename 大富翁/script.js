@@ -118,6 +118,7 @@ document.getElementById("startButton").addEventListener("click", function () {
       const mainDiv = document.createElement("div");
       mainDiv.id = choose.value + "card";
       const pawnSvg = newPawn(choose.value);
+      pawnSvg.id = undefined;
       pawnSvg.width = "11px";
       pawnSvg.height = "15px";
       mainDiv.appendChild(pawnSvg);
@@ -161,13 +162,14 @@ document.getElementById("dice").addEventListener("click", function () {
   if (diceTimer) {
     clearInterval(diceTimer);
     //移动
-    const movePawn = document.getElementsByClassName("turn")[0];
     diceTimer = setInterval(function () {
-      if (step === 0) {
+      if (step < 0) {
         clearInterval(diceTimer);
       } else {
-        movePawn.remove();
-        document.getElementById("pawnDiv" + Object.values(pawns)[turn].place + 1).appendChild();
+        Object.values(pawns)[turn].place++;
+        document.getElementById(Object.keys(pawns)[turn]).remove();
+        console.log("pawnDiv" + Object.values(pawns)[turn].place);
+        document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).appendChild(newPawn(Object.keys(pawns)[turn]));
         step--;
       }
     }, 500);
@@ -179,6 +181,8 @@ document.getElementById("dice").addEventListener("click", function () {
     }, 100);
   }
 });
+
+//新的回合
 
 //金币范围数字调整
 function updateRange() {
