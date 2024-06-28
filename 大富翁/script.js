@@ -152,7 +152,33 @@ function newDay() {
   day++;
   turn = 0;
   document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
+  document.getElementById("diceDiv").style.display = "block";
 }
+
+//骰子
+var diceTimer, step;
+document.getElementById("dice").addEventListener("click", function () {
+  if (diceTimer) {
+    clearInterval(diceTimer);
+    //移动
+    const movePawn = document.getElementsByClassName("turn")[0];
+    diceTimer = setInterval(function () {
+      if (step === 0) {
+        clearInterval(diceTimer);
+      } else {
+        movePawn.remove();
+        document.getElementById("pawnDiv" + Object.values(pawns)[turn].place + 1).appendChild();
+        step--;
+      }
+    }, 500);
+  } else {
+    //投骰子
+    diceTimer = setInterval(function () {
+      step = Math.floor(Math.random() * 6);
+      document.getElementById("dice").textContent = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"][step];
+    }, 100);
+  }
+});
 
 //金币范围数字调整
 function updateRange() {
@@ -166,6 +192,7 @@ function newPawn(color) {
   element.data = color + "Pawn.svg";
   element.width = "5px";
   element.height = "8px";
+  element.id = color;
   return element;
 }
 

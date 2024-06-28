@@ -7,6 +7,7 @@
 }
 * {
   font-family: zihunchuangcuhei, font, sans-serif;
+  user-select: none;
 }
 html {
   height: 100%;
@@ -24,7 +25,6 @@ body {
   height: 350px;
   width: 434px;
   overflow: hidden;
-  user-select: none;
 }
 #ground {
   background-color: lightgray;
@@ -223,15 +223,20 @@ p {
         margin-bottom: -3px;
       }
     }
-    .turn{background-color: lightcoral;}
+    .turn {
+      background-color: lightcoral;
+    }
   }
-  #consoleDiv {
+  #diceDiv {
     border: 1px solid goldenrod;
-    p{
+    display: none;
+    #dice {
+      font-size: 50px;
       height: 35px;
       width: 38px;
       background-color: whitesmoke;
       border-radius: 5px;
+      line-height: 25px;
     }
   }
   h1 {
