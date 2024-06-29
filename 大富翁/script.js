@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: [] };
+  return {price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: []};
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -113,7 +113,7 @@ document.getElementById("startButton").addEventListener("click", function () {
   document.getElementById("pawnsDiv").style.display = "block";
   for (const choose of document.getElementsByName("choose")) {
     if (choose.checked) {
-      pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("cionRange").value) };
+      pawns[choose.value] = {place: 0, coin: parseInt(document.getElementById("cionRange").value)};
       document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
       const mainDiv = document.createElement("div");
       mainDiv.id = choose.value + "card";
@@ -152,8 +152,7 @@ var turn;
 function newDay() {
   day++;
   turn = 0;
-  document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
-  document.getElementById("diceDiv").style.display = "block";
+  newTurn();
 }
 
 //骰子
@@ -165,6 +164,7 @@ document.getElementById("dice").addEventListener("click", function () {
     diceTimer = setInterval(function () {
       if (step < 0) {
         clearInterval(diceTimer);
+        newTurn();
       } else {
         Object.values(pawns)[turn].place++;
         document.getElementById(Object.keys(pawns)[turn]).remove();
@@ -183,6 +183,16 @@ document.getElementById("dice").addEventListener("click", function () {
 });
 
 //新的回合
+function newTurn() {
+  turn++;
+  if (turn === Object.keys(pawns).length) {
+    newDay();
+  } else {
+    document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
+    document.getElementById("diceDiv").style.display = "block";
+    diceTimer = undefined;
+  }
+}
 
 //金币范围数字调整
 function updateRange() {
