@@ -184,13 +184,14 @@ document.getElementById("dice").addEventListener("click", function () {
 
 //新的回合
 function newTurn() {
-  turn++;
-  if (turn === Object.keys(pawns).length) {
+  if (turn === Object.keys(pawns).length-1) {
     newDay();
   } else {
+    document.getElementById(Object.keys(pawns)[turn-1] + "card").className = "";
     document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
     document.getElementById("diceDiv").style.display = "block";
     diceTimer = undefined;
+    turn++;
   }
 }
 
