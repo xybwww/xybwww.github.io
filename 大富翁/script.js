@@ -185,7 +185,7 @@ document.getElementById("dice").addEventListener("click", function () {
 //新的回合
 function newTurn() {
   trun++;
-  if (turn === Object.keys(pawns).length-1) {
+  if (turn === Object.keys(pawns).length) {
     newDay();
   } else {
     if (document.getElementsByClassName('turn')[0]) {
