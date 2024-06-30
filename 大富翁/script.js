@@ -187,7 +187,9 @@ function newTurn() {
   if (turn === Object.keys(pawns).length-1) {
     newDay();
   } else {
+    if (document.getElementsByClassName('turn')[0]) {
     document.getElementsByClassName('turn')[0].className = "";
+    }
     document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
     document.getElementById("diceDiv").style.display = "block";
     diceTimer = undefined;
