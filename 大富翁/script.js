@@ -151,7 +151,7 @@ var day = 0;
 var turn;
 function newDay() {
   day++;
-  turn = 0;
+  turn = -1;
   newTurn();
 }
 
@@ -184,6 +184,7 @@ document.getElementById("dice").addEventListener("click", function () {
 
 //新的回合
 function newTurn() {
+  trun++;
   if (turn === Object.keys(pawns).length-1) {
     newDay();
   } else {
@@ -193,7 +194,6 @@ function newTurn() {
     document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
     document.getElementById("diceDiv").style.display = "block";
     diceTimer = undefined;
-    turn++;
   }
 }
 
