@@ -206,6 +206,9 @@ p {
   }
   #startDiv {
     border: 1px solid green;
+    .choosePawn {
+      margin-right: 20px;
+    }
   }
   #pawnsDiv {
     border: 1px solid red;
@@ -238,11 +241,12 @@ p {
       line-height: 25px;
     }
   }
+  #actDiv {
+    border: 1px solid dodgerblue;
+    display: none;
+  }
   h1 {
     margin: 0px;
     font-size: 20px;
-  }
-  .choosePawn {
-    margin-right: 20px;
   }
 }

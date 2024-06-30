@@ -43,7 +43,7 @@ let placeIndex = 0;
 [
   ["湖北-武汉", "湖南-长沙", "特大新闻", "广东-广州", "广西-南宁", "海南-海口", "游乐场", "重庆", "四川-成都", "贵州-贵阳", "云南-昆明", "西藏-拉萨"],
   ["上海", "江苏-南京", "特大新闻", "浙江-杭州", "安徽-合肥", "飞机场", "福建-福州", "江西-南昌", "山东-济南"],
-  ["北京", "天津", "河北-石家庄", "飞机场", "山西-太原", "辽宁-沈阳", "特大新闻", "吉林-长春", "黑龙江-哈尔滨", "监狱", "内蒙古-呼和浩特", "陕西-西安"],
+  ["北京", "天津", "河北-石家庄", "特大新闻", "山西-太原", "辽宁-沈阳", "飞机场", "吉林-长春", "黑龙江-哈尔滨", "监狱", "内蒙古-呼和浩特", "陕西-西安"],
   ["甘肃-兰州", "青海-西宁", "宁夏-银川", "新疆-乌鲁木齐", "飞机场", "香港", "澳门", "国际大酒店", "台湾-台北"]
 ].forEach(function (rowElement, rowIndex) {
   rowElement.forEach(function (element) {
@@ -166,13 +166,13 @@ document.getElementById("dice").addEventListener("click", function () {
         clearInterval(diceTimer);
         newTurn();
       } else {
-        Object.values(pawns)[turn].place++;
+        Object.values(pawns)[turn].place=(Object.values(pawns)[turn].place+1)%46;
         document.getElementById(Object.keys(pawns)[turn]).remove();
         console.log("pawnDiv" + Object.values(pawns)[turn].place);
         document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).appendChild(newPawn(Object.keys(pawns)[turn]));
         step--;
       }
-    }, 500);
+    }, 300);
   } else {
     //投骰子
     diceTimer = setInterval(function () {
@@ -184,7 +184,7 @@ document.getElementById("dice").addEventListener("click", function () {
 
 //新的回合
 function newTurn() {
-  trun++;
+  turn++;
   if (turn === Object.keys(pawns).length) {
     newDay();
   } else {
