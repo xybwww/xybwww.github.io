@@ -166,7 +166,7 @@ document.getElementById("dice").addEventListener("click", function () {
         clearInterval(diceTimer);
         document.getElementById('diceDiv').style.display='none'
         document.getElementById('actDiv').style.display='block'
-        if () {
+        if (Object.keys(places).some((key)=>key===)) {
           
         } else {
           
