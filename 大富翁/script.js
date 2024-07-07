@@ -166,6 +166,11 @@ document.getElementById("dice").addEventListener("click", function () {
         clearInterval(diceTimer);
         document.getElementById('diceDiv').style.display='none'
         document.getElementById('actDiv').style.display='block'
+        if () {
+          
+        } else {
+          
+        }
       } else {
         Object.values(pawns)[turn].place=(Object.values(pawns)[turn].place+1)%46;
         document.getElementById(Object.keys(pawns)[turn]).remove();
