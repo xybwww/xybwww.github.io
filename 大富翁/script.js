@@ -164,7 +164,8 @@ document.getElementById("dice").addEventListener("click", function () {
     diceTimer = setInterval(function () {
       if (step < 0) {
         clearInterval(diceTimer);
-        newTurn();
+        document.getElementById('diceDiv').style.display='none'
+        document.getElementById('actDiv').style.display='block'
       } else {
         Object.values(pawns)[turn].place=(Object.values(pawns)[turn].place+1)%46;
         document.getElementById(Object.keys(pawns)[turn]).remove();
