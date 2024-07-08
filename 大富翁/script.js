@@ -75,11 +75,13 @@ let placeIndex = 0;
       priceDiv.appendChild(svg);
       //创建价格范围p
       const range = document.createElement("p");
+      range.id='range'+placeIndex
       range.className = "range";
       range.textContent = places[element].min + "-" + places[element].max;
       priceDiv.appendChild(range);
       //创建当前价格p
       const current = document.createElement("p");
+      current.id="current"+placeIndex
       current.className = "current";
       current.textContent = places[element].price;
       priceDiv.appendChild(current);
@@ -168,6 +170,7 @@ document.getElementById("dice").addEventListener("click", function () {
         document.getElementById("diceDiv").style.display = "none";
         document.getElementById("actDiv").style.display = "block";
         if (Object.keys(places).some((key) => key === document.getElementById("name" + Object.values(pawns)[turn].place).textContent)) {
+          document.getElementById('question').textContent=`是否以${places[Object.values(pawns)[turn].place].price*2}购买？`
         } else {
         }
       } else {
