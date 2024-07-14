@@ -1,6 +1,6 @@
 //地点对象
 function newPlace(low, high) {
-  return {price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: []};
+  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: [] };
 }
 const places = {
   "湖北-武汉": newPlace(18, 22),
@@ -58,7 +58,6 @@ let placeIndex = 0;
     //创建p
     const p = document.createElement("p");
     p.innerHTML = element.replace(/-/, "<br>");
-    p.id = "name" + placeIndex;
     pContainer.appendChild(p);
     //如果是地方
     if (Object.keys(places).some((key) => key === element)) {
@@ -75,13 +74,13 @@ let placeIndex = 0;
       priceDiv.appendChild(svg);
       //创建价格范围p
       const range = document.createElement("p");
-      range.id='range'+placeIndex
+      range.id = "range" + placeIndex;
       range.className = "range";
       range.textContent = places[element].min + "-" + places[element].max;
       priceDiv.appendChild(range);
       //创建当前价格p
       const current = document.createElement("p");
-      current.id="current"+placeIndex
+      current.id = "current" + placeIndex;
       current.className = "current";
       current.textContent = places[element].price;
       priceDiv.appendChild(current);
@@ -102,6 +101,7 @@ let placeIndex = 0;
     const pawnDiv = document.createElement("div");
     pawnDiv.className = "pawnDiv";
     pawnDiv.id = "pawnDiv" + placeIndex;
+    pawnDiv.name = element;
     mainDiv.appendChild(pawnDiv);
 
     document.getElementById("row" + rowIndex).appendChild(mainDiv);
@@ -116,7 +116,7 @@ document.getElementById("startButton").addEventListener("click", function () {
   document.getElementById("pawnsDiv").style.display = "block";
   for (const choose of document.getElementsByName("choose")) {
     if (choose.checked) {
-      pawns[choose.value] = {place: 0, coin: parseInt(document.getElementById("cionRange").value)};
+      pawns[choose.value] = { place: 0, coin: parseInt(document.getElementById("cionRange").value) };
       document.getElementById("pawnDiv0").appendChild(newPawn(choose.value));
       const mainDiv = document.createElement("div");
       mainDiv.id = choose.value + "card";
@@ -145,7 +145,6 @@ document.getElementById("startButton").addEventListener("click", function () {
     }
   }
   startDiv.parentNode.removeChild(startDiv);
-  console.log(pawns);
   newDay();
 });
 
@@ -169,14 +168,16 @@ document.getElementById("dice").addEventListener("click", function () {
         clearInterval(diceTimer);
         document.getElementById("diceDiv").style.display = "none";
         document.getElementById("actDiv").style.display = "block";
-        if (Object.keys(places).some((key) => key === document.getElementById("name" + Object.values(pawns)[turn].place).textContent)) {
-          document.getElementById('question').textContent=`是否以${places[Object.values(pawns)[turn].place].price*2}购买？`
+        if (document.getElementById("houseDiv" + Object.values(pawns)[turn].place)) {
+          document.getElementById("buyButtons").style.display = "block";
+          document.getElementById("question").textContent = `是否以${places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).name].price * 2}购买${
+            document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).name
+          }？`;
         } else {
         }
       } else {
         Object.values(pawns)[turn].place = (Object.values(pawns)[turn].place + 1) % 46;
         document.getElementById(Object.keys(pawns)[turn]).remove();
-        console.log("pawnDiv" + Object.values(pawns)[turn].place);
         document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).appendChild(newPawn(Object.keys(pawns)[turn]));
         step--;
       }
@@ -224,7 +225,6 @@ function newPawn(color) {
 // 缩放棋盘大小
 function updateSize() {
   document.body.style.transform = `scale(${window.innerWidth / 434 > window.innerHeight / 350 ? window.innerHeight / 350 : window.innerWidth / 434})`;
-  console.log(places);
 }
 window.addEventListener("resize", updateSize);
 window.addEventListener("DOMContentLoaded", updateSize);

@@ -244,6 +244,10 @@ p {
   #actDiv {
     border: 1px solid dodgerblue;
     display: none;
+    div {
+      display: none;
+      padding: 0px;
+    }
   }
   h1 {
     margin: 0px;
