@@ -1,15 +1,15 @@
 ///游戏开始前
 //svg缓存
 var svgCache = {
-  coin:'<svg height="30.0px" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 30 30" width="30.0px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><path d="M15 0.833333C7.17597 0.833333 0.833333 7.17597 0.833333 15C0.833333 22.824 7.17597 29.1667 15 29.1667C22.824 29.1667 29.1667 22.824 29.1667 15C29.1667 7.17597 22.824 0.833333 15 0.833333Z" fill="#f6d397" fill-rule="nonzero" opacity="1" stroke="none"/><path d="M15 5C9.47715 5 5 9.47715 5 15C5 20.5228 9.47715 25 15 25C20.5228 25 25 20.5228 25 15C25 9.47715 20.5228 5 15 5Z" fill="#f9e3ae" fill-rule="nonzero" opacity="1" stroke="none"/><path d="M19.9375 6.3125C19.7525 6.205 19.5608 6.10833 19.3692 6.01333L6.01167 19.3525C6.1075 19.5458 6.205 19.7383 6.3125 19.925C6.675 20.5742 7.1125 21.1767 7.61083 21.7283L21.735 7.61083C21.1858 7.1125 20.585 6.67333 19.9375 6.3125ZM16.3375 5.09333C15.8942 5.03083 15.4475 4.99917 15 5C14.8033 5 14.6117 5.01833 14.4175 5.02917L6.73083 12.6917L5.03083 14.3917C5.01833 14.5942 5 14.795 5 15C5.005 15.8225 5.11417 16.6383 5.31167 17.4342L17.4425 5.30417C17.0783 5.21333 16.71 5.1425 16.3375 5.09333ZM24.54 11.9975C24.4475 11.7025 24.3417 11.4142 24.2233 11.1317C24.2183 11.12 24.2142 11.1092 24.21 11.0975C23.97 10.5325 23.6775 9.99667 23.3425 9.49083C23.29 9.4125 23.235 9.33583 23.1808 9.25917C23.1175 9.17 23.05 9.08417 22.9842 8.99667L22.2317 9.74667L9.0025 22.9883C10.6742 24.2458 12.7467 25 15 25L25 15C25 13.9742 24.8442 12.985 24.5575 12.0533C24.5517 12.035 24.5458 12.0158 24.54 11.9975Z" fill="#ffefca" fill-rule="nonzero" opacity="1" stroke="none"/><path d="M14.1667 8.33333L14.1667 9.16667C12.3258 9.16667 10.8333 10.6592 10.8333 12.5C10.8333 14.3408 12.3258 15.8333 14.1667 15.8333L15.8333 15.8333C16.7542 15.8333 17.5 16.5792 17.5 17.5C17.5 18.4208 16.7542 19.1667 15.8333 19.1667L15.8333 17.5C15.8333 17.04 15.46 16.6667 15 16.6667C14.54 16.6667 14.1667 17.04 14.1667 17.5L14.1667 19.1667C13.2458 19.1667 12.5 18.4208 12.5 17.5C12.5 17.04 12.1267 16.6667 11.6667 16.6667C11.2067 16.6667 10.8333 17.04 10.8333 17.5C10.8333 19.3408 12.3258 20.8333 14.1667 20.8333L14.1667 21.6667C14.1667 22.1267 14.54 22.5 15 22.5C15.46 22.5 15.8333 22.1267 15.8333 21.6667L15.8333 20.8333C17.6742 20.8333 19.1667 19.3408 19.1667 17.5C19.1667 15.6592 17.6742 14.1667 15.8333 14.1667L15.8333 12.5C15.8333 12.04 15.46 11.6667 15 11.6667C14.54 11.6667 14.1667 12.04 14.1667 12.5L14.1667 14.1667C13.2458 14.1667 12.5 13.4208 12.5 12.5C12.5 11.5792 13.2458 10.8333 14.1667 10.8333L15.8333 10.8333C16.7542 10.8333 17.5 11.5792 17.5 12.5C17.5 12.96 17.8733 13.3333 18.3333 13.3333C18.7933 13.3333 19.1667 12.96 19.1667 12.5C19.1667 10.6592 17.6742 9.16667 15.8333 9.16667L15.8333 8.33333C15.8333 7.87333 15.46 7.5 15 7.5C14.54 7.5 14.1667 7.87333 14.1667 8.33333Z" fill="#8d6c9f" fill-rule="nonzero" opacity="1" stroke="none"/><path d="M15 30C6.72917 30-3.55271e-15 23.2708-3.55271e-15 15C-3.55271e-15 6.72917 6.72917 0 15 0C23.2708 0 30 6.72917 30 15C30 23.2708 23.2708 30 15 30ZM15 1.66667C7.64833 1.66667 1.66667 7.64833 1.66667 15C1.66667 22.3517 7.64833 28.3333 15 28.3333C22.3517 28.3333 28.3333 22.3517 28.3333 15C28.3333 7.64833 22.3517 1.66667 15 1.66667Z" fill="#8d6c9f" fill-rule="nonzero" opacity="1" stroke="none"/><path d="M20.8325 7.7275C20.6642 7.7275 20.4942 7.67667 20.3467 7.57083C19.8558 7.2175 19.3417 6.91583 18.8183 6.67583C18.4 6.48333 18.2167 5.98833 18.41 5.57C18.6017 5.15167 19.095 4.96833 19.515 5.16083C20.135 5.44667 20.7433 5.8025 21.32 6.21833C21.6933 6.4875 21.7783 7.00833 21.51 7.38167C21.3467 7.6075 21.0917 7.7275 20.8325 7.7275Z" fill="#8d6c9f" fill-rule="nonzero" opacity="1" stroke="none"/><path d="M15 25.8333C9.02667 25.8333 4.16667 20.9733 4.16667 15C4.16667 9.02667 9.02667 4.16667 15 4.16667C15.305 4.16667 15.605 4.18667 15.9025 4.21167C16.3608 4.24917 16.7017 4.6525 16.6642 5.11083C16.625 5.56917 16.2317 5.90917 15.7642 5.8725C15.5117 5.85167 15.2583 5.83333 15 5.83333C9.94583 5.83333 5.83333 9.94583 5.83333 15C5.83333 20.0542 9.94583 24.1667 15 24.1667C20.0542 24.1667 24.1667 20.0542 24.1667 15C24.1667 13.1942 23.6383 11.4458 22.64 9.945C22.3842 9.56167 22.4883 9.04417 22.8717 8.78917C23.2533 8.53417 23.7717 8.63833 24.0267 9.02083C25.2092 10.7967 25.8333 12.8642 25.8333 15C25.8333 20.9733 20.9733 25.8333 15 25.8333Z" fill="#8d6c9f" fill-rule="nonzero" opacity="1" stroke="none"/></svg>',
-  pawn: '<svg id="theId" height="30.0px" stroke-miterlimit="10" style="fill: #ec0014;" version="1.1" viewBox="0 0 21.19 30" width="21.19px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><path d="M10.5938 0C7.66989 0 5.3125 2.35739 5.3125 5.28125C5.3125 7.13635 6.37095 8.64316 7.8125 9.59375L5.3125 9.59375C3.97917 9.59375 3.97917 11.5937 5.3125 11.5938C5.68058 11.5938 7.14582 11.5937 8.25 11.5938C7.45361 17.3952 6.15271 20.8363 5.6875 21.9375L5.3125 21.9375C4.37089 21.9375 4.14292 22.9139 4.53125 23.5C2.49275 24.1726 0 25.7456 0 30L21.1875 30C21.1875 25.7456 18.6947 24.1726 16.6562 23.5C17.0446 22.9139 16.8166 21.9375 15.875 21.9375L15.5 21.9375C15.0348 20.8363 13.7339 17.3952 12.9375 11.5938C14.0417 11.5938 15.5069 11.5937 15.875 11.5938C17.2083 11.5938 17.2083 9.59375 15.875 9.59375L13.375 9.59375C14.8165 8.64316 15.875 7.13635 15.875 5.28125C15.875 2.35739 13.5176 0 10.5938 0Z" fill-rule="nonzero" opacity="1" stroke="none"/></svg>',
-  house1: null,
-  house2: null,
-  house3: null,
+  coin: '<svg height="theHeight" stroke-miterlimit="10" width="theWidth" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M15 .833C7.176.833.833 7.176.833 15S7.176 29.167 15 29.167 29.167 22.824 29.167 15 22.824.833 15 .833z" fill="#f6d397"/><path d="M15 5C9.477 5 5 9.477 5 15s4.477 10 10 10 10-4.477 10-10S20.523 5 15 5z" fill="#f9e3ae"/><path d="M19.938 6.313a9.73 9.73 0 00-.569-.3L6.012 19.353c.096.193.193.385.3.572.363.65.8 1.252 1.299 1.803L21.735 7.611a9.728 9.728 0 00-1.797-1.298zm-3.6-1.22A9.453 9.453 0 0015 5c-.197 0-.388.018-.582.03L6.73 12.691l-1.7 1.7C5.018 14.594 5 14.795 5 15c.005.822.114 1.638.312 2.434l12.13-12.13a9.936 9.936 0 00-1.105-.21zm8.202 6.905a9.905 9.905 0 00-1.197-2.507c-.053-.079-.108-.155-.162-.232-.064-.089-.131-.175-.197-.262l-.752.75-13.23 13.241A9.941 9.941 0 0015 25l10-10c0-1.026-.156-2.015-.442-2.947l-.018-.056z" fill="#ffefca"/><path d="M14.167 8.333v.834a3.334 3.334 0 000 6.666h1.666a1.666 1.666 0 110 3.334V17.5a.834.834 0 00-1.666 0v1.667c-.921 0-1.667-.746-1.667-1.667a.834.834 0 00-1.667 0 3.333 3.333 0 003.334 3.333v.834a.834.834 0 001.666 0v-.834a3.333 3.333 0 000-6.666V12.5a.834.834 0 00-1.666 0v1.667a1.666 1.666 0 110-3.334h1.666c.921 0 1.667.746 1.667 1.667a.834.834 0 001.667 0 3.334 3.334 0 00-3.334-3.333v-.834a.834.834 0 00-1.666 0z" fill="#8d6c9f"/><path d="M15 30C6.73 30 0 23.27 0 15S6.73 0 15 0s15 6.73 15 15-6.73 15-15 15zm0-28.333C7.648 1.667 1.667 7.648 1.667 15S7.648 28.333 15 28.333 28.333 22.352 28.333 15 22.352 1.667 15 1.667z" fill="#8d6c9f"/><path d="M20.832 7.728a.83.83 0 01-.485-.157 9.175 9.175 0 00-1.529-.895.833.833 0 11.697-1.515c.62.286 1.228.642 1.805 1.057a.834.834 0 01-.488 1.51z" fill="#8d6c9f"/><path d="M15 25.833c-5.973 0-10.833-4.86-10.833-10.833S9.027 4.167 15 4.167c.305 0 .605.02.902.045a.834.834 0 01-.138 1.66A9.254 9.254 0 0015 5.833c-5.054 0-9.167 4.113-9.167 9.167 0 5.054 4.113 9.167 9.167 9.167 5.054 0 9.167-4.113 9.167-9.167a9.1 9.1 0 00-1.527-5.055.833.833 0 111.387-.924A10.753 10.753 0 0125.833 15c0 5.973-4.86 10.833-10.833 10.833z" fill="#8d6c9f"/></svg>',
+  pawn: '<svg id="theId" height="8px" stroke-miterlimit="1" version="1.1" viewBox="0 0 21.19 30" width="5px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><path d="M10.5938 0C7.66989 0 5.3125 2.35739 5.3125 5.28125C5.3125 7.13635 6.37095 8.64316 7.8125 9.59375L5.3125 9.59375C3.97917 9.59375 3.97917 11.5937 5.3125 11.5938C5.68058 11.5938 7.14582 11.5937 8.25 11.5938C7.45361 17.3952 6.15271 20.8363 5.6875 21.9375L5.3125 21.9375C4.37089 21.9375 4.14292 22.9139 4.53125 23.5C2.49275 24.1726 0 25.7456 0 30L21.1875 30C21.1875 25.7456 18.6947 24.1726 16.6562 23.5C17.0446 22.9139 16.8166 21.9375 15.875 21.9375L15.5 21.9375C15.0348 20.8363 13.7339 17.3952 12.9375 11.5938C14.0417 11.5938 15.5069 11.5937 15.875 11.5938C17.2083 11.5938 17.2083 9.59375 15.875 9.59375L13.375 9.59375C14.8165 8.64316 15.875 7.13635 15.875 5.28125C15.875 2.35739 13.5176 0 10.5938 0Z" fill-rule="nonzero" opacity="1" stroke="none"/></svg>',
+  house1: '<svg height="8" style="fill:theColor;" stroke-miterlimit="10" width="8" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 17.25h6v10.5h-6v-10.5zm22.5-4.5H15L7.5 2.25h15l7.5 10.5z"/><path d="M12 2.25H7.5L0 12.75h4.5L12 2.25zm4.5 15h6v6h-6v-6z"/><path d="M27 12.18v15.57H3V12.18" fill="none" stroke="theColor" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2"/></svg>',
+  house2: '<svg height="8" stroke-miterlimit="10" width="8" xmlns="http://www.w3.org/2000/svg" style="fill:theColor;" viewBox="0 0 30 30"><path d="M9.224 12.273L15 9.385l5.776 2.888H30l-6.015-9.546H6.01L0 12.273h9.224zM24.546 15v9.546h-2.728V15h-1.685L15 12.434 9.867 15H8.182v9.546H5.455V15H2.727v9.546a2.73 2.73 0 002.728 2.727h8.181v-4.091a1.364 1.364 0 012.728 0v4.09h8.181a2.73 2.73 0 002.728-2.726V15h-2.727zM15 19.09a1.364 1.364 0 11.001-2.727A1.364 1.364 0 0115 19.09z"/></svg>',
+  house3: '<svg height="8" stroke-miterlimit="10" width="8" xmlns="http://www.w3.org/2000/svg" clip-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" style="fill:theColor;stroke:theColor;" viewBox="0 0 30 30"><path d="M27.604 28.75H2.396V3.542A2.293 2.293 0 014.688 1.25h20.625a2.293 2.293 0 012.291 2.292V28.75z" fill="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2.5"/><path d="M12.708 23.02h4.584v5.73h-4.584v-5.73z" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2.5"/><path d="M10.417 24.167H5.833m11.459-4.584h-4.584m-2.291 0H5.833M24.167 15h-4.584m4.584 4.583h-4.584m4.584 4.584h-4.584M17.292 15h-4.584m-2.291 0H5.833m18.334-4.583h-4.584m-2.291 0h-4.584m-2.291 0H5.833m18.334-4.584h-4.584m-2.291 0h-4.584m-2.291 0H5.833" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="2.5"/></svg>',
 }
 
 //颜色对应码
-const colors = { red: '#FF3B30', blue: '#007AFF', yellow: '#FF9500', green: '#34C759' }
+const colors = { red: '#FF3B30', blue: '#007AFF', yellow: '#E4AF0A', green: '#34C759' }
 
 //缩放棋盘大小
 function updateSize() {
@@ -20,11 +20,16 @@ window.addEventListener("DOMContentLoaded", updateSize);
 
 
 ///起始界面
+//选择棋子显示
+for (let color in colors) {
+  newRegularPawn(document.getElementById(color + "ChooseLabel"), color, "20px", "15px")
+}
+
 //地点对象
 function newPlace(low, high) {
-  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, card: [] };
+  return { price: Math.floor(Math.random() * (high - low + 1) + low) * 10, max: high * 10, min: low * 10, owner: null, grade: 0, skill: [] };
 }
-const places = {
+var places = {
   "湖北-武汉": newPlace(18, 22),
   "湖南-长沙": newPlace(17, 21),
   "广东-广州": newPlace(30, 35),
@@ -63,10 +68,10 @@ const places = {
 //生成棋盘
 let placeIndex = 0;
 [
-  ["湖北-武汉", "湖南-长沙", "特大新闻", "广东-广州", "广西-南宁", "海南-海口", "游乐场", "重庆", "四川-成都", "贵州-贵阳", "云南-昆明", "西藏-拉萨"],
+  ["湖北-武汉", "湖南-长沙", "特大新闻", "广东-广州", "广西-南宁", "海南-海口", "学校", "重庆", "四川-成都", "贵州-贵阳", "云南-昆明", "西藏-拉萨"],
   ["上海", "江苏-南京", "特大新闻", "浙江-杭州", "安徽-合肥", "飞机场", "福建-福州", "江西-南昌", "山东-济南"],
   ["北京", "天津", "河北-石家庄", "特大新闻", "山西-太原", "辽宁-沈阳", "飞机场", "吉林-长春", "黑龙江-哈尔滨", "监狱", "内蒙古-呼和浩特", "陕西-西安"],
-  ["甘肃-兰州", "青海-西宁", "宁夏-银川", "新疆-乌鲁木齐", "飞机场", "香港", "澳门", "国际大酒店", "台湾-台北"]
+  ["甘肃-兰州", "青海-西宁", "宁夏-银川", "新疆-乌鲁木齐", "飞机场", "香港", "澳门", "公司", "台湾-台北"]
 ].forEach(function (rowElement, rowIndex) {
   rowElement.forEach(function (element) {
     placeIndex++;
@@ -88,12 +93,7 @@ let placeIndex = 0;
       priceDiv.className = "price";
       mainDiv.appendChild(priceDiv);
       //创建金币图案svg
-      const svg = document.createElement("object");
-      svg.type = "image/svg+xml";
-      svg.data = "coin.svg";
-      svg.width = "5px";
-      svg.height = "12px";
-      priceDiv.appendChild(svg);
+      newCoin(priceDiv, "12px", "5px")
       //创建价格范围p
       const range = document.createElement("p");
       range.id = "range" + placeIndex;
@@ -123,14 +123,13 @@ let placeIndex = 0;
     const pawnDiv = document.createElement("div");
     pawnDiv.className = "pawnDiv";
     pawnDiv.id = "pawnDiv" + placeIndex;
-    pawnDiv.name = element;
+    pawnDiv.dataset.placeName = element;
     mainDiv.appendChild(pawnDiv);
 
     document.getElementById("row" + rowIndex).appendChild(mainDiv);
   });
   placeIndex++;
 });
-
 
 ///游戏运行
 //开始
@@ -144,17 +143,8 @@ document.getElementById("startButton").addEventListener("click", function () {
       newPawn(document.getElementById("pawnDiv0"), choose.value);
       const mainDiv = document.createElement("div");
       mainDiv.id = choose.value + "card";
-      /*  const pawnSvg = newPawn(choose.value);
-      pawnSvg.id = undefined;
-      pawnSvg.width = "11px";
-      pawnSvg.height = "15px";
-      mainDiv.appendChild(pawnSvg);*/
-      const coinSvg = document.createElement("object");
-      coinSvg.type = "image/svg+xml";
-      coinSvg.data = "coin.svg";
-      coinSvg.width = "11px";
-      coinSvg.height = "15px";
-      mainDiv.appendChild(coinSvg);
+      newRegularPawn(mainDiv, choose.value, "12px", "11px")
+      newCoin(mainDiv, "11px", "11px")
       const coinSpan = document.createElement("span");
       coinSpan.textContent = pawns[choose.value].coin;
       coinSpan.id = choose.value + 'Coin'
@@ -164,40 +154,75 @@ document.getElementById("startButton").addEventListener("click", function () {
       skillSvg.type = "image/svg+xml";
       skillSvg.data = "skill.svg";
       skillSvg.width = "11px";
-      skillSvg.height = "15px";
+      skillSvg.height = "12px";
       mainDiv.appendChild(skillSvg);
+      const skillSpan = document.createElement("span");
+      skillSpan.textContent = pawns[choose.value].skill;
+      skillSpan.id = choose.value + 'Skill'
+      mainDiv.appendChild(skillSpan);
       document.getElementById("pawnsDiv").appendChild(mainDiv);
     }
   }
   startDiv.parentNode.removeChild(startDiv);
-  newDay();
+  newTurn();
 });
 
 //新的一天
-var day = 0;
-var turn;
+var day = 0, turn = -1;
 function newDay() {
+  for (let element in places) {
+    places[element].price = Math.floor(Math.random() * (places[element].max - places[element].min) / 10 + 1) * 10 + places[element].min
+    document.getElementById("current" + document.querySelector(`div[data-place-name=${element}]`).id.replace("pawnDiv", "")).textContent = places[element].price
+  }
   day++;
   turn = -1;
   newTurn();
 }
 
 //骰子
-var diceTimer, step;
-document.getElementById("dice").addEventListener("click", function () {
+var diceTimer, step, act;
+document.getElementById("diceDiv").addEventListener("click", function () {
   if (diceTimer) {
     clearInterval(diceTimer);
+    //step = prompt("步数:") - 1
     //移动
     diceTimer = setInterval(function () {
       if (step < 0) {
         clearInterval(diceTimer);
-        document.getElementById("diceDiv").style.display = "none";
+        document.getElementById("diceAndBank").style.display = "none";
         document.getElementById("actDiv").style.display = "block";
+        document.querySelectorAll('.showingButtons').forEach(function (element) {
+          element.className = '';
+        })
+        //显示按钮
         if (document.getElementById("houseDiv" + Object.values(pawns)[turn].place)) {
-          document.getElementById("buyButtons").style.display = "block";
-          document.getElementById("question").textContent = `是否以${places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).name].price * 2}元购买${document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).name
-            }？`;
+          switch (places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].owner) {
+            case null:
+              document.getElementById("sure").className = "showingButtons";
+              document.getElementById("cancel").className = "showingButtons";
+              document.getElementById("question").innerHTML = `是否以${places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].price * 1.5}${newCoinInline()}购买${document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName}？`;
+              act = 'buy'
+              break;
+            case Object.keys(pawns)[turn]:
+              if (places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].grade < 3) {
+                document.getElementById("sure").className = "showingButtons";
+                document.getElementById("cancel").className = "showingButtons";
+                document.getElementById("question").innerHTML = `是否以${places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].price * 1.5}${newCoinInline()}升级${document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName}？`;
+              } else {
+                document.getElementById("cancel").className = "showingButtons";
+                document.getElementById("question").innerHTML = `${document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName}已满级`;
+              }
+              act = 'upgrade'
+              break;
+            default:
+              document.getElementById("sure").className = "showingButtons";
+              document.getElementById("question").innerHTML = `你要向${document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName}的地主${newRegularPawnInline(places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].owner)}支付${places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].price * places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].grade}${newCoinInline()}`;
+              act = 'pay'
+              break;
+          }
         } else {
+          document.getElementById("cancel").className = "showingButtons";
+          document.getElementById("question").innerHTML = `功能开发中，敬请期待`;
         }
       } else {
         Object.values(pawns)[turn].place = (Object.values(pawns)[turn].place + 1) % 46;
@@ -209,23 +234,44 @@ document.getElementById("dice").addEventListener("click", function () {
   } else {
     //投骰子
     diceTimer = setInterval(function () {
-      step = Math.floor(Math.random() * 6);
-      document.getElementById("dice").textContent = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"][step];
+      let step0 = Math.floor(Math.random() * 6), step1 = Math.floor(Math.random() * 6);
+      document.getElementById("dice0").textContent = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"][step0];
+      document.getElementById("dice1").textContent = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"][step1]
+      step = step0 + step1 + 1;
     }, 100);
   }
 });
 
-//确定购买
-document.getElementById("sureToBuy").addEventListener("click", function () {
-  Object.values(pawns)[turn].coin -= places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).name].price * 2
-  document.getElementById(Object.keys(pawns)[turn] + 'Coin').textContent = Object.values(pawns)[turn].coin
-  places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).name].owner = Object.keys(pawns)[turn]
-  //document.getElementById('houseDiv' + Object.values(pawns)[turn].place).appendChild(newPawn(Object.keys(pawns)[turn]))
+//确定
+document.getElementById("sure").addEventListener("click", function () {
+  switch (act) {
+    case "buy":
+    case "upgrade":
+      Object.values(pawns)[turn].coin -= places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].price * 1.5
+      document.getElementById(Object.keys(pawns)[turn] + 'Coin').textContent = Object.values(pawns)[turn].coin
+      places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].owner = Object.keys(pawns)[turn]
+      places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].grade += 1
+      newHouse(document.getElementById('houseDiv' + Object.values(pawns)[turn].place), Object.keys(pawns)[turn], places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].grade)
+      break;
+    case "pay":
+      const pricePay = places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].price * places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].grade
+      Object.values(pawns)[turn].coin -= pricePay
+      pawns[places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].owner].coin += pricePay
+      document.getElementById(Object.keys(pawns)[turn] + 'Coin').textContent = Object.values(pawns)[turn].coin
+      document.getElementById(places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].owner + 'Coin').textContent = pawns[places[document.getElementById("pawnDiv" + Object.values(pawns)[turn].place).dataset.placeName].owner].coin
+      break
+  }
+  newTurn()
+})
+//取消
+document.getElementById("cancel").addEventListener("click", function () {
+  newTurn()
 })
 
 //新的回合
 function newTurn() {
   turn++;
+  document.getElementById("actDiv").style.display = "none";
   if (turn === Object.keys(pawns).length) {
     newDay();
   } else {
@@ -233,7 +279,7 @@ function newTurn() {
       document.getElementsByClassName("turn")[0].className = "";
     }
     document.getElementById(Object.keys(pawns)[turn] + "card").className = "turn";
-    document.getElementById("diceDiv").style.display = "block";
+    document.getElementById("diceAndBank").style.display = "flex";
     diceTimer = undefined;
   }
 }
@@ -243,12 +289,27 @@ function updateRange() {
   document.getElementById("cionRangeNumber").textContent = document.getElementById("cionRange").value;
 }
 
-//显示棋子
+//显示svg
 function newPawn(content, color) {
   content.insertAdjacentHTML('beforeend', svgCache.pawn.replace("theId", color));
   const element = document.getElementById(color)
-  element.width = "5px";
-  element.height = "8px";
   element.style = `fill: ${colors[color]};`;
-  return element;
+}
+function newHouse(content, color, grade) {
+  if (grade > 1) {
+    content.removeChild(content.firstElementChild);
+  }
+  content.insertAdjacentHTML('beforeend', svgCache["house" + grade].replace(/theColor/g, colors[color]));
+}
+function newRegularPawn(content, color, height, width) {
+  content.insertAdjacentHTML('beforeend', svgCache.pawn.replace('id="theId" ', `style="fill: ${colors[color]};"`).replace("5px", width).replace("8px", height));
+}
+function newCoin(content, height, width) {
+  content.insertAdjacentHTML('beforeend', svgCache.coin.replace("theWidth", width).replace("theHeight", height));
+}
+function newCoinInline() {
+  return svgCache.coin.replace("theWidth", "21px").replace("theHeight", "20px").replace(" ", ' class="svgDown" ')
+}
+function newRegularPawnInline(color) {
+  return svgCache.pawn.replace('id="theId" ', `style="fill: ${colors[color]};" class="svgDown" `).replace("5px", "15px").replace("8px", "20px")
 }

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6-1约束-跷跷板</title>
+</head>
+
+<body>
+  <div id="c"></div>
+
+  <script src="../js/matter.js"></script>
+  <script>
+    let Engine = Matter.Engine // 引擎.引擎模块包含创建和操作引擎的方法
+  let Render = Matter.Render // 基于HTML5画布的渲染器
+  let Bodies = Matter.Bodies // 用于创建各种形状的物体，物体必须添加到Wolrd中，然后由引擎运行世界
+  let Composite = Matter.Composite // 复合体，旧版的 Matter.World 已经合并到这个模块里
+  let Composites = Matter.Composites
+  let Constraint = Matter.Constraint // 约束
+  let Runner = Matter.Runner // 循环模块
+
+  // 创建引擎
+  let engine = Engine.create()
+
+  // 创建渲染器
+  let render = Render.create({
+    element: document.getElementById('c'), // 绑定页面元素,
+    engine: engine,
+    options: {
+      width: 2000,
+      height: 1400,
+      wireframes: false, // 关闭线框模式
+      showVelocity: true // 显示速度
+    }
+  })
+
+  // 板子A（红色）
+  let rectA = Bodies.rectangle(200, 330, 20, 100, {
+    isStatic: true,
+    render: {
+      fillStyle: '#f00'
+    },
+    collisionFilter: {
+      group: -1
+    }
+  })
+
+  // 板子B（蓝色）
+  let rectB = Bodies.rectangle(200, 330, 200, 20, {
+    render: {
+      fillStyle: '#00f'
+    },
+    collisionFilter: {
+      group: -1
+    }
+  })
+  
+  // 创建旋转约束
+  let rotateConstraint = Constraint.create({
+    bodyA: rectA,
+    bodyB: rectB,
+    length: 0
+  })
+
+  // 矩形的堆
+  let stack = Composites.stack(20, 30, 4, 3, 10, 20, function (x, y) {
+    return Bodies.rectangle(x, y, 40, 20)
+  })
+  
+  // 圆形的堆
+  let stack_circle = Composites.stack(220, 60, 3, 4, 10, 20, function (x, y) {
+    return Bodies.circle(x, y, 16)
+  })
+
+  // 地面
+  let ground = Bodies.rectangle(1000, 1390, 2000, 20, {
+    isStatic: true,
+    render: {
+      fillStyle: '#cccccc'
+    }
+  })
+
+  // 将 蓝色和红色矩形、约束、矩形堆、圆形堆、地面 都添加到世界里
+  Composite.add(engine.world, [rectA, rectB, rotateConstraint, stack, stack_circle, ground])
+
+  Render.run(render)
+
+  // 创建运行方法
+  let runner = Runner.create()
+
+  // 运行渲染器
+  Runner.run(runner, engine)
+  </script>
+  <style>
+    body {
+      transform: scale(0.5);
+      /* 使用transform的scale属性将元素缩小到0.5倍 */
+      transform-origin: top left;
+      /* 设置缩放的原点为左上角，这是默认值，但明确指定有助于理解 */
+      /* 可选：添加一些边框或背景颜色，以便更清楚地看到缩小的效果 */
+      margin: 0px;
+      background-color: white;
+    }
+  </style>
+</body>
+
+</html>
