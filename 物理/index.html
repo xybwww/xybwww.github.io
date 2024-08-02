@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>6-1约束-跷跷板</title>
+  <title>跷跷板</title>
 </head>
 
 <body>
@@ -13,85 +13,84 @@
 
   <script src="../js/matter.js"></script>
   <script>
-    let Engine = Matter.Engine // 引擎.引擎模块包含创建和操作引擎的方法
-  let Render = Matter.Render // 基于HTML5画布的渲染器
-  let Bodies = Matter.Bodies // 用于创建各种形状的物体，物体必须添加到Wolrd中，然后由引擎运行世界
-  let Composite = Matter.Composite // 复合体，旧版的 Matter.World 已经合并到这个模块里
-  let Composites = Matter.Composites
-  let Constraint = Matter.Constraint // 约束
-  let Runner = Matter.Runner // 循环模块
+   const Engine = Matter.Engine;
+const Render = Matter.Render;
+const Bodies = Matter.Bodies;
+const Composite = Matter.Composite;
+const Composites = Matter.Composites;
+const Constraint = Matter.Constraint;
+const Mouse = Matter.Mouse;
+const MouseConstraint = Matter.MouseConstraint;
+ // let Mouse = Matter.Mouse
+  //let MouseConstraint = Matter.MouseConstraint
 
-  // 创建引擎
-  let engine = Engine.create()
+// 创建引擎
+const engine = Engine.create();
 
-  // 创建渲染器
-  let render = Render.create({
-    element: document.getElementById('c'), // 绑定页面元素,
+// 创建渲染器
+const render = Render.create({
+    element: document.getElementById('c'),
     engine: engine,
     options: {
-      width: 2000,
-      height: 1400,
-      wireframes: false, // 关闭线框模式
-      showVelocity: true // 显示速度
+        width: 2000,
+        height: 1400,
+        wireframes: false,
+        showVelocity: true
     }
-  })
+});
 
-  // 板子A（红色）
-  let rectA = Bodies.rectangle(200, 330, 20, 100, {
+// 创建一些物体
+const rectA = Bodies.rectangle(200, 330, 20, 100, {
     isStatic: true,
-    render: {
-      fillStyle: '#f00'
-    },
-    collisionFilter: {
-      group: -1
-    }
-  })
+    render: { fillStyle: '#f00' },
+    collisionFilter: { group: -1 }
+});
 
-  // 板子B（蓝色）
-  let rectB = Bodies.rectangle(200, 330, 200, 20, {
-    render: {
-      fillStyle: '#00f'
-    },
-    collisionFilter: {
-      group: -1
-    }
-  })
-  
-  // 创建旋转约束
-  let rotateConstraint = Constraint.create({
+const rectB = Bodies.rectangle(200, 330, 200, 20, {
+    render: { fillStyle: '#00f' },
+    collisionFilter: { group: -1 }
+});
+
+const rotateConstraint = Constraint.create({
     bodyA: rectA,
     bodyB: rectB,
     length: 0
-  })
+});
 
-  // 矩形的堆
-  let stack = Composites.stack(20, 30, 4, 3, 10, 20, function (x, y) {
-    return Bodies.rectangle(x, y, 40, 20)
-  })
-  
-  // 圆形的堆
-  let stack_circle = Composites.stack(220, 60, 3, 4, 10, 20, function (x, y) {
-    return Bodies.circle(x, y, 16)
-  })
+const box = Bodies.rectangle(80, 100, 80, 80, {
+    restitution: 0.3,
+    mass: 0.1
+});
 
-  // 地面
-  let ground = Bodies.rectangle(1000, 1390, 2000, 20, {
+const stack = Composites.stack(20, 30, 4, 3, 10, 20, (x, y) => Bodies.rectangle(x, y, 40, 20, { restitution: 0.3, mass: 0.1 }));
+const stack_circle = Composites.stack(220, 60, 3, 4, 10, 20, (x, y) => Bodies.circle(x, y, 16));
+const ground = Bodies.rectangle(1000, 1390, 2000, 20, {
     isStatic: true,
-    render: {
-      fillStyle: '#cccccc'
+    render: { fillStyle: '#cccccc' }
+});
+
+// 创建鼠标和鼠标约束
+const mouse = Mouse.create(render.canvas);
+const mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+        stiffness: 0.2,
+        render: {
+            visible: true
+        }
     }
-  })
+});
 
-  // 将 蓝色和红色矩形、约束、矩形堆、圆形堆、地面 都添加到世界里
-  Composite.add(engine.world, [rectA, rectB, rotateConstraint, stack, stack_circle, ground])
+// 将所有物体添加到世界
+Composite.add(engine.world, [rectA, rectB, rotateConstraint, stack, stack_circle, ground, mouseConstraint, box]);
 
-  Render.run(render)
+// 运行渲染器
+Matter.Render.run(render)
+ 
+  let runner = Matter.Runner.create()
+ 
+  Matter.Runner.run(runner, engine)
 
-  // 创建运行方法
-  let runner = Runner.create()
-
-  // 运行渲染器
-  Runner.run(runner, engine)
   </script>
   <style>
     body {
