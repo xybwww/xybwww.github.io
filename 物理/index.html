@@ -1,29 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="zh-cn">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>跷跷板</title>
+  <title>几何乐园</title>
+   <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
-
 <body>
-  <div id="c"></div>
-
+  <div id="canvas"></div>
+  <div id="console">
+    <h1>几何乐园</h1>
+    <h2>画笔</h2>
+  </div>
   <script src="../js/matter.js"></script>
-    <script src="script.js"></script>
-  <style>
-    body {
-      transform: scale(0.5);
-      /* 使用transform的scale属性将元素缩小到0.5倍 */
-      transform-origin: top left;
-      /* 设置缩放的原点为左上角，这是默认值，但明确指定有助于理解 */
-      /* 可选：添加一些边框或背景颜色，以便更清楚地看到缩小的效果 */
-      margin: 0px;
-      background-color: white;
-    }
-  </style>
+  <script src="game.js"></script>
 </body>
-
 </html>

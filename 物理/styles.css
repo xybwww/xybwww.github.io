@@ -1,0 +1,13 @@
+body {
+    margin: 0px;
+    display: flex;
+}
+
+#console {
+    width: 200px;
+    height: 100vh;
+    padding: 0px 10px;
+    background-color: darkgray;
+    box-sizing: border-box;
+    line-height: normal;
+}
