@@ -1,13 +1,28 @@
 body {
     margin: 0px;
-    display: flex;
 }
 
 #console {
-    width: 200px;
-    height: 100vh;
-    padding: 0px 10px;
-    background-color: darkgray;
+    width: 100vw;
+    height: 50px;
+    background-color: black;
+    display: flex;
     box-sizing: border-box;
-    line-height: normal;
+
+    #styles,
+    #settings {
+        height: 50px;
+        width: 50px;
+        background-color: darkgray;
+    }
+
+    #menu {
+        border: 1px solid darkgray;
+        display: flex;
+
+        object {
+            border: 1px solid darkgray;
+            color: white;
+        }
+    }
 }
