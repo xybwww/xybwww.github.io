@@ -22,28 +22,28 @@ $(function () {
     })
 
     // 下地面
-    const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 55, window.innerWidth, 10, {
+    const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 50, window.innerWidth, 20, {
         isStatic: true,
         render: {
             fillStyle: 'gray'
         }
     })
     // 左地面
-    const leftGround = Bodies.rectangle(5, (window.innerHeight - 50) / 2, 10, window.innerHeight - 5, {
+    const leftGround = Bodies.rectangle(0, (window.innerHeight - 50) / 2, 20, window.innerHeight - 50, {
         isStatic: true,
         render: {
             fillStyle: 'gray'
         }
     })
     // 右地面
-    const rightGround = Bodies.rectangle(window.innerWidth - 5, (window.innerHeight - 50) / 2, 10, window.innerHeight - 5, {
+    const rightGround = Bodies.rectangle(window.innerWidth, (window.innerHeight - 50) / 2, 20, window.innerHeight - 50, {
         isStatic: true,
         render: {
             fillStyle: 'gray'
         }
     })
 
-    Composite.add(engine.world, [stack, buttomGround, leftGround, rightGround])
+    Composite.add(engine.world, [buttomGround, leftGround, rightGround])
 
     Render.run(render)
     // 创建运行方法
@@ -108,7 +108,7 @@ $(function () {
                     angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
                     isStatic: true, // 静态物体，不会受物理影响
                     render: {
-                        fillStyle: 'white', // 填充颜色
+                        fillStyle: 'ligthgray', // 填充颜色
                         // 如果不需要边框，可以不设置strokeStyle属性
                         // strokeStyle: 'black' // 边框颜色
                     }
@@ -128,8 +128,32 @@ $(function () {
         $(this).prev().addClass("selected")
     })
     function circle(position) {
-        Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 1, restitution: 1 }))
+        Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5 }))
     }
+
+    //橡皮擦
+    const eraser = Matter.Bodies.circle(0, 0, 5, {
+         isStatic: true,
+        render: {
+            fillStyle: 'lightgray'
+        }
+    });
+    $('#erase').click(function () {
+        changeMenu()
+        menu = "erase"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
+    })
+    Matter.Events.on(engine, 'collisionStart', function (event) {
+        event.pairs.forEach(pair => {
+            if (pair.bodyA === eraser) {
+                Composite.remove(engine.world, pair.bodyB);
+            }
+            else if (pair.bodyB === eraser) {
+                Composite.remove(engine.world, pair.bodyA);
+            }
+        })
+    })
 
     //鼠标检测
     var timer
@@ -139,14 +163,20 @@ $(function () {
                 start = { x: event.mouse.position.x, y: event.mouse.position.y }
                 break;
             case "circle":
-                circle(event.mouse.position)
-                timer = setTimeout(
-                    function () {
-                        timer = setInterval(function () {
-                            circle(event.mouse.position)
-                        }, 100);
-                    }
-                    , 500)
+                if (!timer) {
+                    circle(event.mouse.position)
+                    timer = setTimeout(
+                        function () {
+                            timer = setInterval(function () {
+                                circle(event.mouse.position)
+                            }, 100);
+                        }
+                        , 500)
+                    break;
+                }
+            case "erase":
+                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                Composite.add(engine.world, eraser)
                 break;
         }
     })
@@ -154,6 +184,9 @@ $(function () {
         switch (menu) {
             case "line":
                 line(event.mouse.position)
+                break;
+            case "erase":
+                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
                 break;
         }
     })
@@ -166,7 +199,11 @@ $(function () {
             case "circle":
                 clearTimeout(timer)
                 clearInterval(timer)
+                timer = undefined
                 break;
+            case "erase":
+                Composite.remove(engine.world, eraser);
+                break
         }
     })
 });
