@@ -42,8 +42,8 @@ $(function () {
             fillStyle: 'gray'
         }
     })
-
-    Composite.add(engine.world, [buttomGround, leftGround, rightGround])
+    const grounds = [buttomGround, leftGround, rightGround]
+    Composite.add(engine.world, grounds)
 
     Render.run(render)
     // 创建运行方法
@@ -108,7 +108,7 @@ $(function () {
                     angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
                     isStatic: true, // 静态物体，不会受物理影响
                     render: {
-                        fillStyle: 'ligthgray', // 填充颜色
+                        fillStyle: 'lightgray', // 填充颜色
                         // 如果不需要边框，可以不设置strokeStyle属性
                         // strokeStyle: 'black' // 边框颜色
                     }
@@ -133,7 +133,13 @@ $(function () {
 
     //橡皮擦
     const eraser = Matter.Bodies.circle(0, 0, 5, {
-         isStatic: true,
+        //静止
+        friction: 1,
+        frictionAir: 0.1,
+        density: 0.0001,
+        restitution: 0,
+        velocity: { x: 0, y: 0 },
+        angularVelocity: 0,
         render: {
             fillStyle: 'lightgray'
         }
@@ -146,10 +152,10 @@ $(function () {
     })
     Matter.Events.on(engine, 'collisionStart', function (event) {
         event.pairs.forEach(pair => {
-            if (pair.bodyA === eraser) {
+            if (pair.bodyA === eraser && !grounds.includes(pair.bodyB)) {
                 Composite.remove(engine.world, pair.bodyB);
             }
-            else if (pair.bodyB === eraser) {
+            else if (pair.bodyB === eraser && !grounds.includes(pair.bodyA)) {
                 Composite.remove(engine.world, pair.bodyA);
             }
         })
