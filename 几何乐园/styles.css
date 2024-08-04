@@ -9,28 +9,35 @@ body {
     display: flex;
     box-sizing: border-box;
 
-    #styles,
-    #settings {
+    .button {
         height: 50px;
         width: 50px;
         background-color: darkgray;
     }
 
+    .button+div {
+        height: 46px;
+        width: 46px;
+        margin: 2px 2px 2px -48px;
+    }
+
     #menu {
         border: 1px solid darkgray;
         display: flex;
-        object {
-            border: 1px solid darkgray;
-            color: white;
-        }
 
         div {
             height: 44px;
             width: 44px;
             margin: 2px 2px 2px -46px;
         }
-        .selected{
+
+        object {
+            border: 1px solid darkgray;
+            color: white;
+        }
+
+        .selected {
             background-color: dimgray;
         }
     }
-    }
+}

@@ -4,7 +4,6 @@ $(function () {
     const Render = Matter.Render // 基于HTML5画布的渲染器
     const Bodies = Matter.Bodies // 用于创建各种形状的物体，物体必须添加到Wolrd中，然后由引擎运行世界
     const Composite = Matter.Composite // 复合体，旧版的 Matter.World 已经合并到这个模块里
-    const Composites = Matter.Composites
     const Runner = Matter.Runner // 循环模块
 
     // 创建引擎
@@ -213,4 +212,16 @@ $(function () {
                 break
         }
     })
+
+    //删除掉出的刚体
+    setInterval(function () {
+        // 遍历所有刚体
+        engine.world.bodies.forEach((body) => {
+            // 检查y坐标
+            if (body.position.y > window.innerHeight) {
+                // 删除刚体
+                Composite.remove(world, body);
+            }
+        });
+    }, 10000);
 });

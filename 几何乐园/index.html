@@ -9,18 +9,20 @@
 
 <body>
   <div id="console">
-    <object id="styles" type="image/svg+xml" data="styles.svg">样式</object>
+    <object class="button" type="image/svg+xml" data="styles.svg">样式</object>
+    <div id="styles"></div>
     <div id="menu">
       <object type="image/svg+xml" data="hand.svg" class="selected">移动</object>
       <div id="hand"></div>
-            <object type="image/svg+xml" data="erase.svg">擦除</object>
+      <object type="image/svg+xml" data="erase.svg">擦除</object>
       <div id="erase"></div>
       <object type="image/svg+xml" data="line.svg">直线</object>
       <div id="line"></div>
       <object type="image/svg+xml" data="circle.svg">圆形</object>
       <div id="circle"></div>
     </div>
-    <object id="settings" type="image/svg+xml" data="settings.svg">设置</object>
+    <object class="button" type="image/svg+xml" data="settings.svg">设置</object>
+    <div id="settings"></div>
   </div>
   <div id="canvas"></div>
   <script src="../js/matter.js"></script>
