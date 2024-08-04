@@ -106,6 +106,7 @@ $(function () {
                 Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)), 10,   //  尺寸
                 {
                     angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
+                    friction: 0,
                     isStatic: true, // 静态物体，不会受物理影响
                     render: {
                         fillStyle: 'lightgray', // 填充颜色
@@ -128,7 +129,7 @@ $(function () {
         $(this).prev().addClass("selected")
     })
     function circle(position) {
-        Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5 }))
+        Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5, friction: 0 }))
     }
 
     //橡皮擦
