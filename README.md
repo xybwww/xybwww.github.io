@@ -1,4 +1,12 @@
 ## xybwww项目列表
+### [几何乐园](几何乐园)
+![星级：★★★★★](https://img.shields.io/badge/星级-★★★★★-darkred)
+![类型：创作](https://img.shields.io/badge/类型-创作-green)
+
+### [大富翁](大富翁)
+![星级：★★★★★](https://img.shields.io/badge/星级-★★★★★-darkred)
+![类型：游戏](https://img.shields.io/badge/类型-游戏-red)
+
 ### [机械笔](机械笔)
 ![星级：★★★★☆](https://img.shields.io/badge/星级-★★★★☆-red)
 ![类型：创作](https://img.shields.io/badge/类型-创作-green)
