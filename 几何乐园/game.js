@@ -142,19 +142,17 @@ $(function () {
 
     var start
     //画直线
+    var straightLineCache
     $('#straightLine').click(function () {
         changeMenu()
         menu = "straightLine"
         $(".selected").removeClass()
         $(this).prev().addClass("selected")
     })
-    Matter.Events.on(hand, 'mousedown', function (event) {
-        start = {x:event.mouse.position.x,y:event.mouse.position.y}
-    })
-    Matter.Events.on(hand, 'mouseup', function (event) {
-        if (menu === "straightLine") {
-            const end = event.mouse.position            
-            Composite.add(engine.world, Matter.Bodies.rectangle(
+    function straightLine(end) {
+        if (straightLineCache) {
+            if (straightLineCache !== 1) Composite.remove(engine.world, straightLineCache)
+            straightLineCache = Matter.Bodies.rectangle(
                 (start.x + end.x) / 2, (start.y + end.y) / 2, // 中心位置
                 Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)), 10,   //  尺寸
                 {
@@ -165,7 +163,26 @@ $(function () {
                         // 如果不需要边框，可以不设置strokeStyle属性
                         // strokeStyle: 'black' // 边框颜色
                     }
-                }))
+                })
+            Composite.add(engine.world, straightLineCache)
+        } else {
+            straightLineCache = 1
+        }
+    }
+
+    //鼠标检测
+    Matter.Events.on(hand, 'mousedown', function (event) {
+        start = { x: event.mouse.position.x, y: event.mouse.position.y }
+    })
+    Matter.Events.on(hand, 'mousemove', function (event) {
+        if (menu === "straightLine") {
+            straightLine(event.mouse.position)
+        }
+    })
+    Matter.Events.on(hand, 'mouseup', function (event) {
+        if (menu === "straightLine") {
+            straightLine(event.mouse.position)
+            straightLineCache = null
         }
     })
 });
