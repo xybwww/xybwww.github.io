@@ -1,71 +1,73 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <title>大富翁</title>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-  </head>
 
-  <body>
-    <div id="ground">
-      <div id="go" class="grid corner">
-        <object type="image/svg+xml" data="go.svg" width="40px" height="30px">GO</object>
-        <div id="pawnDiv0" class="pawnDiv"></div>
+<head>
+  <meta charset="utf-8" />
+  <title>大富翁</title>
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+  <div id="ground">
+    <div id="go" class="grid corner">
+      <object type="image/svg+xml" data="go.svg" width="40px" height="30px">GO</object>
+      <div id="pawnDiv0" class="pawnDiv"></div>
+    </div>
+    <div id="playground" class="grid corner">
+      <object type="image/svg+xml" data="playground.svg" width="40px" height="30px">playground</object>
+      <div id="pawnDiv13" class="pawnDiv"></div>
+    </div>
+    <div id="school" class="grid corner">
+      <object type="image/svg+xml" data="school.svg" width="40px" height="30px">school</object>
+      <div id="pawnDiv23" class="pawnDiv"></div>
+    </div>
+    <div id="shop" class="grid corner">
+      <object type="image/svg+xml" data="shop.svg" width="40px" height="30px">shop</object>
+      <div id="pawnDiv36" class="pawnDiv"></div>
+    </div>
+    <div id="row0"></div>
+    <div id="row1"></div>
+    <div id="row2"></div>
+    <div id="row3"></div>
+    <div id="console" class="grid">
+      <div id="startDiv">
+        <h1>开始</h1>
+        <input type="checkbox" name="choose" value="red" id="redChooseInput" checked />
+        <label id="redChooseLabel" for="redChooseInput"></label>
+        <input type="checkbox" name="choose" value="blue" id="blueChooseInput" checked />
+        <label id="blueChooseLabel" for="blueChooseInput"></label>
+        <input type="checkbox" name="choose" value="yellow" id="yellowChooseInput" checked />
+        <label id="yellowChooseLabel" for="yellowChooseInput"></label>
+        <input type="checkbox" name="choose" value="green" id="greenChooseInput" checked />
+        <label id="greenChooseLabel" for="greenChooseInput"></label>
+        <object type="image/svg+xml" data="coin.svg" width="20px" height="20px" class="svgDown"></object>
+        <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()" class="svgDown" />
+        <span id="cionRangeNumber">1000</span>
+        <br />
+        <button id="startButton">开始</button>
       </div>
-      <div id="playground" class="grid corner">
-        <object type="image/svg+xml" data="playground.svg" width="40px" height="30px">playground</object>
-        <div id="pawnDiv13" class="pawnDiv"></div>
+      <div id="pawnsDiv">
+        <h1>棋子</h1>
       </div>
-      <div id="school" class="grid corner">
-        <object type="image/svg+xml" data="school.svg" width="40px" height="30px">school</object>
-        <div id="pawnDiv23" class="pawnDiv"></div>
-      </div>
-      <div id="shop" class="grid corner">
-        <object type="image/svg+xml" data="shop.svg" width="40px" height="30px">shop</object>
-        <div id="pawnDiv36" class="pawnDiv"></div>
-      </div>
-      <div id="console" class="grid">
-        <div id="startDiv">
-          <h1>开始</h1>
-          <input type="checkbox" name="choose" value="red" checked />
-          <object type="image/svg+xml" data="redPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <input type="checkbox" name="choose" value="blue" checked />
-          <object type="image/svg+xml" data="bluePawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <input type="checkbox" name="choose" value="yellow" checked />
-          <object type="image/svg+xml" data="yellowPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <input type="checkbox" name="choose" value="green" checked />
-          <object type="image/svg+xml" data="greenPawn.svg" width="21.19px" height="30px" class="choosePawn"></object>
-          <br />
-          <label>初始<object type="image/svg+xml" data="coin.svg" width="20px" height="20px" style="margin-bottom: -5px"></object>：</label>
-          <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()" />
-          <span id="cionRangeNumber">1000</span>
-          <br />
-          <button id="startButton">开始</button>
-        </div>
-        <div id="pawnsDiv">
-          <h1>棋子</h1>
-        </div>
+      <div id="diceAndBank">
         <div id="diceDiv">
           <h1>骰子</h1>
-          <p id="dice">⚀</p>
+          <p id="dice0">⚀</p>
+          <br>
+          <p id="dice1">⚀</p>
         </div>
-        <div id="actDiv">
-          <h1>行动</h1>
-          <p id="question"></p>
-          <div id="buyButtons">
-            <button id="sureToBuy">确定</button>
-            <button id="notToBuy">取消</button>
-          </div>
-          <div id="payButtons">
-            <button>确定</button>
-          </div>
+        <div id="bankDiv">
+          <h1>银行</h1>
         </div>
       </div>
-      <div id="row0"></div>
-      <div id="row1"></div>
-      <div id="row2"></div>
-      <div id="row3"></div>
+      <div id="actDiv">
+        <h1>行动</h1>
+        <p id="question"></p>
+        <button id="sure">确定</button>
+        <button id="cancel">取消</button>
+      </div>
     </div>
-  </body>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
+</body>
+
 </html>

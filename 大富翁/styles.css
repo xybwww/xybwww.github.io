@@ -227,32 +227,57 @@ p {
   background-color: yellow;
 }
 
+/*控制台*/
 #console {
   position: absolute;
   top: 49px;
   left: 49px;
-  height: 230px;
-  width: 314px;
-  padding: 10px;
+  height: 240px;
+  width: 324px;
+  padding: 5px;
 
   div {
     border-radius: 10px;
     padding: 10px;
-    line-height: 30px;
+    margin: 5px;
+  }
+
+  span,
+  p,
+  label {
+    font-size: 15px;
+  }
+
+  button {
+    font-size: 11px;
   }
 
   #startDiv {
     border: 1px solid green;
+    width: 292px;
 
-    .choosePawn {
-      margin-right: 20px;
+    input[type="checkbox"] {
+      margin-right: 0px;
+      height: 10px;
+      width: 10px;
+    }
+
+    input[type="range"] {
+      width: 104px;
+    }
+
+    input+label {
+      margin-left: -10px;
+    }
+
+    object {
+      margin-left: 15px;
     }
   }
 
   #pawnsDiv {
     border: 1px solid red;
     display: none;
-    margin-bottom: 10px;
 
     div {
       display: inline-block;
@@ -261,10 +286,10 @@ p {
       width: auto;
       border-radius: 5px;
       background-color: whitesmoke;
-      line-height: normal;
+      line-height: 17px;
 
-      object {
-        margin-bottom: -3px;
+      span {
+        margin-top: -5px;
       }
     }
 
@@ -273,31 +298,57 @@ p {
     }
   }
 
-  #diceDiv {
-    border: 1px solid goldenrod;
+  #diceAndBank {
     display: none;
+    margin: 0px;
+    padding: 0px;
 
-    #dice {
-      font-size: 50px;
-      height: 35px;
-      width: 38px;
-      border-radius: 5px;
-      line-height: 25px;
+    #diceDiv {
+      border: 1px solid goldenrod;
+      width: 36px;
+      height: 115px;
+
+      #dice0,
+      #dice1 {
+        font-size: 50px;
+        height: 35px;
+        width: 38px;
+        border-radius: 5px;
+        line-height: 25px;
+      }
+
+      #dice1 {
+        line-height: 0px;
+        margin-top: -10px;
+      }
+    }
+
+    #bankDiv {
+      border: 1px solid dodgerblue;
+      width: 224px;
+      height: 115px;
     }
   }
 
   #actDiv {
-    border: 1px solid dodgerblue;
+    border: 1px solid darkcyan;
     display: none;
 
-    div {
+    .showingButtons {
+      display: inline;
+    }
+
+    button {
       display: none;
-      padding: 0px;
     }
   }
 
   h1 {
     margin: 0px;
-    font-size: 20px;
+    font-size: 17px;
   }
+}
+
+.svgDown {
+  margin-bottom: -5px;
 }
