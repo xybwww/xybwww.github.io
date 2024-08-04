@@ -21,80 +21,29 @@ $(function () {
         }
     })
 
-    // 球堆
-    const stack = Composites.stack(0, 0, window.innerWidth / 30, 5, 0, 20, function (x, y) {
-        return Bodies.circle(x, y, 15, { mass: 1, restitution: 1 })
-    })
-
     // 下地面
-    const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 55, window.innerWidth, 10, {
+    const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 50, window.innerWidth, 20, {
         isStatic: true,
         render: {
             fillStyle: 'gray'
         }
     })
     // 左地面
-    const leftGround = Bodies.rectangle(5, (window.innerHeight - 50) / 2, 10, window.innerHeight - 5, {
+    const leftGround = Bodies.rectangle(0, (window.innerHeight - 50) / 2, 20, window.innerHeight - 50, {
         isStatic: true,
         render: {
             fillStyle: 'gray'
         }
     })
     // 右地面
-    const rightGround = Bodies.rectangle(window.innerWidth - 5, (window.innerHeight - 50) / 2, 10, window.innerHeight - 5, {
+    const rightGround = Bodies.rectangle(window.innerWidth, (window.innerHeight - 50) / 2, 20, window.innerHeight - 50, {
         isStatic: true,
         render: {
             fillStyle: 'gray'
         }
     })
-    /* // 定义线的起点和终点
-     const startX = 100;
-     const startY = 300;
-     const endX = 800;
-     const endY = 500;
- 
-     // 计算线的中点，这将作为长方形的中心
-     const centerX = (startX + endX) / 2;
-     const centerY = (startY + endY) / 2;
- 
-     // 计算线的长度（虽然这个长度对于创建矩形不是必需的，但可以用于其他目的）
-     const lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
- 
-     // 假设长方形的“宽度”非常细（比如1个单位），高度也设置为非常细但不影响显示（因为我们将使用填充）
-     const width = 1; // 线的粗细
-     const height = lineLength; // 高度也设置为1，但由于填充，它看起来仍然像一条线
- 
-     // 计算旋转角度以匹配线的方向
-     // 使用atan2来确保正确处理所有角度，包括垂直线
-     const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
- 
-     // 创建长方形（实际上是一个细长的矩形）
-     const lineBody = Mr.Bodies.rectangle(
-         centerX, centeratteY, // 中心位置
-         width, height,    // 尺寸
-         {
-             angle: -angle, // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
-             isStatic: true, // 静态物体，不会受物理影响
-             render: {
-                 fillStyle: 'white', // 填充颜色
-                 // 如果不需要边框，可以不设置strokeStyle属性
-                 // strokeStyle: 'black' // 边框颜色
-             }
-         }
-     );
- */
-    Composite.add(engine.world, [stack, buttomGround, leftGround, rightGround])
 
-
-    /*
-        // 监听鼠标移动事件
-        Matter.Events.on(mouseConstraint, "mousemove", function (event) {
-            Composite.add(engine.world, Bodies.circle(event.mouse.position.x, event.mouse.position.y, 10, {
-                isStatic: true, render: { fillStyle: 'gray' }
-            }))
-        })
-    */
-
+    Composite.add(engine.world, [buttomGround, leftGround, rightGround])
 
     Render.run(render)
     // 创建运行方法
@@ -159,7 +108,7 @@ $(function () {
                     angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
                     isStatic: true, // 静态物体，不会受物理影响
                     render: {
-                        fillStyle: 'white', // 填充颜色
+                        fillStyle: 'ligthgray', // 填充颜色
                         // 如果不需要边框，可以不设置strokeStyle属性
                         // strokeStyle: 'black' // 边框颜色
                     }
@@ -170,19 +119,91 @@ $(function () {
         }
     }
 
+    //画圆形
+    var lineCache
+    $('#circle').click(function () {
+        changeMenu()
+        menu = "circle"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
+    })
+    function circle(position) {
+        Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5 }))
+    }
+
+    //橡皮擦
+    const eraser = Matter.Bodies.circle(0, 0, 5, {
+         isStatic: true,
+        render: {
+            fillStyle: 'lightgray'
+        }
+    });
+    $('#erase').click(function () {
+        changeMenu()
+        menu = "erase"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
+    })
+    Matter.Events.on(engine, 'collisionStart', function (event) {
+        event.pairs.forEach(pair => {
+            if (pair.bodyA === eraser) {
+                Composite.remove(engine.world, pair.bodyB);
+            }
+            else if (pair.bodyB === eraser) {
+                Composite.remove(engine.world, pair.bodyA);
+            }
+        })
+    })
+
     //鼠标检测
+    var timer
     Matter.Events.on(hand, 'mousedown', function (event) {
-        start = { x: event.mouse.position.x, y: event.mouse.position.y }
+        switch (menu) {
+            case "line":
+                start = { x: event.mouse.position.x, y: event.mouse.position.y }
+                break;
+            case "circle":
+                if (!timer) {
+                    circle(event.mouse.position)
+                    timer = setTimeout(
+                        function () {
+                            timer = setInterval(function () {
+                                circle(event.mouse.position)
+                            }, 100);
+                        }
+                        , 500)
+                    break;
+                }
+            case "erase":
+                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                Composite.add(engine.world, eraser)
+                break;
+        }
     })
     Matter.Events.on(hand, 'mousemove', function (event) {
-        if (menu === "line") {
-            line(event.mouse.position)
+        switch (menu) {
+            case "line":
+                line(event.mouse.position)
+                break;
+            case "erase":
+                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                break;
         }
     })
     Matter.Events.on(hand, 'mouseup', function (event) {
-        if (menu === "line") {
-            line(event.mouse.position)
-            lineCache = null
+        switch (menu) {
+            case "line":
+                line(event.mouse.position)
+                lineCache = null
+                break;
+            case "circle":
+                clearTimeout(timer)
+                clearInterval(timer)
+                timer = undefined
+                break;
+            case "erase":
+                Composite.remove(engine.world, eraser);
+                break
         }
     })
 });
