@@ -22,7 +22,7 @@ $(function () {
     })
 
     // 球堆
-    const stack = Composites.stack(0, 0, window.innerWidth / 30, 50, 0, 20, function (x, y) {
+    const stack = Composites.stack(0, 0, window.innerWidth / 30, 5, 0, 20, function (x, y) {
         return Bodies.circle(x, y, 15, { mass: 1, restitution: 1 })
     })
 
