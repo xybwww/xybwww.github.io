@@ -47,7 +47,42 @@ $(function () {
             fillStyle: 'gray'
         }
     })
-
+    /* // 定义线的起点和终点
+     const startX = 100;
+     const startY = 300;
+     const endX = 800;
+     const endY = 500;
+ 
+     // 计算线的中点，这将作为长方形的中心
+     const centerX = (startX + endX) / 2;
+     const centerY = (startY + endY) / 2;
+ 
+     // 计算线的长度（虽然这个长度对于创建矩形不是必需的，但可以用于其他目的）
+     const lineLength = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+ 
+     // 假设长方形的“宽度”非常细（比如1个单位），高度也设置为非常细但不影响显示（因为我们将使用填充）
+     const width = 1; // 线的粗细
+     const height = lineLength; // 高度也设置为1，但由于填充，它看起来仍然像一条线
+ 
+     // 计算旋转角度以匹配线的方向
+     // 使用atan2来确保正确处理所有角度，包括垂直线
+     const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
+ 
+     // 创建长方形（实际上是一个细长的矩形）
+     const lineBody = Mr.Bodies.rectangle(
+         centerX, centeratteY, // 中心位置
+         width, height,    // 尺寸
+         {
+             angle: -angle, // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
+             isStatic: true, // 静态物体，不会受物理影响
+             render: {
+                 fillStyle: 'white', // 填充颜色
+                 // 如果不需要边框，可以不设置strokeStyle属性
+                 // strokeStyle: 'black' // 边框颜色
+             }
+         }
+     );
+ */
     Composite.add(engine.world, [stack, buttomGround, leftGround, rightGround])
 
 
@@ -76,6 +111,16 @@ $(function () {
     //菜单
     $("#menu").width(window.innerWidth - 100);
 
+    //菜单项目
+    var menu = "hand"
+    function changeMenu() {
+        switch (menu) {
+            case "hand":
+                Composite.remove(engine.world, hand)
+                break;
+        }
+    }
+
     //手拖动
     const hand = Matter.MouseConstraint.create(engine, {
         mouse: Matter.Mouse.create(render.canvas),
@@ -88,8 +133,39 @@ $(function () {
     })
     Composite.add(engine.world, hand)
     $('#hand').click(function () {
+        changeMenu()
+        menu = "hand"
         $(".selected").removeClass()
         $(this).prev().addClass("selected")
         Composite.add(engine.world, hand)
+    })
+
+    var start
+    //画直线
+    $('#straightLine').click(function () {
+        changeMenu()
+        menu = "straightLine"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
+    })
+    Matter.Events.on(hand, 'mousedown', function (event) {
+        start = {x:event.mouse.position.x,y:event.mouse.position.y}
+    })
+    Matter.Events.on(hand, 'mouseup', function (event) {
+        if (menu === "straightLine") {
+            const end = event.mouse.position            
+            Composite.add(engine.world, Matter.Bodies.rectangle(
+                (start.x + end.x) / 2, (start.y + end.y) / 2, // 中心位置
+                Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)), 10,   //  尺寸
+                {
+                    angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
+                    isStatic: true, // 静态物体，不会受物理影响
+                    render: {
+                        fillStyle: 'white', // 填充颜色
+                        // 如果不需要边框，可以不设置strokeStyle属性
+                        // strokeStyle: 'black' // 边框颜色
+                    }
+                }))
+        }
     })
 });
