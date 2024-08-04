@@ -19,10 +19,18 @@ body {
     #menu {
         border: 1px solid darkgray;
         display: flex;
-
         object {
             border: 1px solid darkgray;
             color: white;
         }
+
+        div {
+            height: 44px;
+            width: 44px;
+            margin: 2px 2px 2px -46px;
+        }
+        .selected{
+            background-color: dimgray;
+        }
     }
-}
+    }

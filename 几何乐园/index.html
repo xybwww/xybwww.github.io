@@ -11,9 +11,12 @@
   <div id="console">
     <object id="styles" type="image/svg+xml" data="styles.svg">样式</object>
     <div id="menu">
-      <object type="image/svg+xml" data="hand.svg">移动</object>
+      <object type="image/svg+xml" data="hand.svg" class="selected">移动</object>
+      <div id="hand"></div>
       <object type="image/svg+xml" data="straightLine.svg">直线</object>
+      <div id="straightLine"></div>
       <object type="image/svg+xml" data="curvedLine.svg">弯线</object>
+      <div id="curvedLine"></div>
     </div>
     <object id="settings" type="image/svg+xml" data="settings.svg">设置</object>
   </div>
@@ -21,7 +24,6 @@
   <script src="../js/matter.js"></script>
   <script src="../js/jquery.js"></script>
   <script src="./game.js"></script>
-  <script src="./menu.js"></script>
 </body>
 
 </html>
