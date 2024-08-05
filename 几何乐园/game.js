@@ -4,7 +4,6 @@ $(function () {
     const Render = Matter.Render // 基于HTML5画布的渲染器
     const Bodies = Matter.Bodies // 用于创建各种形状的物体，物体必须添加到Wolrd中，然后由引擎运行世界
     const Composite = Matter.Composite // 复合体，旧版的 Matter.World 已经合并到这个模块里
-    const Composites = Matter.Composites
     const Runner = Matter.Runner // 循环模块
 
     // 创建引擎
@@ -20,6 +19,7 @@ $(function () {
             showVelocity: true // 显示速度
         }
     })
+
 
     // 下地面
     const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 50, window.innerWidth, 20, {
@@ -152,14 +152,46 @@ $(function () {
         $(this).prev().addClass("selected")
     })
     Matter.Events.on(engine, 'collisionStart', function (event) {
-        event.pairs.forEach(pair => {
-            if (pair.bodyA === eraser && !grounds.includes(pair.bodyB)) {
-                Composite.remove(engine.world, pair.bodyB);
+        for (let pair of event.pairs) {
+            if (pair.bodyA === eraser || pair.bodyB === eraser) {
+                let theOther
+                if (pair.bodyA === eraser) {
+                    theOther = pair.bodyB
+                }
+                else {
+                    theOther = pair.bodyA
+                }
+                if (grounds.includes(theOther)) {
+                    continue
+                } else {
+                    Composite.remove(engine.world, theOther);
+                    if (doors.includes(theOther)) {
+                        doors.splice(doors.indexOf(theOther), 1);
+                    }
+                }
+            } else if (doors.includes(pair.bodyA) || doors.includes(pair.bodyB)) {
+                if (doors.includes(pair.bodyA)) {
+                    Matter.Body.setPosition(pair.bodyB,doors[Math.floor(Math.random() * doors.length)].position);
+             
+                }
+                else {
+                    Matter.Body.setPosition(pair.bodyA,doors[Math.floor(Math.random() * doors.length)].position);
+                }
             }
-            else if (pair.bodyB === eraser && !grounds.includes(pair.bodyA)) {
-                Composite.remove(engine.world, pair.bodyA);
-            }
-        })
+        }
+    })
+    function moveEraser(position) {
+        Matter.Body.setPosition(eraser, { x: position.x, y: position.y });
+    }
+
+    //传送门
+    var doors = []
+    let doorPlaced
+    $('#door').click(function () {
+        changeMenu()
+        menu = "door"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
     })
 
     //鼠标检测
@@ -179,21 +211,53 @@ $(function () {
                             }, 100);
                         }
                         , 500)
-                    break;
                 }
+                break;
             case "erase":
-                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                moveEraser(event.mouse.position)
                 Composite.add(engine.world, eraser)
+                break;
+            case "door":
+                doors.push(Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, [
+                    { x: 20, y: 60 },
+                    { x: 20, y: 20 },
+                    { x: 17, y: 13 },
+                    { x: 13, y: 7 },
+                    { x: 7, y: 3 },
+                    { x: 0, y: 1 },
+                    { x: -7, y: 3 },
+                    { x: -13, y: 7 },
+                    { x: -17, y: 13 },
+                    { x: -20, y: 20 },
+                    { x: -20, y: 60 }
+                ], {
+                    isStatic: true,
+                    render: {
+                        fillStyle: 'blue'
+                    }
+                }))
+                Composite.add(engine.world, doors[doors.length - 1])
+                doorPlaced = true
                 break;
         }
     })
+    var eraserTimer
     Matter.Events.on(hand, 'mousemove', function (event) {
         switch (menu) {
             case "line":
                 line(event.mouse.position)
                 break;
             case "erase":
-                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                clearInterval(eraserTimer)
+                moveEraser(event.mouse.position)
+                eraserTimer = setInterval(function () {
+                    moveEraser(event.mouse.position)
+                }, 100)
+                break;
+            case "door":
+                if (doorPlaced) {
+                    Matter.Body.setPosition(doors[doors.length - 1], { x: event.mouse.position.x, y: event.mouse.position.y });
+                }
                 break;
         }
     })
@@ -209,8 +273,24 @@ $(function () {
                 timer = undefined
                 break;
             case "erase":
+                clearInterval(eraserTimer)
                 Composite.remove(engine.world, eraser);
+                break
+            case "door":
+                doorPlaced = false
                 break
         }
     })
+
+    //删除掉出的刚体
+    setInterval(function () {
+        // 遍历所有刚体
+        engine.world.bodies.forEach((body) => {
+            // 检查y坐标
+            if (body.position.y > window.innerHeight) {
+                // 删除刚体
+                Composite.remove(world, body);
+            }
+        });
+    }, 10000);
 });
