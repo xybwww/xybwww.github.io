@@ -3,12 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>几何乐园</title>
+  <title>交通之城</title>
   <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 
 <body>
   <div id="console">
+    <object class="button" type="image/svg+xml" data="settings.svg">设置</object>
+    <div id="settings"></div>
     <object class="button" type="image/svg+xml" data="styles.svg">样式</object>
     <div id="styles"></div>
     <div id="menu">
@@ -20,9 +22,11 @@
       <div id="line"></div>
       <object type="image/svg+xml" data="circle.svg">圆形</object>
       <div id="circle"></div>
+      <object type="image/svg+xml" data="doorEnter.svg">入门</object>
+      <div id="doorEnter"></div>
+      <object type="image/svg+xml" data="doorExit.svg">出门</object>
+      <div id="doorExit"></div>
     </div>
-    <object class="button" type="image/svg+xml" data="settings.svg">设置</object>
-    <div id="settings"></div>
   </div>
   <div id="canvas"></div>
   <script src="../js/matter.js"></script>

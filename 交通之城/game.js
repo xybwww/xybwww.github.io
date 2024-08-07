@@ -20,6 +20,7 @@ $(function () {
         }
     })
 
+
     // 下地面
     const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 50, window.innerWidth, 20, {
         isStatic: true,
@@ -75,7 +76,7 @@ $(function () {
         constraint: {
             stiffness: 1,
             render: {
-                visible: false // 默认为 true，会显示鼠标拖拽轨迹
+                visible: true // 默认为 true，会显示鼠标拖拽轨迹
             }
         }
     })
@@ -106,7 +107,7 @@ $(function () {
                 {
                     angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
                     friction: 0,
-                    isStatic: true, // 静态物体，不会受物理影响
+                    isStatic: false, // 静态物体，不会受物理影响
                     render: {
                         fillStyle: 'lightgray', // 填充颜色
                         // 如果不需要边框，可以不设置strokeStyle属性
@@ -132,6 +133,7 @@ $(function () {
     }
 
     //橡皮擦
+    var eraserTimer
     const eraser = Matter.Bodies.circle(0, 0, 5, {
         //静止
         friction: 1,
@@ -151,14 +153,68 @@ $(function () {
         $(this).prev().addClass("selected")
     })
     Matter.Events.on(engine, 'collisionStart', function (event) {
-        event.pairs.forEach(pair => {
-            if (pair.bodyA === eraser && !grounds.includes(pair.bodyB)) {
-                Composite.remove(engine.world, pair.bodyB);
+        for (let pair of event.pairs) {
+            console.log(pair)
+            if (pair.bodyA === eraser || pair.bodyB === eraser) {
+                let theOther
+                if (pair.bodyA === eraser) {
+                    theOther = pair.bodyB
+                }
+                else {
+                    theOther = pair.bodyA
+                }
+                if (grounds.includes(theOther)) {
+                    continue
+                } else {
+                    Composite.remove(engine.world, theOther);
+                    if (doorsExit.includes(theOther)) {
+                        doorsExit.splice(doorsExit.indexOf(theOther), 1);
+                    }
+                }
+            } else if (pair.bodyA.name==="doorEnter"|| pair.bodyB.name==="doorEnter") {
+                if (pair.bodyA.name==="doorEnter") {
+                    Matter.Body.setPosition(pair.bodyB, doorsExit[Math.floor(Math.random() * doorsExit.length)].position);
+
+                }
+                else {
+                    Matter.Body.setPosition(pair.bodyA, doorsExit[Math.floor(Math.random() * doorsExit.length)].position);
+                }
             }
-            else if (pair.bodyB === eraser && !grounds.includes(pair.bodyA)) {
-                Composite.remove(engine.world, pair.bodyA);
-            }
-        })
+        }
+    })
+    function moveEraser(position) {
+        Matter.Body.setPosition(eraser, { x: position.x, y: position.y });
+    }
+
+    //传送门
+    //入门
+    var doorsExit = []
+    let placeDoor
+    const doorVertices = [
+        { x: 20, y: 60 },
+        { x: 20, y: 20 },
+        { x: 17, y: 13 },
+        { x: 13, y: 7 },
+        { x: 7, y: 3 },
+        { x: 0, y: 1 },
+        { x: -7, y: 3 },
+        { x: -13, y: 7 },
+        { x: -17, y: 13 },
+        { x: -20, y: 20 },
+        { x: -20, y: 60 }
+    ]
+    $('#doorEnter').click(function () {
+        changeMenu()
+        menu = "doorEnter"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
+    })
+    //出门
+    $('#doorExit').click(function () {
+        changeMenu()
+        menu = "doorExit"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
     })
 
     //鼠标检测
@@ -178,11 +234,35 @@ $(function () {
                             }, 100);
                         }
                         , 500)
-                    break;
                 }
+                break;
             case "erase":
-                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                moveEraser(event.mouse.position)
                 Composite.add(engine.world, eraser)
+                clearInterval(eraserTimer)
+                eraserTimer = setInterval(function () {
+                    moveEraser(event.mouse.position)
+                }, 100)
+                break;
+            case "doorEnter":
+                 placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
+                    isStatic: true,
+                    name:"doorEnter",
+                    render: {
+                        fillStyle: 'darkgreen'
+                    }
+                })
+                Composite.add(engine.world, placeDoor)
+                break;
+                           case "doorExit":
+                 placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
+                    isStatic: true,
+                    render: {
+                        fillStyle: 'blue'
+                    }
+                })
+                Composite.add(engine.world, placeDoor)
+                doorsExit.push(placeDoor)
                 break;
         }
     })
@@ -192,7 +272,17 @@ $(function () {
                 line(event.mouse.position)
                 break;
             case "erase":
-                Matter.Body.setPosition(eraser, { x: event.mouse.position.x, y: event.mouse.position.y });
+                clearInterval(eraserTimer)
+                moveEraser(event.mouse.position)
+                eraserTimer = setInterval(function () {
+                    moveEraser(event.mouse.position)
+                }, 100)
+                break;
+            case "doorEnter":
+             case "doorExit":
+                if (placeDoor) {
+                    Matter.Body.setPosition(placeDoor, { x: event.mouse.position.x, y: event.mouse.position.y });
+                }
                 break;
         }
     })
@@ -208,7 +298,12 @@ $(function () {
                 timer = undefined
                 break;
             case "erase":
+                clearInterval(eraserTimer)
                 Composite.remove(engine.world, eraser);
+                break
+            case "doorEnter":
+             case "doorExit":
+                placeDoor = undefined
                 break
         }
     })
