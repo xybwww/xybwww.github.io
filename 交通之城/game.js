@@ -76,7 +76,7 @@ $(function () {
         constraint: {
             stiffness: 1,
             render: {
-                visible: false // 默认为 true，会显示鼠标拖拽轨迹
+                visible: true // 默认为 true，会显示鼠标拖拽轨迹
             }
         }
     })
@@ -98,7 +98,7 @@ $(function () {
         $(".selected").removeClass()
         $(this).prev().addClass("selected")
     })
-    function line(end) {
+    function line(end, isStatic) {
         if (lineCache) {
             if (lineCache !== 1) Composite.remove(engine.world, lineCache)
             lineCache = Matter.Bodies.rectangle(
@@ -107,7 +107,7 @@ $(function () {
                 {
                     angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
                     friction: 0,
-                    isStatic: true, // 静态物体，不会受物理影响
+                    isStatic: isStatic, // 静态物体，不会受物理影响
                     render: {
                         fillStyle: 'lightgray', // 填充颜色
                         // 如果不需要边框，可以不设置strokeStyle属性
@@ -120,8 +120,61 @@ $(function () {
         }
     }
 
+    //电梯
+    var teleElevators = []
+    $('#teleElevator').click(function () {
+        changeMenu()
+        menu = "teleElevator"
+        $(".selected").removeClass()
+        $(this).prev().addClass("selected")
+    })
+    function teleElevator(end, isStatic) {
+        if (lineCache) {
+            if (lineCache !== 1) Composite.remove(engine.world, lineCache)
+            lineCache = Matter.Bodies.rectangle(
+                (start.x + end.x) / 2, (start.y + end.y) / 2, // 中心位置
+                Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)), 10,   //  尺寸
+                {
+                    angle: Math.atan2(end.y - start.y, end.x - start.x), // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
+                    friction: 0,
+                    isStatic: isStatic, // 静态物体，不会受物理影响
+                    render: {
+                        fillStyle: 'dodgerblue', // 填充颜色
+                        // 如果不需要边框，可以不设置strokeStyle属性
+                        // strokeStyle: 'black' // 边框颜色
+                    }
+                })
+            Composite.add(engine.world, lineCache)
+        } else {
+            lineCache = 1
+        }
+    }
+    //伸缩电梯
+    setInterval(function () {
+        teleElevators.forEach(function (element) {
+            Composite.remove(engine.world, element.element)
+            element.nowHeight += element.heightPosition
+            if (element.nowHeight >= element.maxHeight || element.nowHeight <= 0) {
+                element.heightPosition = -element.heightPosition
+            }
+            element.element = Matter.Bodies.rectangle(
+                element.element.position.x, element.element.position.y, // 中心位置
+                element.nowHeight, 10,   //  尺寸
+                {
+                    angle: element.element.angle, // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
+                    friction: 0,
+                    isStatic: true, // 静态物体，不会受物理影响
+                    render: {
+                        fillStyle: 'dodgerblue', // 填充颜色
+                        // 如果不需要边框，可以不设置strokeStyle属性
+                        // strokeStyle: 'black' // 边框颜色
+                    }
+                })
+            Composite.add(engine.world, element.element)
+        })
+    }, 100);
+
     //画圆形
-    var lineCache
     $('#circle').click(function () {
         changeMenu()
         menu = "circle"
@@ -151,36 +204,6 @@ $(function () {
         menu = "erase"
         $(".selected").removeClass()
         $(this).prev().addClass("selected")
-    })
-    Matter.Events.on(engine, 'collisionStart', function (event) {
-        for (let pair of event.pairs) {
-            console.log(pair)
-            if (pair.bodyA === eraser || pair.bodyB === eraser) {
-                let theOther
-                if (pair.bodyA === eraser) {
-                    theOther = pair.bodyB
-                }
-                else {
-                    theOther = pair.bodyA
-                }
-                if (grounds.includes(theOther)) {
-                    continue
-                } else {
-                    Composite.remove(engine.world, theOther);
-                    if (doorsExit.includes(theOther)) {
-                        doorsExit.splice(doorsExit.indexOf(theOther), 1);
-                    }
-                }
-            } else if (pair.bodyA.name==="doorEnter"|| pair.bodyB.name==="doorEnter") {
-                if (pair.bodyA.name==="doorEnter") {
-                    Matter.Body.setPosition(pair.bodyB, doorsExit[Math.floor(Math.random() * doorsExit.length)].position);
-
-                }
-                else {
-                    Matter.Body.setPosition(pair.bodyA, doorsExit[Math.floor(Math.random() * doorsExit.length)].position);
-                }
-            }
-        }
     })
     function moveEraser(position) {
         Matter.Body.setPosition(eraser, { x: position.x, y: position.y });
@@ -222,6 +245,7 @@ $(function () {
     Matter.Events.on(hand, 'mousedown', function (event) {
         switch (menu) {
             case "line":
+            case "teleElevator":
                 start = { x: event.mouse.position.x, y: event.mouse.position.y }
                 break;
             case "circle":
@@ -245,17 +269,17 @@ $(function () {
                 }, 100)
                 break;
             case "doorEnter":
-                 placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
+                placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
                     isStatic: true,
-                    name:"doorEnter",
+                    name: "doorEnter",
                     render: {
                         fillStyle: 'darkgreen'
                     }
                 })
                 Composite.add(engine.world, placeDoor)
                 break;
-                           case "doorExit":
-                 placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
+            case "doorExit":
+                placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
                     isStatic: true,
                     render: {
                         fillStyle: 'blue'
@@ -269,7 +293,10 @@ $(function () {
     Matter.Events.on(hand, 'mousemove', function (event) {
         switch (menu) {
             case "line":
-                line(event.mouse.position)
+                line(event.mouse.position, true)
+                break;
+            case "teleElevator":
+                teleElevator(event.mouse.position, true)
                 break;
             case "erase":
                 clearInterval(eraserTimer)
@@ -279,7 +306,7 @@ $(function () {
                 }, 100)
                 break;
             case "doorEnter":
-             case "doorExit":
+            case "doorExit":
                 if (placeDoor) {
                     Matter.Body.setPosition(placeDoor, { x: event.mouse.position.x, y: event.mouse.position.y });
                 }
@@ -289,7 +316,17 @@ $(function () {
     Matter.Events.on(hand, 'mouseup', function (event) {
         switch (menu) {
             case "line":
-                line(event.mouse.position)
+                line(event.mouse.position, true)
+                lineCache = null
+                break;
+            case "teleElevator":
+                teleElevator(event.mouse.position, true)
+                teleElevators.push({
+                    element: lineCache,
+                    maxHeight: Math.sqrt(Math.pow(event.mouse.position.x - start.x, 2) + Math.pow(event.mouse.position.y - start.y, 2)),
+                    nowHeight: Math.sqrt(Math.pow(event.mouse.position.x - start.x, 2) + Math.pow(event.mouse.position.y - start.y, 2)),
+                    heightPosition: -5,
+                })
                 lineCache = null
                 break;
             case "circle":
@@ -302,9 +339,45 @@ $(function () {
                 Composite.remove(engine.world, eraser);
                 break
             case "doorEnter":
-             case "doorExit":
+            case "doorExit":
                 placeDoor = undefined
                 break
+        }
+    })
+
+    //碰撞检测
+    Matter.Events.on(engine, 'collisionStart', function (event) {
+        for (let pair of event.pairs) {
+            if (pair.bodyA === eraser || pair.bodyB === eraser) {
+                let theOther
+                if (pair.bodyA === eraser) {
+                    theOther = pair.bodyB
+                }
+                else {
+                    theOther = pair.bodyA
+                }
+                if (grounds.includes(theOther)) {
+                    continue
+                } else {
+                    Composite.remove(engine.world, theOther);
+                    if (doorsExit.includes(theOther)) {
+                        doorsExit.splice(doorsExit.indexOf(theOther), 1);
+                    } else {
+                        let teleElevatorToRemove = teleElevators.findIndex(element => element.element === theOther);
+                        if (teleElevatorToRemove !== -1) {
+                            teleElevators.splice(teleElevatorToRemove, 1);
+                        }
+                    }
+                }
+            } else if (pair.bodyA.name === "doorEnter" || pair.bodyB.name === "doorEnter") {
+                if (pair.bodyA.name === "doorEnter") {
+                    Matter.Body.setPosition(pair.bodyB, doorsExit[Math.floor(Math.random() * doorsExit.length)].position);
+
+                }
+                else {
+                    Matter.Body.setPosition(pair.bodyA, doorsExit[Math.floor(Math.random() * doorsExit.length)].position);
+                }
+            }
         }
     })
 
@@ -319,4 +392,37 @@ $(function () {
             }
         });
     }, 10000);
-});
+
+
+
+
+
+    //侧边功能
+    //设置
+    $('#settings').click(function () {
+        $("#settingsDiv").toggle("slow");
+    })
+
+    //导入
+    /*    $('#import').click(function () {
+            const content = JSON.stringify(null, null, 2);
+    
+            // 创建一个Blob对象来表示文件内容
+            const blob = new Blob([content], { type: 'text/plain' });
+    
+            // 创建一个指向该Blob的URL
+            const url = URL.createObjectURL(blob);
+            // 创建一个a标签用于下载
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'world_state.txt';
+    
+            // 触发下载
+            document.body.appendChild(a);
+            a.click();
+    
+            // 清理
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        })*/
+})
