@@ -9,8 +9,6 @@
 
 <body>
   <div id="console">
-    <object class="button" type="image/svg+xml" data="settings.svg">设置</object>
-    <div id="settings"></div>
     <object class="button" type="image/svg+xml" data="styles.svg">样式</object>
     <div id="styles"></div>
     <div id="menu">
@@ -20,6 +18,8 @@
       <div id="erase"></div>
       <object type="image/svg+xml" data="line.svg">直线</object>
       <div id="line"></div>
+      <object type="image/svg+xml" data="teleElevator.svg">伸缩</object>
+      <div id="teleElevator"></div>
       <object type="image/svg+xml" data="circle.svg">圆形</object>
       <div id="circle"></div>
       <object type="image/svg+xml" data="doorEnter.svg">入门</object>
@@ -27,8 +27,17 @@
       <object type="image/svg+xml" data="doorExit.svg">出门</object>
       <div id="doorExit"></div>
     </div>
+    <object class="button" type="image/svg+xml" data="settings.svg">设置</object>
+    <div id="settings"></div>
   </div>
   <div id="canvas"></div>
+    <div id="settingsDiv">
+    <h1>速度</h1>
+    <input type="range" id="speed" min="1" max="6" value="3" >
+    <h1>文件</h1>
+    <button id="import"><object type="image/svg+xml" data="import.svg">导入</object></button>
+    <button id="export"><object type="image/svg+xml" data="export.svg">导出</object></button>
+    </div>
   <script src="../js/matter.js"></script>
   <script src="../js/jquery.js"></script>
   <script src="./game.js"></script>

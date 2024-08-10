@@ -12,8 +12,8 @@ body {
     .button {
         height: 46px;
         width: 46px;
-        border: 2px solid darkgray;
-        background-color: darkgray;
+        border: 2px solid gray;
+        background-color: gray;
     }
 
     .button+div {
@@ -41,4 +41,36 @@ body {
             background-color: dimgray;
         }
     }
+}
+
+#settingsDiv {
+    background-color: gray;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    width: 80px;
+    height: 120px;
+    padding: 5px;
+    display: none;
+
+    input{
+        width: 100%;
+    }
+
+    button{
+        width: 37px;
+        padding: 0px;
+        display: inline;
+        color: black;
+        font-size: 8px;
+         object {
+            margin-left: -5px;
+         }
+    }
+}
+
+h1{
+    margin: 0px;
+    font-size: 20px;
+    color: white;
 }
