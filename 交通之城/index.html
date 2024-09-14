@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>交通之城</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 
@@ -32,11 +33,11 @@
   </div>
   <div id="canvas"></div>
     <div id="settingsDiv">
-    <h1>速度</h1>
-    <input type="range" id="speed" min="1" max="6" value="3" >
     <h1>文件</h1>
-    <button id="import"><object type="image/svg+xml" data="import.svg">导入</object></button>
-    <button id="export"><object type="image/svg+xml" data="export.svg">导出</object></button>
+    <button  id="import">导入</button>
+    <button id="export"> 导出</button>
+    <input type="file" id="fileInput" accept=".json, .txt">
+    <a href="../">by xybwww</a>
     </div>
   <script src="../js/matter.js"></script>
   <script src="../js/jquery.js"></script>

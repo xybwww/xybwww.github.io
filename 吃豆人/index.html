@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>吃豆人</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+
+<body>
+  <div id="game">
+    <div id="start">
+      <h1>吃豆人</h1>
+      <div id="pacmanSample">
+        <object id="pacmanSample0" class="show" type="image/svg+xml" data="svg/pacman0.svg" width="100px" height="100px"></object>
+        <object id="pacmanSample1" class="hide" type="image/svg+xml" data="svg/pacman1.svg" width="100px" height="100px"></object>
+        <object id="pacmanSample2" class="hide" type="image/svg+xml" data="svg/pacman2.svg" width="100px" height="100px"></object>
+        <object id="pacmanSample3" class="hide" type="image/svg+xml" data="svg/pacman3.svg" width="100px" height="100px"></object>
+        <object id="pacmanSample4" class="hide" type="image/svg+xml" data="svg/pacman4.svg" width="100px" height="100px"></object>
+        <object id="pacmanSample5" class="hide" type="image/svg+xml" data="svg/pacman5.svg" width="100px" height="100px"></object>
+      </div>
+      <div id="introduction">
+        <object type="image/svg+xml" data="svg/ground.svg" width="300px" height="300px"></object>
+        <div id='blinkySample'>
+          <p>blinky 追逐</p>
+        </div>
+        <div id='pinkySample'>
+          <p>pinky 伏击</p>
+        </div>
+        <div id='inkySample'>
+          <p>inky 反复无常</p>
+        </div>
+        <div id='clydeSample'>
+          <p>clyde 假装无知</p>
+        </div>
+      </div>
+      <button id="startButton">开始游戏</button>
+    </div>
+    <div id="play">
+      <object id="ground" type="image/svg+xml" data="svg/ground.svg" width="544px" height="604px"></object>
+      <div id="direction">
+      <button id="direction1" onclick="directionChange(1)">↑</button>
+      <button id="direction2" onclick="directionChange(2)">↓</button>
+      <button id="direction3" onclick="directionChange(3)">←</button>
+      <button id="direction4" onclick="directionChange(4)">→</button>
+      </div>
+    </div>
+  </div>
+  <div id="ghostSample">
+    <svg class="ghost0" height="70px" stroke-miterlimit="10"
+      style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1"
+      viewBox="-2.22045e-16 0 3 3" width="70px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path
+        d="M1.5 0C0.671573 0-2.22045e-16 0.671573-2.22045e-16 1.5L-2.22045e-16 2.5C-2.22045e-16 2.77614 0.223858 3 0.5 3C0.776142 3 1 2.77614 1 2.5C1 2.77614 1.22386 3 1.5 3C1.77614 3 2 2.77614 2 2.5C2 2.77614 2.22386 3 2.5 3C2.77614 3 3 2.77614 3 2.5L3 1.5C3 0.671573 2.32843 0 1.5 0Z"
+        fill-rule="nonzero" opacity="1" stroke="none" />
+    </svg>
+    <svg class="ghost1" height="70px" stroke-miterlimit="10"
+      style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1"
+      viewBox="-2.22045e-16 0 3 3" width="70px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+      <path
+        d="M1.5 0C0.671573 0 0 0.671573 0 1.5L0 2.5L0 3C0.276142 3 0.5 2.77614 0.5 2.5C0.5 2.77614 0.723858 3 1 3C1.27614 3 1.5 2.77614 1.5 2.5C1.5 2.77614 1.72386 3 2 3C2.27614 3 2.5 2.77614 2.5 2.5C2.5 2.77614 2.72386 3 3 3L3 2.5L3 1.5C3 0.671573 2.32843 0 1.5 0Z"
+        fill-rule="nonzero" opacity="1" stroke="none" />
+    </svg>
+  </div>
+  <script src="../js/jquery.js"></script>
+  <script src="./main.js"></script>
+  <script src="./game.js"></script>
+</body>
+
+</html>

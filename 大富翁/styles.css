@@ -352,3 +352,12 @@ p {
 .svgDown {
   margin-bottom: -5px;
 }
+
+a {
+  position: absolute;
+  top: 0px;
+  left: 5px;
+  font-size: 8px;
+  color: rgba(100, 100, 100, 0.5);
+  text-decoration: none;
+}

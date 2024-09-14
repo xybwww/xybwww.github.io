@@ -1,0 +1,148 @@
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: dimgray;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+#game {
+  width: 1000px;
+  height: 720px;
+  background-color: #250E5C;
+  transform-origin: top left;
+  /* 控制缩放的原点 */
+}
+
+#start,
+#paly {
+  width: 100%;
+  height: 100%;
+}
+
+#start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: white;
+  font-size: 70px;
+}
+
+#pacmanSample {
+  position: absolute;
+  top: 310px;
+  left: 450px;
+}
+
+#pacmanSample object {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  visibility: hidden;
+  transition: transform 1s ease;
+}
+
+#pacmanSample .show {
+  visibility: visible;
+}
+
+#introduction {
+  height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#introduction div {
+  margin: 2.5px;
+  height: 70px;
+  width: auto;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#introduction div p {
+  color: #50D5EE;
+  font-size: 50px;
+  margin: -3px 10px 0px;
+}
+
+#introduction div svg.hide {
+  visibility: hidden;
+}
+
+#startButton {
+  font-size: 60px;
+  margin-top: 50px;
+  height: 100px;
+  border-radius: 50px;
+  background-color: #00A1A1;
+  color: #002B2B;
+  border: 5px solid #006A6A;
+}
+
+#ghostSample {
+  display: none;
+}
+
+#play {
+  display: none;
+}
+
+#ground {
+  position: absolute;
+  left: 228px;
+  top: 48px;
+}
+
+#direction {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  height: 200px;
+  width: 200px;
+}
+
+#direction button {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+  border-radius: 40px;
+  line-height: 0px;
+  padding: 0px;
+  background-color: #00A1A1;
+  color: #002B2B;
+  border: 3px solid #006A6A;
+  position: absolute;
+}
+
+#direction1{
+top: 0px;
+left: 60px;
+}
+#direction2{
+bottom: 0px;
+left: 60px;
+}
+#direction3{
+left: 0px;
+top: 60px;
+}
+#direction4{
+right: 0px;
+top: 60px;
+}

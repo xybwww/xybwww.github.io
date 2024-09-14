@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0.1875 0 4.8125 5" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:vectornator="http://vectornator.io" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<clipPath id="ArtboardFrame">
+<rect height="5" width="4.8125" x="0.1875" y="0"/>
+</clipPath>
+<g clip-path="url(#ArtboardFrame)" id="Layer" vectornator:layerName="Layer">
+<path d="M1 2.5C1 2.22386 1.22386 2 1.5 2C1.77614 2 2 2.22386 2 2.5C2 2.77614 1.77614 3 1.5 3C1.22386 3 1 2.77614 1 2.5Z" fill="#f2b63c" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="椭圆 1"/>
+<path d="M2.5 0C1.30074 0 0.43016 0.90454 0.1875 2.03125L3 2.5L0.1875 2.96875C0.43016 4.09546 1.30074 5 2.5 5C3.88071 5 5 3.88071 5 2.5C5 1.11929 3.88071 0 2.5 0Z" fill="#fddf19" fill-rule="nonzero" opacity="1" stroke="none" vectornator:layerName="曲线 1"/>
+</g>
+</svg>

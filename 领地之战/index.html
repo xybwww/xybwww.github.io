@@ -129,6 +129,12 @@
         bottom: 7.5.5vw;
         line-height: 0;
       }
+      a{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        color: rgba(256,256,256,0.5)
+      }
     </style>
   </head>
 
@@ -144,6 +150,7 @@
     <button id="blue3" class="blueButton" onclick="directionChange('blue',3)">←</button>
     <button id="blue4" class="blueButton" onclick="directionChange('blue',4)">→</button>
     <!--<button id="blueAdd" class="blueButton" onclick="addPawn('blue')">+</button>-->
+    <a href="../">by xybwww</a>
     <script>
       //生成网格
       const gridHeight = Math.floor((document.body.offsetHeight - 20) / 10);

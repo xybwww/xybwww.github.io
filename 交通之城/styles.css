@@ -1,5 +1,6 @@
 body {
     margin: 0px;
+    overflow: hidden;
 }
 
 #console {
@@ -49,28 +50,31 @@ body {
     top: 50px;
     right: 0px;
     width: 80px;
-    height: 120px;
-    padding: 5px;
+    height: 100px;
+    padding:0px 5px;
     display: none;
+    overflow-y: auto;
 
-    input{
-        width: 100%;
-    }
-
-    button{
-        width: 37px;
+    a {
+        font-size: 10px;
+        margin: 0px 0px;
         padding: 0px;
-        display: inline;
-        color: black;
-        font-size: 8px;
-         object {
-            margin-left: -5px;
-         }
     }
-}
 
-h1{
-    margin: 0px;
-    font-size: 20px;
-    color: white;
+    h1 {
+        margin: 0px;
+        font-size: 20px;
+        color: white;
+    }
+
+    #fileInput {
+        display: none;
+    }
+
+    button {
+        width: 100%;
+        padding: 0px;
+        color: black;
+        font-size: 10px;
+    }
 }

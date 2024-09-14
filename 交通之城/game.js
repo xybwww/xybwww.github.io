@@ -7,7 +7,9 @@ $(function () {
   const Runner = Matter.Runner // 循环模块
 
   // 创建引擎
-  const engine = Engine.create()
+  const engine = Engine.create({
+    gravity: { x: 0, y: 0.98 },
+  })
   // 创建渲染器
   const render = Render.create({
     element: $("#canvas")[0], // 绑定页面元素,
@@ -99,17 +101,17 @@ $(function () {
     $(".selected").removeClass()
     $(this).prev().addClass("selected")
   })
-  function line(end, isStatic) {
+  function line(end, values) {
     if (lineCache) {
       if (lineCache !== 1) Composite.remove(engine.world, lineCache)
-      lineValues = { name: "line", x: (start.x + end.x) / 2, y: (start.y + end.y) / 2, width: Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)), height: 10, angle: Math.atan2(end.y - start.y, end.x - start.x) }
+      lineValues = values || { name: "line", x: (start.x + end.x) / 2, y: (start.y + end.y) / 2, width: Math.round(Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))), height: 10, angle: Math.round(Math.atan2(end.y - start.y, end.x - start.x) * 1000) / 1000 }
       lineCache = Matter.Bodies.rectangle(
         lineValues.x, lineValues.y, // 中心位置
         lineValues.width, lineValues.height,   //  尺寸
         {
           angle: lineValues.angle, // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
           friction: 0,
-          isStatic: isStatic, // 静态物体，不会受物理影响
+          isStatic: true, // 静态物体，不会受物理影响
           render: {
             fillStyle: 'lightgray', // 填充颜色
             // 如果不需要边框，可以不设置strokeStyle属性
@@ -130,17 +132,17 @@ $(function () {
     $(".selected").removeClass()
     $(this).prev().addClass("selected")
   })
-  function teleElevator(end, isStatic) {
+  function teleElevator(end, values) {
     if (lineCache) {
       if (lineCache !== 1) Composite.remove(engine.world, lineCache)
-      lineValues = { name: "teleElevator", x: (start.x + end.x) / 2, y: (start.y + end.y) / 2, width: Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)), height: 10, angle: Math.atan2(end.y - start.y, end.x - start.x) }
+      lineValues = values || { name: "teleElevator", x: (start.x + end.x) / 2, y: (start.y + end.y) / 2, width: Math.round(Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2))), height: 10, angle: Math.round(Math.atan2(end.y - start.y, end.x - start.x) * 1000) / 1000 }
       lineCache = Matter.Bodies.rectangle(
         lineValues.x, lineValues.y, // 中心位置
         lineValues.width, lineValues.height,   //  尺寸
         {
           angle: lineValues.angle, // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
           friction: 0,
-          isStatic: isStatic, // 静态物体，不会受物理影响
+          isStatic: true, // 静态物体，不会受物理影响
           render: {
             fillStyle: 'dodgerblue', // 填充颜色
             // 如果不需要边框，可以不设置strokeStyle属性
@@ -156,13 +158,13 @@ $(function () {
   setInterval(function () {
     teleElevators.forEach(function (element) {
       Composite.remove(engine.world, element.element)
-      element.nowHeight += element.heightPosition
-      if (element.nowHeight >= element.maxHeight || element.nowHeight <= 0) {
+      element.nowWidth += element.heightPosition
+      if (element.nowWidth >= element.maxWidth || element.nowWidth <= 0) {
         element.heightPosition = -element.heightPosition
       }
       element.element = Matter.Bodies.rectangle(
         element.element.position.x, element.element.position.y, // 中心位置
-        element.nowHeight, 10,   //  尺寸
+        element.nowWidth, 10,   //  尺寸
         {
           angle: element.element.angle, // 注意：Matter.js中的角度方向可能与我们的直觉相反，可能需要调整
           friction: 0,
@@ -185,8 +187,7 @@ $(function () {
     $(this).prev().addClass("selected")
   })
   function circle(position) {
-    Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5, friction: 0 }))
-    elements[0]++
+    Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5, friction: 0, name: "circle" }))
   }
 
   //橡皮擦
@@ -214,7 +215,6 @@ $(function () {
   }
 
   //传送门
-  //入门
   var doorsExit = []
   let placeDoor
   const doorVertices = [
@@ -230,6 +230,20 @@ $(function () {
     { x: -20, y: 20 },
     { x: -20, y: 60 }
   ]
+  function door(enter, position) {
+    placeDoor = Matter.Bodies.fromVertices(position.x, position.y, doorVertices, {
+      isStatic: true,
+      name: enter ? "doorEnter" : "doorExit",
+      render: {
+        fillStyle: enter ? 'darkgreen' : 'blue'
+      }
+    })
+    Composite.add(engine.world, placeDoor)
+    if (!enter) {
+      doorsExit.push(placeDoor)
+    }
+  }
+  //入门
   $('#doorEnter').click(function () {
     changeMenu()
     menu = "doorEnter"
@@ -273,34 +287,20 @@ $(function () {
         }, 100)
         break;
       case "doorEnter":
-        placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
-          isStatic: true,
-          name: "doorEnter",
-          render: {
-            fillStyle: 'darkgreen'
-          }
-        })
-        Composite.add(engine.world, placeDoor)
+        door(true, event.mouse.position)
         break;
       case "doorExit":
-        placeDoor = Matter.Bodies.fromVertices(event.mouse.position.x, event.mouse.position.y, doorVertices, {
-          isStatic: true,
-          render: {
-            fillStyle: 'blue'
-          }
-        })
-        Composite.add(engine.world, placeDoor)
-        doorsExit.push(placeDoor)
+        door(false, event.mouse.position)
         break;
     }
   })
   Matter.Events.on(hand, 'mousemove', function (event) {
     switch (menu) {
       case "line":
-        line(event.mouse.position, true)
+        line(event.mouse.position)
         break;
       case "teleElevator":
-        teleElevator(event.mouse.position, true)
+        teleElevator(event.mouse.position)
         break;
       case "erase":
         clearInterval(eraserTimer)
@@ -320,18 +320,19 @@ $(function () {
   Matter.Events.on(hand, 'mouseup', function (event) {
     switch (menu) {
       case "line":
-        line(event.mouse.position, true)
+        line(event.mouse.position)
         elements.push(lineValues)
         lineCache = null
         break;
       case "teleElevator":
-        teleElevator(event.mouse.position, true)
+        teleElevator(event.mouse.position)
         teleElevators.push({
           element: lineCache,
-          maxHeight: Math.sqrt(Math.pow(event.mouse.position.x - start.x, 2) + Math.pow(event.mouse.position.y - start.y, 2)),
-          nowHeight: Math.sqrt(Math.pow(event.mouse.position.x - start.x, 2) + Math.pow(event.mouse.position.y - start.y, 2)),
+          maxWidth: Math.sqrt(Math.pow(event.mouse.position.x - start.x, 2) + Math.pow(event.mouse.position.y - start.y, 2)),
+          nowWidth: Math.sqrt(Math.pow(event.mouse.position.x - start.x, 2) + Math.pow(event.mouse.position.y - start.y, 2)),
           heightPosition: -5,
         })
+        elements.push(lineValues)
         lineCache = null
         break;
       case "circle":
@@ -361,10 +362,10 @@ $(function () {
         else {
           theOther = pair.bodyA
         }
+        removeBody(theOther)
         if (grounds.includes(theOther)) {
           continue
         } else {
-          Composite.remove(engine.world, theOther);
           if (doorsExit.includes(theOther)) {
             doorsExit.splice(doorsExit.indexOf(theOther), 1);
           } else {
@@ -386,14 +387,36 @@ $(function () {
     }
   })
 
+
+  //删除刚体
+  function removeBody(body) {
+    if (grounds.includes(body)) {
+      return
+    } else {
+      if (doorsExit.includes(body)) {
+        doorsExit.splice(doorsExit.indexOf(body), 1);
+      } else {
+        let teleElevatorToRemove = teleElevators.findIndex(element => element.element === body);
+        if (teleElevatorToRemove !== -1) {
+          teleElevators.splice(teleElevatorToRemove, 1);
+        }
+      }
+    }
+    Composite.remove(engine.world, body);
+    const index = elements.findIndex(element => element === body);
+    if (index > -1) {
+      elements.splice(index, 1);
+    }
+  }
+
   //删除掉出的刚体
   setInterval(function () {
     // 遍历所有刚体
-    engine.world.bodies.forEach((body) => {
+    Composite.allBodies(engine.world).forEach((body) => {
       // 检查y坐标
       if (body.position.y > window.innerHeight) {
         // 删除刚体
-        Composite.remove(world, body);
+        removeBody(body)
       }
     });
   }, 10000);
@@ -410,29 +433,78 @@ $(function () {
 
   //导入
   $('#import').click(function () {
-    console.log(elements)
+
+    $("#fileInput")[0].click();
+
+    $('#fileInput').on('change', function () {
+      let file = $(this)[0].files[0]; // 获取文件
+
+      if (file) {
+        Composite.allBodies(engine.world).forEach((body) => {
+          // 删除刚体
+          removeBody(body)
+        });
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+          const text = e.target.result;
+
+          try {
+            elements = JSON.parse(text);
+            for (let element of elements) {
+              lineCache = 1
+              switch (element.name) {
+                case "line":
+                  line(undefined, element)
+                  break;
+                case "teleElevator":
+                  teleElevator(undefined, element)
+                  teleElevators.push({
+                    element: lineCache,
+                    maxWidth: element.width,
+                    nowWidth: element.width,
+                    heightPosition: -5,
+                  })
+                  break;
+                case "circle":
+                  circle(element.position)
+                  break
+                case "doorEnter":
+                  door(true, element.position)
+                  break
+                case "doorExit":
+                  door(false, element.position)
+                  break
+              }
+            }
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
+            alert('Error parsing JSON file.');
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+  })
+
+  //导出
+  $('#export').click(function () {
+    Composite.allBodies(engine.world).forEach((body) => {
+      if (["circle", "doorEnter", "doorExit".includes(body.name)]) {
+        elements.push({ name: body.name, position: body.position })
+      }
+    });
     const jsonData = JSON.stringify(elements, null, 2); // 使用两个空格进行缩进，以便阅读
 
     // 创建一个Blob对象，用于存储数据
-    const blob = new Blob([jsonData], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob([jsonData], { type: 'application/json;charset=utf-8' });
 
     // 创建一个指向Blob的URL
     const url = URL.createObjectURL(blob);
 
-    // 创建一个a标签用于下载
-    const a = document.createElement('a');
-    a.href = url;
-    // 设置下载的文件名
-    a.download = '交通之城存档';
-
-    // 触发下载
-    document.body.appendChild(a);
-    a.click();
-
-    // 清理，移除a标签并释放URL对象
-    document.body.removeChild(a);
+    $('<a>', { href: url, download: '交通之城存档' })[0].click();
     URL.revokeObjectURL(url);
 
   })
 })
-
