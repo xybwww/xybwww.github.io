@@ -1,0 +1,88 @@
+html {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  background-color: #85d4ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#ground {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.grid {
+  height: 30px;
+  width: 30px;
+  box-sizing: border-box;
+  border: 5px solid rgba(0, 0, 0, 0);
+}
+
+.grid object {
+  height: 100%;
+  width: 100%;
+}
+
+[data-sterrain="grass"] {
+  background-color: #9ba61c;
+}
+
+[data-sterrain="soil"] {
+  background-color: #d49b54;
+}
+
+.redColor {
+  border-color: #ec0014;
+}
+
+.blueColor {
+  border-color: #007cf1;
+}
+
+.yellowColor {
+  border-color: #ffff00;
+}
+
+.greenColor {
+  border-color: #428800;
+}
+
+.console {
+  height: 50%;
+  width: 145px;
+  background-color: #dedede;
+  border-style: solid;
+  border-width: 5px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+
+.pawnSelect {
+  background-color: #9c9c9c;
+  margin: 5px;
+  height: 30px;
+  width: auto;
+  letter-spacing: -10px;
+}
+
+.pawnSelect span {
+  color: #00f3f4;
+  position: relative;
+  top: -6px;
+  font-size: 25px;
+  letter-spacing: 0px;
+}
