@@ -30,7 +30,7 @@
         }
 
         .status-0 {
-            animation: changeColor 0.5s;
+            animation: changeColor;
             background: lightgray;
         }
 
@@ -170,7 +170,7 @@ var col=parseInt((window.innerWidth/10-1)/2)
                         }
                         // 用jquery的动画函数
                         $(mNearEl).animate({
-                            opacity: 1
+                            opacity: 10
                         }, 10, function () {
                             //    mNearEl.className = mNearEl.className.replace(' status-path', '');
                             index++;
