@@ -7,21 +7,17 @@
 ![星级：★★★★☆](https://img.shields.io/badge/星级-★★★★☆-red)
 ![类型：创作](https://img.shields.io/badge/类型-创作-green)
 
-### [AI走迷宫](AI走迷宫)
+### [大富翁](大富翁)
 ![星级：★★★★☆](https://img.shields.io/badge/星级-★★★★☆-red)
-![类型：游戏](https://img.shields.io/badge/类型-AI-purple)
+![类型：游戏](https://img.shields.io/badge/类型-游戏-red)
 
 ### [领地之战](领地之战)
-![星级：★★★★☆](https://img.shields.io/badge/星级-★★★★☆-red)
-![类型：游戏](https://img.shields.io/badge/类型-游戏-red)
-
-### [大富翁(未完成)](大富翁)
 ![星级：★★★☆☆](https://img.shields.io/badge/星级-★★★☆☆-orange)
 ![类型：游戏](https://img.shields.io/badge/类型-游戏-red)
 
-### [吃豆人(未完成)](吃豆人)
+### [AI走迷宫](AI走迷宫)red
 ![星级：★★★☆☆](https://img.shields.io/badge/星级-★★★☆☆-orange)
-![类型：游戏](https://img.shields.io/badge/类型-游戏-red)
+![类型：游戏](https://img.shields.io/badge/类型-AI-purple)
 
 ### [字数查询](字数查询)
 ![星级：★★☆☆☆](https://img.shields.io/badge/星级-★★☆☆☆-yellow)

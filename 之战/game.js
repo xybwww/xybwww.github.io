@@ -32,11 +32,11 @@ document.addEventListener("keyup", function (event) {
 });*/
 
 //发射士兵
-const qualities = {red:{energy:[1,2,3,4],blood:5,kill:1}, green:{energy:[3,6,9,12],blood:5,kill:1}, yellow:{energy:[2,4,6,9],blood:5,kill:1}, blue:{energy:[2,3,5,6],blood:5,kill:1}};
+const qualities = { red: { energy: [1, 2, 3, 4], blood: 5, kill: 1 }, green: { energy: [3, 6, 9, 12], blood: 5, kill: 1 }, yellow: { energy: [2, 4, 6, 9], blood: 5, kill: 1 }, blue: { energy: [2, 3, 5, 6], blood: 5, kill: 1 } };
 for (const color in qualities) {
-qualities[color].energy.forEach(function (energy,index) {
-    document.getElementById(color +(index+1)).lastElementChild.textContent = energy;
-    document.getElementById(color + (index+1)).addEventListener("click", function (event) {
+  qualities[color].energy.forEach(function (energy, index) {
+    document.getElementById(color + (index + 1)).lastElementChild.textContent = energy;
+    document.getElementById(color + (index + 1)).addEventListener("click", function (event) {
       let plans = [];
       document.querySelectorAll(".grid." + color + "Color").forEach(function (element) {
         if (element.children.length === 0) {
@@ -44,7 +44,7 @@ qualities[color].energy.forEach(function (energy,index) {
         }
       });
       if (plans.length > 0) {
-        plans[Math.floor(Math.random() * plans.length)].appendChild(document.getElementById(color + (index+1)).firstElementChild.cloneNode());
+        plans[Math.floor(Math.random() * plans.length)].appendChild(document.getElementById(color + (index + 1)).firstElementChild.cloneNode());
       }
     });
   })
@@ -52,6 +52,21 @@ qualities[color].energy.forEach(function (energy,index) {
 
 
 //定时器
-setInterval(function() {
-
+var rounds = 0;
+setInterval(function () {
+  rounds++;
+  if (rounds=== 4) {
+    rounds = 0;
+  }
+  const currentColor = ["red", "green", "yellow", "blue"][rounds];
+  document.querySelectorAll(".grid." + currentColor + "Color").forEach(function (element) {
+    if (element.children.length > 0) {
+      const soldier = element.firstElementChild;
+      const energy = qualities[currentColor].energy[rounds];
+      soldier.setAttribute("data-energy", parseInt(soldier.getAttribute("data-energy")) + energy);
+      soldier.setAttribute("data-kill", parseInt(soldier.getAttribute("data-kill")) + qualities[currentColor].kill);
+      soldier.setAttribute("data-blood", qualities[currentColor].blood);
+      soldier.lastElementChild.textContent = soldier.getAttribute("data-energy");
+    }
+  });
 }, 250);

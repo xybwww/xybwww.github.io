@@ -9,19 +9,19 @@
 
 <body>
   <div id="ground">
-    <div id="go" class="grid corner">
+    <div id="go" class="grid corner" data-idx="0">
       <object type="image/svg+xml" data="go.svg" width="40px" height="30px">GO</object>
-      <div id="pawnDiv0" class="pawnDiv"></div>
+      <div id="pawnDiv0" class="pawnDiv" data-place-name="GO"></div>
     </div>
-    <div id="playground" class="grid corner">
+    <div id="playground" class="grid corner" data-idx="13">
       <object type="image/svg+xml" data="playground.svg" width="40px" height="30px">playground</object>
       <div id="pawnDiv13" class="pawnDiv"></div>
     </div>
-    <div id="school" class="grid corner">
+    <div id="school" class="grid corner" data-idx="23">
       <object type="image/svg+xml" data="school.svg" width="40px" height="30px">school</object>
       <div id="pawnDiv23" class="pawnDiv"></div>
     </div>
-    <div id="shop" class="grid corner">
+    <div id="shop" class="grid corner" data-idx="36">
       <object type="image/svg+xml" data="shop.svg" width="40px" height="30px">shop</object>
       <div id="pawnDiv36" class="pawnDiv"></div>
     </div>
@@ -41,8 +41,15 @@
         <input type="checkbox" name="choose" value="green" id="greenChooseInput" checked />
         <label id="greenChooseLabel" for="greenChooseInput"></label>
         <object type="image/svg+xml" data="coin.svg" width="20px" height="20px" class="svgDown"></object>
-        <input id="cionRange" type="range" id="slider" min="500" max="3000" step="100" value="1000" oninput="updateRange()" class="svgDown" />
+        <input id="cionRange" type="range" min="500" max="3000" step="100" value="1000" oninput="updateCoinRange()"
+          class="svgDown" />
         <span id="cionRangeNumber">1000</span>
+        <span>移动范围：</span>
+        <input id="stepRange" type="range" min="1" max="46" step="1" value="46" oninput="updateStepRange()"
+          class="svgDown" />
+        <span id="stepRangeNumber">46</span>
+        <span id="diceNumShow">单骰</span>
+        <input type="range" id="diceNum" min="0" max="1" step="0" value="0" oninput="updateDiceNum()" class="svgDown" />
         <br />
         <button id="startButton">开始</button>
       </div>
@@ -57,7 +64,12 @@
           <p id="dice1">⚀</p>
         </div>
         <div id="bankDiv">
-          <h1>银行</h1>
+          <h1>投资</h1>
+          <label for="">膨胀银行</label>
+          <object type="image/svg+xml" data="coin.svg" width="20px" height="20px" class="svgDown"></object>
+          <span id="bankMoney">0</span>
+          <button id="bankIn">存入</button>
+          <button id="bankOut">取出</button>
         </div>
       </div>
       <div id="actDiv">
@@ -67,8 +79,9 @@
         <button id="cancel">取消</button>
       </div>
     </div>
+    <script src="bigNews.js"></script>
     <script src="script.js"></script>
-     <a href="../">by xybwww</a>
+    <a href="../">by xybwww</a>
 </body>
 
 </html>
