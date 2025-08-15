@@ -15,7 +15,7 @@
 ![星级：★★★☆☆](https://img.shields.io/badge/星级-★★★☆☆-orange)
 ![类型：游戏](https://img.shields.io/badge/类型-游戏-red)
 
-### [AI走迷宫](AI走迷宫)red
+### [AI走迷宫](AI走迷宫)
 ![星级：★★★☆☆](https://img.shields.io/badge/星级-★★★☆☆-orange)
 ![类型：游戏](https://img.shields.io/badge/类型-AI-purple)
 
