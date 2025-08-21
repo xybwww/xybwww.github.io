@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>领地之战</title>
     <link rel="icon" type="image/jpg" sizes="128x128" href="favicon.jpg" />
     <style>
@@ -13,6 +14,7 @@
         width: 100%;
         box-sizing: border-box;
         overflow-x: hidden;
+        touch-action: manipulation;
       }
       body {
         background-color: dimgray;
@@ -140,16 +142,16 @@
 
   <body>
     <div id="ground"></div>
-    <button id="red1" class="redButton" onclick="directionChange('red',1)">↑</button>
-    <button id="red2" class="redButton" onclick="directionChange('red',2)">↓</button>
-    <button id="red3" class="redButton" onclick="directionChange('red',3)">←</button>
-    <button id="red4" class="redButton" onclick="directionChange('red',4)">→</button>
-    <!--<button id="redAdd" class="redButton" onclick="addPawn('red')">+</button>-->
-    <button id="blue1" class="blueButton" onclick="directionChange('blue',1)">↑</button>
-    <button id="blue2" class="blueButton" onclick="directionChange('blue',2)">↓</button>
-    <button id="blue3" class="blueButton" onclick="directionChange('blue',3)">←</button>
-    <button id="blue4" class="blueButton" onclick="directionChange('blue',4)">→</button>
-    <!--<button id="blueAdd" class="blueButton" onclick="addPawn('blue')">+</button>-->
+    <button id="red1" class="redButton">↑</button>
+    <button id="red2" class="redButton">↓</button>
+    <button id="red3" class="redButton">←</button>
+    <button id="red4" class="redButton">→</button>
+    <!--<button id="redAdd" class="redButton">+</button>-->
+    <button id="blue1" class="blueButton">↑</button>
+    <button id="blue2" class="blueButton">↓</button>
+    <button id="blue3" class="blueButton">←</button>
+    <button id="blue4" class="blueButton">→</button>
+    <!--<button id="blueAdd" class="blueButton">+</button>-->
     <a href="../">by xybwww</a>
     <script>
       //生成网格
@@ -177,6 +179,9 @@
       }
 
       var direction = { red: 0, blue: 0 };
+      // 存储活动触摸点
+      var activeTouches = {};
+      
       //改变方向函数
       function directionChange(camp, directionToChange) {
         if (direction[camp] === directionToChange) {
@@ -190,6 +195,119 @@
           document.getElementById(camp + directionToChange).style.backgroundColor = "#A0A0A0";
         }
       }
+      
+      // 设置触摸事件处理
+      function setupTouchEvents() {
+        // 红色按钮
+        document.getElementById('red1').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('red', 1);
+          // 记录触摸点
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'red', direction: 1};
+          }
+        });
+        
+        document.getElementById('red2').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('red', 2);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'red', direction: 2};
+          }
+        });
+        
+        document.getElementById('red3').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('red', 3);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'red', direction: 3};
+          }
+        });
+        
+        document.getElementById('red4').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('red', 4);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'red', direction: 4};
+          }
+        });
+        
+        // 蓝色按钮
+        document.getElementById('blue1').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('blue', 1);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'blue', direction: 1};
+          }
+        });
+        
+        document.getElementById('blue2').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('blue', 2);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'blue', direction: 2};
+          }
+        });
+        
+        document.getElementById('blue3').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('blue', 3);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'blue', direction: 3};
+          }
+        });
+        
+        document.getElementById('blue4').addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          directionChange('blue', 4);
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            activeTouches[touch.identifier] = {camp: 'blue', direction: 4};
+          }
+        });
+        
+        // 触摸结束事件
+        document.addEventListener('touchend', function(e) {
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            const touchData = activeTouches[touch.identifier];
+            
+            if (touchData) {
+              // 如果当前方向是这个触摸点设置的，则停止
+              if (direction[touchData.camp] === touchData.direction) {
+                directionChange(touchData.camp, 0);
+              }
+              delete activeTouches[touch.identifier];
+            }
+          }
+        });
+        
+        // 触摸取消事件
+        document.addEventListener('touchcancel', function(e) {
+          for (let i = 0; i < e.changedTouches.length; i++) {
+            const touch = e.changedTouches[i];
+            const touchData = activeTouches[touch.identifier];
+            
+            if (touchData) {
+              if (direction[touchData.camp] === touchData.direction) {
+                directionChange(touchData.camp, 0);
+              }
+              delete activeTouches[touch.identifier];
+            }
+          }
+        });
+      }
+      
+      // 初始化触摸事件
+      setupTouchEvents();
+
       const code = {
         KeyW: { camp: "red", direction: 1 },
         KeyS: { camp: "red", direction: 2 },
