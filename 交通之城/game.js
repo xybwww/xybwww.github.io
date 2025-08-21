@@ -1,3 +1,4 @@
+var elements = [];
 $(function () {
   const Engine = Matter.Engine; // 引擎.引擎模块包含创建和操作引擎的方法
   const Render = Matter.Render; // 基于HTML5画布的渲染器
@@ -24,6 +25,7 @@ $(function () {
   // 下地面
   const buttomGround = Bodies.rectangle(window.innerWidth / 2, window.innerHeight - 50, window.innerWidth, 20, {
     isStatic: true,
+    name: 'ground',
     render: {
       fillStyle: 'gray',
     },
@@ -31,6 +33,7 @@ $(function () {
   // 左地面
   const leftGround = Bodies.rectangle(0, (window.innerHeight - 50) / 2, 20, window.innerHeight - 50, {
     isStatic: true,
+    name: 'ground',
     render: {
       fillStyle: 'gray',
     },
@@ -38,6 +41,7 @@ $(function () {
   // 右地面
   const rightGround = Bodies.rectangle(window.innerWidth, (window.innerHeight - 50) / 2, 20, window.innerHeight - 50, {
     isStatic: true,
+    name: 'ground',
     render: {
       fillStyle: 'gray',
     },
@@ -50,8 +54,6 @@ $(function () {
   const runner = Runner.create();
   // 运行渲染器
   Runner.run(runner, engine);
-
-  var elements = [];
 
   //菜单
   $('#menu').width(window.innerWidth - 100);
@@ -85,7 +87,7 @@ $(function () {
     Composite.add(engine.world, hand);
   });
 
-  var start;
+  var start = { x: 0, y: 0 };
   //画直线
   var lineCache, lineValues;
   $('#line').click(function () {
@@ -189,8 +191,7 @@ $(function () {
     $(this).prev().addClass('selected');
   });
   function circle(position) {
-    //随机颜色
-    const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    const randomColor = `rgb(${Math.random() * 200 + 56}, ${Math.random() * 200 + 56}, ${Math.random() * 200 + 56})`;
     Composite.add(engine.world, Bodies.circle(position.x, position.y, 15, { mass: 0.1, restitution: 0.5, friction: 0, name: 'circle', render: { fillStyle: randomColor } }));
   }
 
@@ -265,6 +266,7 @@ $(function () {
   //鼠标检测
   var timer;
   Matter.Events.on(hand, 'mousedown', function (event) {
+    $('#settingsDiv').hide('normal');
     switch (menu) {
       case 'line':
       case 'teleElevator':
@@ -394,20 +396,23 @@ $(function () {
       if (doorsExit.includes(body)) {
         doorsExit.splice(doorsExit.indexOf(body), 1);
       } else {
-        let teleElevatorToRemove = teleElevators.findIndex((element) => Math.abs(parseFloat(element .angle)-parseFloat(body.angle))<0.001&&Math.abs(parseFloat(element.x )*2- parseFloat(body.bounds.max.x)-parseFloat(body.bounds.min.x))<1&&Math.abs(parseFloat(element.y )*2- parseFloat(body.bounds.max.y)-parseFloat(body.bounds.min.y))<1);
+        let teleElevatorToRemove = teleElevators.findIndex(
+          (element) =>
+            Math.abs(parseFloat(element.angle) - parseFloat(body.angle)) < 0.001 && Math.abs(parseFloat(element.x) * 2 - parseFloat(body.bounds.max.x) - parseFloat(body.bounds.min.x)) < 1 && Math.abs(parseFloat(element.y) * 2 - parseFloat(body.bounds.max.y) - parseFloat(body.bounds.min.y)) < 1
+        );
         if (teleElevatorToRemove !== -1) {
           teleElevators.splice(teleElevatorToRemove, 1);
         }
       }
     }
     Composite.remove(engine.world, body);
-    const index = elements.findIndex((element) => Math.abs(parseFloat(element.angle )- parseFloat(body.angle))<0.001&&Math.abs(parseFloat(element.x )*2- parseFloat(body.bounds.max.x)-parseFloat(body.bounds.min.x))<1&&Math.abs(parseFloat(element.y )*2- parseFloat(body.bounds.max.y)-parseFloat(body.bounds.min.y))<1);
-       console.log(elements[index])
+    const index = elements.findIndex(
+      (element) =>
+        Math.abs(parseFloat(element.angle) - parseFloat(body.angle)) < 0.001 && Math.abs(parseFloat(element.x) * 2 - parseFloat(body.bounds.max.x) - parseFloat(body.bounds.min.x)) < 1 && Math.abs(parseFloat(element.y) * 2 - parseFloat(body.bounds.max.y) - parseFloat(body.bounds.min.y)) < 1
+    );
     if (index > -1) {
       elements.splice(index, 1);
     }
-    console.log(body)
-    
   }
 
   //删除掉出的刚体
@@ -425,7 +430,7 @@ $(function () {
   //侧边功能
   //设置
   $('#settings').click(function () {
-    $('#settingsDiv').toggle('slow');
+    $('#settingsDiv').toggle('normal');
   });
 
   //导入
@@ -436,7 +441,6 @@ $(function () {
       let file = $(this)[0].files[0]; // 获取文件
 
       if (file) {
-
         const reader = new FileReader();
 
         reader.onload = function (e) {
@@ -444,8 +448,8 @@ $(function () {
 
           try {
             elements = JSON.parse(text);
-for (let i = elements.length - 1; i >= 0; i--) {
-  const element=elements[i]
+            for (let i = elements.length - 1; i >= 0; i--) {
+              const element = elements[i];
               lineCache = 1;
               switch (element.name) {
                 case 'line':
@@ -462,18 +466,20 @@ for (let i = elements.length - 1; i >= 0; i--) {
                   break;
                 case 'circle':
                   circle(element.position);
-                  elements.splice(i, 1); 
+                  elements.splice(i, 1);
                   break;
                 case 'doorEnter':
                   door(true, element.position);
-                  elements.splice(i, 1); 
+                  elements.splice(i, 1);
                   break;
                 case 'doorExit':
                   door(false, element.position);
-                  elements.splice(i, 1); 
+                  elements.splice(i, 1);
                   break;
               }
             }
+            $('#filename').val(file.name.replace('.json', ''));
+
           } catch (error) {
             console.error('Error parsing JSON:', error);
             alert('Error parsing JSON file.');
@@ -486,12 +492,13 @@ for (let i = elements.length - 1; i >= 0; i--) {
 
   //导出
   $('#export').click(function () {
+    let elementsExport = [...elements];
     Composite.allBodies(engine.world).forEach((body) => {
-      if (body.name==='circle'||body.name==='doorEnter'|| body.name==='doorExit') {
-        elements.push({ name: body.name, position: body.position });
+      if (body.name === 'circle' || body.name === 'doorEnter' || body.name === 'doorExit') {
+        elementsExport.push({ name: body.name, position: body.position });
       }
     });
-    const jsonData = JSON.stringify(elements, null, 2); // 使用两个空格进行缩进，以便阅读
+    const jsonData = JSON.stringify(elementsExport, null, 2); // 使用两个空格进行缩进，以便阅读
 
     // 创建一个Blob对象，用于存储数据
     const blob = new Blob([jsonData], { type: 'application/json;charset=utf-8' });
@@ -499,12 +506,18 @@ for (let i = elements.length - 1; i >= 0; i--) {
     // 创建一个指向Blob的URL
     const url = URL.createObjectURL(blob);
 
-    $('<a>', { href: url, download: '交通之城存档' })[0].click();
+    $('<a>', { href: url, download: $('#filename').val() || '交通之城存档' })[0].click();
     URL.revokeObjectURL(url);
   });
 
-  //重新加载
-  $('#reload').click(function () {
-    location.reload();
+  //清空
+  $('#clear').click(function () {
+    teleElevators = [];
+    Composite.allBodies(engine.world).forEach((body) => {
+      if (body.name !== 'ground') {
+        removeBody(body);
+      }
+    });
+    elements = [];
   });
 });

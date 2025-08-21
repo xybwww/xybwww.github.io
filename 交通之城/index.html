@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>交通之城</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
   <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 
@@ -32,14 +32,15 @@
     <div id="settings"></div>
   </div>
   <div id="canvas"></div>
-    <div id="settingsDiv">
+  <div id="settingsDiv">
     <h1>文件</h1>
-     <button id="export"> 导出</button>
-    <button  id="import">导入</button>
-    <button id="reload">重新加载</button>
-    <input type="file" id="fileInput" accept=".json, .txt">
+    <input type="text" id="filename" value="交通之城存档">
+    <button id="export"> 导出</button>
+    <button id="import">导入</button>
+    <button id="clear">清空</button>
+    <input type="file" id="fileInput" accept=".json">
     <a href="../">by xybwww</a>
-    </div>
+  </div>
   <script src="../js/matter.js"></script>
   <script src="../js/jquery.js"></script>
   <script src="./game.js"></script>
