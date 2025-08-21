@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>汉字拼音对照工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", "Heiti SC", tahoma, arial, "Hiragino Sans GB", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c3e50, #1a2a6c, #2c3e50);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb, #a1c4fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.15rem;
+            color: #e0f7fa;
+            margin: 0 auto 15px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .input-section {
+            background: rgba(0, 0, 0, 0.18);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 1.18rem;
+            font-weight: 500;
+            color: #4fc3f7;
+            display: flex;
+            align-items: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 170px;
+            padding: 18px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            border: 2px solid #64b5f6;
+            background: rgba(0, 20, 40, 0.3);
+            color: #fff;
+            resize: vertical;
+            transition: all 0.3s;
+            line-height: 1.7;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4db6ac;
+            box-shadow: 0 0 0 3px rgba(77, 182, 172, 0.3);
+        }
+
+        .btn-group {
+            margin-top: 10px;
+        }
+
+        button {
+            flex: 1;
+            min-width: 150px;
+            width: auto;
+            padding: 14px 22px;
+            font-size: 1.12rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .process-btn {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            color: #fff;
+        }
+
+        .example-btn {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: #1a237e;
+        }
+
+        .clear-btn {
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: #333;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.25);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .result-section {
+            background: rgba(0, 0, 0, 0.18);
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .result-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.35rem;
+            color: #4db6ac;
+        }
+
+        .result-container {
+            min-height: 150px;
+            background: rgba(0, 10, 30, 0.25);
+            border-radius: 12px;
+            padding: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: start;
+            line-height: 1.3;
+        }
+
+        .char-pair {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 42px;
+            margin: 3px;
+        }
+
+        .pinyin {
+            font-size: 1.05rem;
+            color: #ffecb3;
+            text-align: center;
+            padding: 3px 6px;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 4px;
+            min-width: 42px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .hanzi {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #e3f2fd;
+            text-align: center;
+            line-height: 1;
+            margin-top: 2px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+        }
+
+        .punctuation {
+            font-size: 1.9rem;
+            color: #81d4fa;
+            align-self: flex-end;
+            margin-bottom: 10px;
+            min-width: 5px;
+            text-align: center;
+        }
+
+        .space {
+            display: inline-block;
+            width: 25px;
+            height: 1px;
+        }
+
+        .new-line {
+            width: 100%;
+            height: 20px;
+        }
+
+        .instructions {
+            margin-top: 35px;
+            padding: 22px;
+            background: rgba(0, 0, 0, 0.18);
+            border-radius: 15px;
+            font-size: 1.05rem;
+            line-height: 1.75;
+        }
+
+        .instructions h3 {
+            color: #4db6ac;
+            margin-bottom: 18px;
+            font-size: 1.35rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .instructions ul {
+            padding-left: 28px;
+        }
+
+        .instructions li {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .instructions li:before {
+            content: "•";
+            color: #4fc3f7;
+            position: absolute;
+            left: -18px;
+            top: 0;
+            font-size: 1.3rem;
+        }
+
+        .instructions code {
+            background: rgba(0, 30, 60, 0.3);
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.95rem;
+            color: #ffecb3;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            color: rgba(224, 247, 250, 0.7);
+            font-size: 0.95rem;
+            padding: 0 20px;
+        }
+
+        .highlight {
+            color: #4db6ac;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .hanzi {
+                font-size: 1.7rem;
+            }
+
+            .pinyin {
+                font-size: 0.95rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            textarea {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>汉字拼音对照工具</h1>
+            <p class="subtitle">输入带有拼音标注的文本，系统将自动提取汉字和拼音，并生成<span class="highlight">上下对应的展示效果</span>，保留原始文本的换行和空格格式</p>
+        </header>
+
+        <section class="input-section">
+            <div class="input-group">
+                <label for="inputText">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a.5.5 0 0 0 .5-.5V7.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 7.707V10.5a.5.5 0 0 0 .5.5z" />
+                    </svg>
+                    请输入文本（格式示例：文(wén) 字(zì)）：
+                </label>
+                <textarea id="inputText"
+                    placeholder="请输入带有拼音标注的文本，例如：文(wén) 英(yīng) 占(zhān) 玩(wán) 极(jí) 精(jīng) 详(xiáng)">文(wén) 英(yīng) 占(zhān) 玩(wán) 极(jí) 精(jīng) 详(xiáng) ， 进(jìn) 谏(jiàn) 之(zhī) 言(yán) 亦(yì) 善(shàn) 良(liáng) 。
+
+妖(yāo) 道(dào) 不(bù) 知(zhī) 天(tiān) 命(mìng) 在(zài) ， 怒(nù) 将(jiāng) 雄(xióng) 剑(jiàn) 斩(zhǎn) 身(shēn) 亡(wáng) 。</textarea>
+
+                <div class="btn-group">
+                    <button class="process-btn" onclick="processText()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M6 12.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zM3 8.062C3 6.76 4.235 5.765 5.53 5.886a26.58 26.58 0 0 0 4.94 0C11.765 5.765 13 6.76 13 8.062v1.157a.933.933 0 0 1-.765.935c-.845.147-2.34.346-4.235.346-1.895 0-3.39-.2-4.235-.346A.933.933 0 0 1 3 9.219V8.062zm4.542-.827a.25.25 0 0 0-.217.068l-.92.9a24.767 24.767 0 0 1-1.871-.183.25.25 0 0 0-.068.495c.55.076 1.232.149 2.02.193a.25.25 0 0 0 .189-.071l.754-.736.847 1.71a.25.25 0 0 0 .404.062l.932-.97a25.286 25.286 0 0 0 1.922-.188.25.25 0 0 0-.068-.495c-.538.074-1.207.145-1.98.189a.25.25 0 0 0-.166.076l-.754.785-.842-1.7a.25.25 0 0 0-.182-.135z" />
+                            <path
+                                d="M8.5 1.866a1 1 0 1 0-1 0V3h-2A4.5 4.5 0 0 0 1 7.5V8a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1v1a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1v-.5A4.5 4.5 0 0 0 10.5 3h-2V1.866zM14 7.5V13a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V7.5A3.5 3.5 0 0 1 5.5 4h5A3.5 3.5 0 0 1 14 7.5z" />
+                        </svg>
+                        处理文本
+                    </button>
+                    <button class="example-btn" onclick="loadExample()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                        </svg>
+                        加载示例
+                    </button>
+                    <button class="clear-btn" onclick="clearAll()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                        </svg>
+                        清空
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="result-section">
+            <div class="result-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a.5.5 0 0 0 .5-.5V7.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 7.707V10.5a.5.5 0 0 0 .5.5z" />
+                </svg>
+                <h2>处理结果</h2>
+            </div>
+            <div id="resultContainer" class="result-container">
+                <!-- 结果将通过JavaScript动态生成 -->
+            </div>
+        </section>
+
+        <section class="instructions">
+            <h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+                </svg>
+                使用说明
+            </h3>
+            <ul>
+                <li>输入文本格式应为：<code>汉(hàn) 字(zì) 后(hòu) 面(miàn) 跟(gēn) 拼(pīn) 音(yīn)</code></li>
+                <li>每个汉字和拼音应包含在括号中，例如：<code>文(wén)</code></li>
+                <li>汉字与拼音之间用空格分隔</li>
+                <li>标点符号不需要加拼音，可直接输入，如<code>， 。 ！ ？ “ ”</code></li>
+                <li>系统会<span class="highlight">保留原始文本中的换行和空格</span></li>
+                <li>点击"处理文本"按钮生成上下对照效果</li>
+                <li>点击"加载示例"按钮查看示例文本</li>
+                <li>点击"清空"按钮重置输入和结果</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>汉字拼音对照工具 &copy; 2023 - 专为中文学习者设计 | 支持完整标点符号处理 | 保留原始格式</p>
+    </footer>
+
+    <script>
+        function processText() {
+            const inputText = document.getElementById('inputText').value;
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = '';
+
+            if (!inputText.trim()) {
+                resultContainer.innerHTML = '<div style="color:#4db6ac; text-align:center; width:100%; padding:40px; font-size:1.2rem;">请输入文本内容！</div>';
+                return;
+            }
+
+            // 使用正则表达式匹配汉字和拼音，包括双引号等标点
+            const regex = /([\u4e00-\u9fa5])\(([^)]+)\)|\s*([，。！？；：、\s“”])\s*/g;
+            let match;
+            let lastIndex = 0;
+
+            // 处理换行
+            const lines = inputText.split('\n');
+
+            lines.forEach((line, lineIndex) => {
+                lastIndex = 0;
+
+                while ((match = regex.exec(line)) !== null) {
+                    // 处理匹配结果之间的文本（如果有）
+                    if (match.index > lastIndex) {
+                        const textBetween = line.substring(lastIndex, match.index);
+                        if (textBetween.trim()) {
+                            // 处理空格
+                            if (textBetween.includes(' ')) {
+                                const spaceDiv = document.createElement('div');
+                                spaceDiv.className = 'space';
+                                resultContainer.appendChild(spaceDiv);
+                            } else {
+                                const invalidDiv = document.createElement('div');
+                                invalidDiv.className = 'char-pair';
+                                invalidDiv.innerHTML = `
+                                    <div class="pinyin" style="color:#ff6b6b">错误</div>
+                                    <div class="hanzi" style="color:#ff6b6b">?</div>
+                                `;
+                                resultContainer.appendChild(invalidDiv);
+                            }
+                        }
+                    }
+
+                    if (match[1] && match[2]) {
+                        // 汉字和拼音匹配
+                        const charPair = document.createElement('div');
+                        charPair.className = 'char-pair';
+                        charPair.innerHTML = `
+                            <div class="pinyin">${match[2]}</div>
+                            <div class="hanzi">${match[1]}</div>
+                        `;
+                        resultContainer.appendChild(charPair);
+                    } else if (match[3]) {
+                        // 标点符号匹配
+                        const punctuation = document.createElement('div');
+                        punctuation.className = 'punctuation';
+                        punctuation.textContent = match[3];
+                        resultContainer.appendChild(punctuation);
+                    }
+
+                    lastIndex = regex.lastIndex;
+                }
+
+                // 处理匹配后的剩余文本（如果有）
+                if (lastIndex < line.length) {
+                    const remainingText = line.substring(lastIndex);
+                    if (remainingText.trim()) {
+                        // 处理空格
+                        if (remainingText.includes(' ')) {
+                            const spaceDiv = document.createElement('div');
+                            spaceDiv.className = 'space';
+                            resultContainer.appendChild(spaceDiv);
+                        } else {
+                            const invalidDiv = document.createElement('div');
+                            invalidDiv.className = 'char-pair';
+                            invalidDiv.innerHTML = `
+                                <div class="pinyin" style="color:#ff6b6b">错误</div>
+                                <div class="hanzi" style="color:#ff6b6b">?</div>
+                            `;
+                            resultContainer.appendChild(invalidDiv);
+                        }
+                    }
+                }
+
+                // 如果不是最后一行，添加换行
+                if (lineIndex < lines.length - 1) {
+                    const newLineDiv = document.createElement('div');
+                    newLineDiv.className = 'new-line';
+                    resultContainer.appendChild(newLineDiv);
+                }
+            });
+
+            // 如果没有匹配到任何内容
+            if (resultContainer.children.length === 0) {
+                resultContainer.innerHTML = '<div style="color:#4db6ac; text-align:center; width:100%; padding:40px; font-size:1.2rem;">未找到有效的汉字拼音组合！请检查输入格式。</div>';
+            }
+        }
+
+        function loadExample() {
+            document.getElementById('inputText').value = `文(wén) 英(yīng) 占(zhān) 玩(wán) 极(jí) 精(jīng) 详(xiáng) ， 进(jìn) 谏(jiàn) 之(zhī) 言(yán) 亦(yì) 善(shàn) 良(liáng) 。
+
+妖(yāo) 道(dào) 不(bù) 知(zhī) 天(tiān) 命(mìng) 在(zài) ， 怒(nù) 将(jiāng) 雄(xióng) 剑(jiàn) 斩(zhǎn) 身(shēn) 亡(wáng) 。`;
+            processText();
+        }
+
+        function clearAll() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('resultContainer').innerHTML = '<div style="color:#81d4fa; text-align:center; width:100%; padding:40px; font-size:1.2rem;">处理结果将显示在这里</div>';
+        }
+
+        // 初始加载示例
+        window.onload = function () {
+            loadExample();
+        };
+    </script>
+</body>
+
+</html>
