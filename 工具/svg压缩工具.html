@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>svg压缩工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .input-section, .preview-section, .output-section {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            resize: vertical;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        button#compress-btn {
+            background: #27ae60;
+        }
+        
+        button#compress-btn:hover {
+            background: #219653;
+        }
+        
+        button#copy-btn {
+            background: #9b59b6;
+        }
+        
+        button#copy-btn:hover {
+            background: #8e44ad;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-box {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+        
+        .original {
+            color: #e74c3c;
+        }
+        
+        .compressed {
+            color: #27ae60;
+        }
+        
+        .preview-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .preview-box {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .preview-box h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .preview-svg {
+            max-width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 6px;
+            padding: 10px;
+        }
+        
+        .preview-svg svg {
+            max-height: 100%;
+            max-width: 100%;
+        }
+        
+        .optimization-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .optimization-list h3 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .optimization-list ul {
+            padding-left: 20px;
+        }
+        
+        .optimization-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .code-container {
+            position: relative;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        
+        .code-content {
+            background: #f1f8ff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            max-height: 200px;
+        }
+        
+        .success-msg {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .success-msg.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .decimal-control {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .decimal-control h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #d3d3d3;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+        }
+        
+        .decimal-value {
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+            
+            .slider-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+        
+                footer {
+            margin-top: 40px;
+            font-size: 0.95rem;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>svg压缩工具</h1>
+            <p class="description">移除不必要的元素和属性，优化svg代码结构，减小文件大小</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="input-section">
+                <h2 class="section-title">输入svg代码</h2>
+                <textarea id="svg-input" placeholder="粘贴svg代码到这里..."></textarea>
+                
+                <div class="decimal-control">
+                    <h3>小数点精度控制</h3>
+                    <div class="slider-container">
+                        <span>0</span>
+                        <input type="range" min="0" max="5" value="2" class="slider" id="decimal-slider">
+                        <span>5</span>
+                        <span class="decimal-value" id="decimal-value">2</span>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="compress-btn">压缩svg</button>
+                    <button id="clear-btn">清空</button>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-value original" id="original-size">0</div>
+                        <div class="stat-label">原始大小(字符)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value compressed" id="compressed-size">0</div>
+                        <div class="stat-label">压缩后大小(字符)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value" id="reduction">0%</div>
+                        <div class="stat-label">减少比例</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h2 class="section-title">svg预览</h2>
+                <div class="preview-container">
+                    <div class="preview-box">
+                        <h3>原始svg</h3>
+                        <div class="preview-svg" id="original-preview">
+                            <!-- 原始svg预览将显示在这里 -->
+                        </div>
+                    </div>
+                    <div class="preview-box">
+                        <h3>压缩后的svg</h3>
+                        <div class="preview-svg" id="compressed-preview">
+                            <!-- 压缩后的svg预览将显示在这里 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="output-section">
+                <h2 class="section-title">压缩结果</h2>
+                
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>压缩后的svg代码</span>
+                        <button id="copy-btn">复制代码</button>
+                    </div>
+                    <div class="code-content" id="compressed-output">
+                        <!-- 压缩后的代码将显示在这里 -->
+                    </div>
+                </div>
+                
+                <div class="optimization-list">
+                    <h3>优化内容</h3>
+                    <ul id="optimization-items">
+                        <li>压缩结果将显示在这里</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            <footer>
+            <p>由 <a href="../">xybwww</a> 创建 © 2025</p>
+    </footer>
+    </div>
+    
+    <div class="success-msg" id="success-msg">代码已复制到剪贴板！</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const svgInput = document.getElementById('svg-input');
+            const compressedOutput = document.getElementById('compressed-output');
+            const originalPreview = document.getElementById('original-preview');
+            const compressedPreview = document.getElementById('compressed-preview');
+            const originalSize = document.getElementById('original-size');
+            const compressedSize = document.getElementById('compressed-size');
+            const reduction = document.getElementById('reduction');
+            const optimizationItems = document.getElementById('optimization-items');
+            const compressBtn = document.getElementById('compress-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const successMsg = document.getElementById('success-msg');
+            const decimalSlider = document.getElementById('decimal-slider');
+            const decimalValue = document.getElementById('decimal-value');
+            
+            // 初始化小数点滑块
+            decimalSlider.addEventListener('input', function() {
+                decimalValue.textContent = this.value;
+            });
+            
+            // 压缩按钮点击事件
+            compressBtn.addEventListener('click', function() {
+                const input = svgInput.value.trim();
+                if (!input) {
+                    alert('请输入svg代码');
+                    return;
+                }
+                
+                const decimalPlaces = parseInt(decimalSlider.value);
+                const result = compresssvg(input, decimalPlaces);
+                compressedOutput.textContent = result.compressed;
+                
+                // 更新统计信息
+                const originalLength = input.length;
+                const compressedLength = result.compressed.length;
+                const reductionPercent = Math.round((originalLength - compressedLength) / originalLength * 100);
+                
+                originalSize.textContent = originalLength;
+                compressedSize.textContent = compressedLength;
+                reduction.textContent = `${reductionPercent}%`;
+                
+                // 显示优化内容
+                optimizationItems.innerHTML = '';
+                result.optimizations.forEach(opt => {
+                    const li = document.createElement('li');
+                    li.textContent = opt;
+                    optimizationItems.appendChild(li);
+                });
+                
+                // 更新压缩后的预览
+                updateCompressedPreview(result.compressed);
+            });
+            
+            // 清空按钮点击事件
+            clearBtn.addEventListener('click', function() {
+                svgInput.value = '';
+                compressedOutput.textContent = '';
+                optimizationItems.innerHTML = '<li>压缩结果将显示在这里</li>';
+                originalSize.textContent = '0';
+                compressedSize.textContent = '0';
+                reduction.textContent = '0%';
+                originalPreview.innerHTML = '';
+                compressedPreview.innerHTML = '';
+            });
+            
+            // 复制按钮点击事件
+            copyBtn.addEventListener('click', function() {
+                const text = compressedOutput.textContent;
+                if (!text) {
+                    alert('没有可复制的内容');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    successMsg.classList.add('show');
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('复制失败:', err);
+                    alert('复制失败，请手动复制代码');
+                });
+            });
+            
+            // 输入变化时更新原始大小和预览
+            svgInput.addEventListener('input', function() {
+                updateOriginalSize();
+                updatePreview();
+            });
+            
+            function updateOriginalSize() {
+                originalSize.textContent = svgInput.value.length;
+            }
+            
+            function updatePreview() {
+                const input = svgInput.value.trim();
+                if (!input) {
+                    originalPreview.innerHTML = '';
+                    return;
+                }
+                
+                // 显示原始svg预览
+                try {
+                    originalPreview.innerHTML = input;
+                } catch (e) {
+                    originalPreview.innerHTML = '<p>无法预览: svg代码可能无效</p>';
+                }
+            }
+            
+            function updateCompressedPreview(svgCode) {
+                // 显示压缩后的svg预览
+                try {
+                    compressedPreview.innerHTML = svgCode;
+                } catch (e) {
+                    compressedPreview.innerHTML = '<p>无法预览: 压缩后的svg代码可能无效</p>';
+                }
+            }
+            
+            // svg压缩函数
+            function compresssvg(svgCode, decimalPlaces) {
+                const optimizations = [];
+                let compressed = svgCode;
+                
+                // 1. 移除XML声明
+                if (compressed.includes('<?xml')) {
+                    compressed = compressed.replace(/<\?xml[^>]*>\s*/g, '');
+                    optimizations.push('移除了XML声明');
+                }
+                
+                // 2. 移除DOCTYPE
+                if (compressed.includes('<!DOCTYPE')) {
+                    compressed = compressed.replace(/<!DOCTYPE[^>[]*(\[[^]]*\])?>\s*/g, '');
+                    optimizations.push('移除了DOCTYPE声明');
+                }
+                
+                // 3. 移除注释
+                if (compressed.includes('<!--')) {
+                    compressed = compressed.replace(/<!--[\s\S]*?-->\s*/g, '');
+                    optimizations.push('移除了注释');
+                }
+                
+                // 4. 移除不必要的命名空间
+                compressed = compressed.replace(/xmlns:xlink="[^"]*"/g, '');
+                compressed = compressed.replace(/xml:space="[^"]*"/g, '');
+                optimizations.push('移除了不必要的命名空间属性');
+                
+                // 5. 移除编辑器特定属性
+                compressed = compressed.replace(/vectornator:layerName="[^"]*"/g, '');
+                compressed = compressed.replace(/xmlns:vectornator="[^"]*"/g, '');
+                optimizations.push('移除了编辑器特定属性');
+                
+                // 6. 移除空元素
+                compressed = compressed.replace(/<defs\/>\s*/g, '');
+                compressed = compressed.replace(/<g\/>\s*/g, '');
+                optimizations.push('移除了空元素');
+                
+                // 7. 移除默认值属性
+                compressed = compressed.replace(/fill-rule="nonzero"/g, '');
+                compressed = compressed.replace(/opacity="1"/g, '');
+                compressed = compressed.replace(/stroke="none"/g, '');
+                compressed = compressed.replace(/clip-rule="evenodd"/g, '');
+                optimizations.push('移除了默认值属性');
+                
+                // 8. 简化样式属性
+                compressed = compressed.replace(/style="[^"]*"/g, '');
+                optimizations.push('移除了内联样式');
+                
+                // 9. 简化尺寸属性
+                compressed = compressed.replace(/width="[^"]*px"/g, '');
+                compressed = compressed.replace(/height="[^"]*px"/g, '');
+                optimizations.push('简化了尺寸属性');
+                
+                // 10. 移除所有<g>标签（保留内容）
+                if (compressed.includes('<g')) {
+                    // 移除开标签
+                    compressed = compressed.replace(/<g[^>]*>/g, '');
+                    // 移除闭标签
+                    compressed = compressed.replace(/<\/g>/g, '');
+                    optimizations.push('移除了所有<g>标签，保留其内容');
+                }
+                
+                // 11. 优化数字格式（根据用户选择的小数点位数）
+                if (decimalPlaces >= 0) {
+                    // 处理路径数据中的数字
+                    compressed = compressed.replace(/(d="[^"]*")/g, function(match) {
+                        return match.replace(/(-?\d+\.\d+)/g, function(numMatch) {
+                            return parseFloat(numMatch).toFixed(decimalPlaces);
+                        });
+                    });
+                    
+                    // 处理其他属性中的数字
+                    compressed = compressed.replace(/(\s\w+="[^"]*")/g, function(match) {
+                        return match.replace(/(-?\d+\.\d+)/g, function(numMatch) {
+                            return parseFloat(numMatch).toFixed(decimalPlaces);
+                        });
+                    });
+                    
+                    optimizations.push(`优化了数字格式，保留${decimalPlaces}位小数`);
+                }
+                
+                // 12. 合并相同样式的路径
+                const pathRegex = /<path([^>]*)fill="(#[\da-fA-F]{6})"([^>]*)\/>/g;
+                const pathGroups = {};
+                let match;
+                
+                while ((match = pathRegex.exec(compressed)) !== null) {
+                    const fullMatch = match[0];
+                    const fillColor = match[2];
+                    const attributes = match[1] + match[3];
+                    
+                    if (!pathGroups[fillColor]) {
+                        pathGroups[fillColor] = [];
+                    }
+                    
+                    // 提取d属性
+                    const dMatch = attributes.match(/d="([^"]*)"/);
+                    if (dMatch) {
+                        pathGroups[fillColor].push(dMatch[1]);
+                    }
+                }
+                
+                // 替换相同颜色的路径
+                for (const color in pathGroups) {
+                    if (pathGroups[color].length > 1) {
+                        const combinedD = pathGroups[color].join(' ');
+                        const newPath = `<path d="${combinedD}" fill="${color}"/>`;
+                        
+                        // 替换第一个路径，删除其余路径
+                        const firstPath = `<path[^>]*fill="${color}"[^>]*d="${pathGroups[color][0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*\\/>`;
+                        const regex = new RegExp(firstPath);
+                        compressed = compressed.replace(regex, newPath);
+                        
+                        // 删除其他相同颜色的路径
+                        for (let i = 1; i < pathGroups[color].length; i++) {
+                            const pathToRemove = `<path[^>]*fill="${color}"[^>]*d="${pathGroups[color][i].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*\\/>`;
+                            const removeRegex = new RegExp(pathToRemove);
+                            compressed = compressed.replace(removeRegex, '');
+                        }
+                    }
+                }
+                optimizations.push('合并了相同颜色的路径');
+                
+                // 13. 移除不必要的换行和空格
+                compressed = compressed.replace(/\s+/g, ' ');
+                compressed = compressed.replace(/>\s+</g, '><');
+                compressed = compressed.trim();
+                optimizations.push('移除了不必要的空格和换行');
+                
+                // 14. 移除版本属性
+                compressed = compressed.replace(/version="[^"]*"/g, '');
+                optimizations.push('移除了版本属性');
+                
+                return {
+                    compressed,
+                    optimizations
+                };
+            }
+        });
+    </script>
+</body>
+</html>

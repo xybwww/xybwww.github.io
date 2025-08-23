@@ -479,7 +479,6 @@ $(function () {
               }
             }
             $('#filename').val(file.name.replace('.json', ''));
-
           } catch (error) {
             console.error('Error parsing JSON:', error);
             alert('Error parsing JSON file.');
@@ -519,5 +518,35 @@ $(function () {
       }
     });
     elements = [];
+  });
+
+  //键盘检测，数字对应
+  $(document).keydown(function (event) {
+    switch (event.key) {
+      case '1':
+        $('#hand').click();
+        break;
+      case '2':
+        $('#erase').click();
+        break;
+      case '3':
+        $('#line').click();
+        break;
+      case '4':
+        $('#teleElevator').click();
+        break;
+      case '5':
+        $('#circle').click();
+        break;
+      case '6':
+        $('#doorEnter').click();
+        break;
+      case '7':
+        $('#doorExit').click();
+        break;
+      case '8':
+        $('#settings').click();
+        break;
+    }
   });
 });

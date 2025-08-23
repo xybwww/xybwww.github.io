@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Font Awesome 字体效果展示</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .search-box {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            border-color: #3498db;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .category-btn {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .category-btn:hover, .category-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .icons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+        }
+        
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .icon-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background: #e3f2fd;
+        }
+        
+        .icon-item i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .fa-solid {
+            color: #e74c3c;
+        }
+        
+        .fa-regular {
+            color: #3498db;
+        }
+        
+        .fa-brands {
+            color: #2ecc71;
+        }
+        
+        .icon-name {
+            font-size: 0.9rem;
+            text-align: center;
+            word-break: break-word;
+        }
+        
+        .message {
+            text-align: center;
+            padding: 20px;
+            font-size: 1.1rem;
+            color: #7f8c8d;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            margin-top: 40px;
+        }
+        
+        footer a{
+          color:lightgreen;
+        }
+        
+        @media (max-width: 768px) {
+            .icons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Font Awesome 字体效果展示</h1>
+            <p class="subtitle">使用本地CSS和TTF字体文件</p>
+        </header>
+
+        <div class="content">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="搜索图标..." id="searchInput">
+            </div>
+            
+            <div class="category-filter" id="categoryFilter">
+                <button class="category-btn active" data-category="all">全部</button>
+                <button class="category-btn" data-category="solid">实心图标</button>
+                <button class="category-btn" data-category="regular">线框图标</button>
+                <button class="category-btn" data-category="brands">品牌图标</button>
+            </div>
+            
+            <div class="icons-grid" id="iconsContainer">
+                <!-- 图标将通过JavaScript动态添加 -->
+            </div>
+            
+            <div class="message" id="message">
+                选择分类或搜索图标以查看效果
+            </div>
+        </div>
+        
+    <footer>
+            <p>由 <a href="../">xybwww</a> 创建 © 2025</p>
+    </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const iconsContainer = document.getElementById('iconsContainer');
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const message = document.getElementById('message');
+            
+            // 常用Font Awesome图标示例
+            const icons = [
+                { name: 'heart', category: 'solid' },
+                { name: 'star', category: 'solid' },
+                { name: 'bookmark', category: 'solid' },
+                { name: 'check-circle', category: 'solid' },
+                { name: 'bell', category: 'solid' },
+                { name: 'envelope', category: 'solid' },
+                { name: 'flag', category: 'solid' },
+                { name: 'gear', category: 'solid' },
+                { name: 'trash', category: 'solid' },
+                { name: 'download', category: 'solid' },
+                { name: 'upload', category: 'solid' },
+                { name: 'camera', category: 'solid' },
+                { name: 'music', category: 'solid' },
+                { name: 'image', category: 'solid' },
+                { name: 'film', category: 'solid' },
+                { name: 'house', category: 'solid' },
+                { name: 'calendar', category: 'solid' },
+                { name: 'comment', category: 'solid' },
+                { name: 'thumbs-up', category: 'solid' },
+                { name: 'user', category: 'solid' },
+                { name: 'clock', category: 'solid' },
+                { name: 'paper-plane', category: 'solid' },
+                { name: 'credit-card', category: 'solid' },
+                { name: 'globe', category: 'solid' },
+                { name: 'cloud', category: 'solid' },
+                { name: 'lock', category: 'solid' },
+                { name: 'unlock', category: 'solid' },
+                { name: 'magnifying-glass', category: 'solid' },
+                { name: 'shopping-cart', category: 'solid' },
+                { name: 'gift', category: 'solid' },
+                { name: 'chart-bar', category: 'solid' },
+                { name: 'cog', category: 'solid' },
+                { name: 'database', category: 'solid' },
+                { name: 'key', category: 'solid' },
+                { name: 'phone', category: 'solid' },
+                { name: 'link', category: 'solid' },
+                { name: 'folder', category: 'solid' },
+                { name: 'save', category: 'solid' },
+                { name: 'tag', category: 'solid' },
+                { name: 'print', category: 'solid' },
+                { name: 'eye', category: 'solid' },
+                { name: 'eye-slash', category: 'solid' },
+                { name: 'filter', category: 'solid' },
+                { name: 'heart', category: 'regular' },
+                { name: 'star', category: 'regular' },
+                { name: 'bookmark', category: 'regular' },
+                { name: 'check-circle', category: 'regular' },
+                { name: 'bell', category: 'regular' },
+                { name: 'envelope', category: 'regular' },
+                { name: 'flag', category: 'regular' },
+                { name: 'comment', category: 'regular' },
+                { name: 'clock', category: 'regular' },
+                { name: 'sun', category: 'regular' },
+                { name: 'moon', category: 'regular' },
+                { name: 'copy', category: 'regular' },
+                { name: 'save', category: 'regular' },
+                { name: 'trash-can', category: 'regular' },
+                { name: 'folder', category: 'regular' },
+                { name: 'calendar', category: 'regular' },
+                { name: 'user', category: 'regular' },
+                { name: 'image', category: 'regular' },
+                { name: 'message', category: 'regular' },
+                { name: 'gem', category: 'regular' },
+                { name: 'thumbs-up', category: 'regular' },
+                { name: 'thumbs-down', category: 'regular' },
+                { name: 'smile', category: 'regular' },
+                { name: 'frown', category: 'regular' },
+                { name: 'meh', category: 'regular' },
+                { name: 'github', category: 'brands' },
+                { name: 'twitter', category: 'brands' },
+                { name: 'facebook', category: 'brands' },
+                { name: 'instagram', category: 'brands' },
+                { name: 'whatsapp', category: 'brands' },
+                { name: 'youtube', category: 'brands' },
+                { name: 'google', category: 'brands' },
+                { name: 'apple', category: 'brands' },
+                { name: 'microsoft', category: 'brands' },
+                { name: 'amazon', category: 'brands' },
+                { name: 'spotify', category: 'brands' },
+                { name: 'telegram', category: 'brands' },
+                { name: 'discord', category: 'brands' },
+                { name: 'slack', category: 'brands' },
+                { name: 'linkedin', category: 'brands' },
+                { name: 'pinterest', category: 'brands' },
+                { name: 'tiktok', category: 'brands' },
+                { name: 'reddit', category: 'brands' },
+                { name: 'skype', category: 'brands' },
+                { name: 'snapchat', category: 'brands' },
+                { name: 'paypal', category: 'brands' },
+                { name: 'wordpress', category: 'brands' },
+                { name: 'chrome', category: 'brands' },
+                { name: 'firefox', category: 'brands' },
+                { name: 'safari', category: 'brands' },
+                { name: 'opera', category: 'brands' }
+            ];
+            
+            let currentCategory = 'all';
+            let currentSearch = '';
+            
+            // 渲染图标函数
+            function renderIcons() {
+                iconsContainer.innerHTML = '';
+                let filteredIcons = icons;
+                
+                // 根据分类过滤
+                if (currentCategory !== 'all') {
+                    filteredIcons = filteredIcons.filter(icon => icon.category === currentCategory);
+                }
+                
+                // 根据搜索词过滤
+                if (currentSearch) {
+                    const searchTerm = currentSearch.toLowerCase();
+                    filteredIcons = filteredIcons.filter(icon => 
+                        icon.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                // 显示消息或图标
+                if (filteredIcons.length === 0) {
+                    message.textContent = '没有找到匹配的图标';
+                    message.style.display = 'block';
+                } else {
+                    message.style.display = 'none';
+                    
+                    filteredIcons.forEach(icon => {
+                        const iconItem = document.createElement('div');
+                        iconItem.className = 'icon-item';
+                        
+                        const iconElement = document.createElement('i');
+                        iconElement.className = `fa-${icon.category} fa-${icon.name}`;
+                        
+                        const iconName = document.createElement('div');
+                        iconName.className = 'icon-name';
+                        iconName.textContent = icon.name;
+                        
+                        iconItem.appendChild(iconElement);
+                        iconItem.appendChild(iconName);
+                        iconsContainer.appendChild(iconItem);
+                    });
+                }
+            }
+            
+            // 初始渲染
+            renderIcons();
+            
+            // 搜索功能
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value;
+                renderIcons();
+            });
+            
+            // 分类过滤功能
+            categoryFilter.addEventListener('click', function(e) {
+                if (e.target.classList.contains('category-btn')) {
+                    // 移除所有按钮的active类
+                    document.querySelectorAll('.category-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // 为当前按钮添加active类
+                    e.target.classList.add('active');
+                    
+                    // 更新当前分类
+                    currentCategory = e.target.dataset.category;
+                    renderIcons();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
