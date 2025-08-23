@@ -2,7 +2,7 @@
   "name": "xybwww",
   "short_name": "xybwww",
   "description": "创意游戏与工具集合",
-  "start_url": "/",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#3498db",
   "theme_color": "#3498db",

@@ -205,7 +205,7 @@
             overflow: hidden;
         }
         
-        .project-image img {
+        .project-image *{
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -456,7 +456,7 @@
         
         <div class="status-bar">
             <div id="connection-status" class="status-online">在线</div>
-            <div id="cache-status">缓存: <span id="cache-size">0</span> MB</div>
+            <div id="cache-status">缓存: <span id="cache-size">0</span> MB | <span id="cached-files">0</span> 个文件</div>
         </div>
         
         <div class="content">
@@ -501,6 +501,7 @@
                 <button id="update-cache" class="btn">更新缓存</button>
                 <button id="clear-cache" class="btn btn-warning">清除缓存</button>
                 <button id="refresh-status" class="btn">刷新状态</button>
+                <button id="precache-all" class="btn">预缓存已知路径</button>
                 
                 <div class="cache-info">
                     <strong>缓存详情:</strong>
@@ -524,7 +525,7 @@
                 typeText: "创作",
                 description: "一款城市交通模拟创作类项目",
                 link: "交通之城/",
-                image: "交通之城.gif"
+                image: "交通之城.mp4"
             },
             {
                 name: "机械笔",
@@ -533,7 +534,7 @@
                 typeText: "创作",
                 description: "机械动力学绘画工具",
                 link: "机械笔/",
-                image: "机械笔.gif"
+                image: "机械笔.mp4"
             },
             {
                 name: "大富翁",
@@ -542,7 +543,7 @@
                 typeText: "游戏",
                 description: "经典大富翁游戏前端实现",
                 link: "大富翁/",
-                image: "大富翁.gif"
+                image: "大富翁.mp4"
             },
             {
                 name: "领地之战",
@@ -551,7 +552,7 @@
                 typeText: "游戏",
                 description: "策略性领地争夺游戏",
                 link: "领地之战/",
-                image: "领地之战.gif"
+                image: "领地之战.mp4"
             },
             {
                 name: "AI走迷宫",
@@ -560,7 +561,7 @@
                 typeText: "AI",
                 description: "人工智能迷宫求解演示",
                 link: "AI走迷宫/",
-                image: "AI走迷宫.gif"
+                image: "AI走迷宫.mp4"
             }
         ];
         
@@ -624,13 +625,12 @@
             // 渲染游戏项目
             games.forEach(project => {
                 const stars = '★'.repeat(project.stars) + '☆'.repeat(5 - project.stars);
-                
                 const projectCard = document.createElement('div');
                 projectCard.className = 'project-card';
                 projectCard.innerHTML = `
                     <div class="project-image">
                         ${project.image ? 
-                            `<img src="images/${project.image}" alt="${project.name}">` : 
+                            `<video autoplay loop muted playsinline><source src="images/${project.image}" type="video/mp4"></video>` : 
                             `<div>图片占位符</div>`
                         }
                     </div>
@@ -714,6 +714,30 @@
             }
         });
         
+        document.getElementById('precache-all').addEventListener('click', function() {
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                // 收集所有已知路径
+                const knownRoutes = [];
+                
+                // 添加游戏路径
+                games.forEach(game => {
+                    knownRoutes.push(game.link);
+                });
+                
+                // 添加工具路径
+                tools.forEach(tool => {
+                    knownRoutes.push(tool.link);
+                });
+                
+                // 发送预缓存请求
+                navigator.serviceWorker.controller.postMessage({
+                    action: 'precacheKnownRoutes',
+                    routes: knownRoutes
+                });
+                alert('预缓存请求已发送');
+            }
+        });
+        
         document.getElementById('clear-cache').addEventListener('click', function() {
             if (confirm('确定要清除所有缓存数据吗？')) {
                 if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
@@ -737,6 +761,7 @@
         async function updateCacheStatus() {
             if (!('caches' in window)) {
                 document.getElementById('cache-size').textContent = '不支持';
+                document.getElementById('cached-files').textContent = '不支持';
                 document.getElementById('cache-details').textContent = '您的浏览器不支持缓存API';
                 return;
             }
@@ -744,6 +769,7 @@
             try {
                 const cacheNames = await caches.keys();
                 let totalSize = 0;
+                let totalFiles = 0;
                 let cacheDetails = '';
                 
                 for (const cacheName of cacheNames) {
@@ -751,6 +777,7 @@
                     const requests = await cache.keys();
                     
                     cacheDetails += `缓存: ${cacheName} (${requests.length} 个项目)\n`;
+                    totalFiles += requests.length;
                     
                     for (const request of requests) {
                         const response = await cache.match(request);
@@ -762,10 +789,12 @@
                             cacheDetails += `  - ${request.url}\n`;
                         }
                     }
+                    cacheDetails += '\n';
                 }
                 
                 const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
                 document.getElementById('cache-size').textContent = totalSizeMB;
+                document.getElementById('cached-files').textContent = totalFiles;
                 document.getElementById('cache-details').textContent = cacheDetails || '无缓存数据';
             } catch (error) {
                 console.error('获取缓存信息失败:', error);
