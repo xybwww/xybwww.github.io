@@ -1,4 +1,4 @@
-const CACHE_NAME = 'auto-cache-v1';
+const CACHE_NAME = 'auto-cache-v2';
 const CORE_ASSETS = [
     'index.html',
     'manifest.json',
@@ -39,6 +39,43 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
     // 只处理同源请求
     if (!event.request.url.startsWith(self.location.origin)) {
+        return;
+    }
+    
+    // 特殊处理视频和SVG文件
+    const url = new URL(event.request.url);
+    const isVideo = url.pathname.endsWith('.mp4') || url.pathname.endsWith('.webm') || url.pathname.endsWith('.ogg');
+    const isSvg = url.pathname.endsWith('.svg');
+    
+    // 对于视频和SVG文件，使用特殊的缓存策略
+    if (isVideo || isSvg) {
+        event.respondWith(
+            caches.match(event.request)
+                .then(cachedResponse => {
+                    if (cachedResponse) {
+                        return cachedResponse;
+                    }
+                    
+                    return fetch(event.request)
+                        .then(response => {
+                            // 检查响应是否有效
+                            if (!response || response.status !== 200) {
+                                return response;
+                            }
+                            
+                            // 克隆响应，因为响应只能使用一次
+                            const responseClone = response.clone();
+                            
+                            // 缓存获取到的响应
+                            caches.open(CACHE_NAME)
+                                .then(cache => {
+                                    cache.put(event.request, responseClone);
+                                });
+                            
+                            return response;
+                        });
+                })
+        );
         return;
     }
     
@@ -91,7 +128,7 @@ self.addEventListener('fetch', event => {
                 })
         );
     } else {
-        // 对于其他资源（CSS、JS、图片、视频等），使用缓存优先策略
+        // 对于其他资源（CSS、JS、图片等），使用缓存优先策略
         event.respondWith(
             caches.match(event.request)
                 .then(cachedResponse => {
@@ -102,7 +139,7 @@ self.addEventListener('fetch', event => {
                     return fetch(event.request)
                         .then(response => {
                             // 检查响应是否有效
-                            if (!response || response.status !== 200 || response.type !== 'basic') {
+                            if (!response || response.status !== 200) {
                                 return response;
                             }
                             
