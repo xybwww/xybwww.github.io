@@ -43,7 +43,9 @@ self.addEventListener('fetch', event => {
     }
     
     // 对于HTML文档，使用网络优先策略
-    if (event.request.destination === 'document') {
+    if (event.request.destination === 'document' || 
+        event.request.url.endsWith('.html') ||
+        event.request.url.indexOf('.html') !== -1) {
         event.respondWith(
             fetch(event.request)
                 .then(response => {
@@ -89,7 +91,7 @@ self.addEventListener('fetch', event => {
                 })
         );
     } else {
-        // 对于其他资源（CSS、JS、图片等），使用缓存优先策略
+        // 对于其他资源（CSS、JS、图片、视频等），使用缓存优先策略
         event.respondWith(
             caches.match(event.request)
                 .then(cachedResponse => {
