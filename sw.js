@@ -1,8 +1,13 @@
-const CACHE_NAME = 'auto-cache-v3';
+const CACHE_NAME = 'auto-cache-v1';
 const CORE_ASSETS = [
     'index.html',
     'manifest.json',
-    'project/css/font-awesome.min.css'
+    'project/css/font-awesome.min.css',
+    'images/交通之城.mp4',
+    'images/机械笔.mp4',
+    'images/领地之战.mp4',
+    'images/AI走迷宫.mp4',
+    'images/大富翁.mp4',
 ];
 
 // 安装Service Worker - 缓存核心资源
@@ -42,63 +47,8 @@ self.addEventListener('fetch', event => {
         return;
     }
     
-    // 特殊处理视频、SVG和其他媒体文件
-    const url = new URL(event.request.url);
-    const isVideo = /\.(mp4|webm|ogg|mov|avi|wmv|flv|mkv)$/i.test(url.pathname);
-    const isSvg = /\.svg$/i.test(url.pathname);
-    const isImage = /\.(jpg|jpeg|png|gif|bmp|webp|ico)$/i.test(url.pathname);
-    const isFont = /\.(woff|woff2|ttf|eot|otf)$/i.test(url.pathname);
-    
-    // 对于媒体文件（视频、SVG、图片、字体），使用缓存优先策略
-    if (isVideo || isSvg || isImage || isFont) {
-        event.respondWith(
-            caches.match(event.request)
-                .then(cachedResponse => {
-                    // 如果缓存中有，直接返回
-                    if (cachedResponse) {
-                        return cachedResponse;
-                    }
-                    
-                    // 否则从网络获取
-                    return fetch(event.request)
-                        .then(response => {
-                            // 检查响应是否有效
-                            if (!response || response.status !== 200) {
-                                return response;
-                            }
-                            
-                            // 克隆响应，因为响应只能使用一次
-                            const responseClone = response.clone();
-                            
-                            // 缓存获取到的响应
-                            caches.open(CACHE_NAME)
-                                .then(cache => {
-                                    cache.put(event.request, responseClone);
-                                });
-                            
-                            return response;
-                        })
-                        .catch(error => {
-                            console.error('获取资源失败:', error);
-                            // 对于图片和视频，可以返回一个占位符
-                            if (isImage) {
-                                return new Response(
-                                    '<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#ccc"/><text x="50" y="50" font-family="Arial" font-size="10" fill="#000" text-anchor="middle" dominant-baseline="middle">图片加载失败</text></svg>',
-                                    { headers: { 'Content-Type': 'image/svg+xml' } }
-                                );
-                            }
-                            // 对于其他资源，直接抛出错误
-                            throw error;
-                        });
-                })
-        );
-        return;
-    }
-    
     // 对于HTML文档，使用网络优先策略
-    if (event.request.destination === 'document' || 
-        event.request.url.endsWith('.html') ||
-        event.request.url.indexOf('.html') !== -1) {
+    if (event.request.destination === 'document') {
         event.respondWith(
             fetch(event.request)
                 .then(response => {
@@ -130,7 +80,6 @@ self.addEventListener('fetch', event => {
                                     <title>离线</title>
                                     <style>
                                         body { font-family: sans-serif; padding: 20px; text-align: center; }
-                                        h1 { color: #666; }
                                     </style>
                                 </head>
                                 <body>
@@ -145,7 +94,7 @@ self.addEventListener('fetch', event => {
                 })
         );
     } else {
-        // 对于其他资源（CSS、JS等），使用缓存优先策略
+        // 对于其他资源（CSS、JS、图片等），使用缓存优先策略
         event.respondWith(
             caches.match(event.request)
                 .then(cachedResponse => {
@@ -156,7 +105,7 @@ self.addEventListener('fetch', event => {
                     return fetch(event.request)
                         .then(response => {
                             // 检查响应是否有效
-                            if (!response || response.status !== 200) {
+                            if (!response || response.status !== 200 || response.type !== 'basic') {
                                 return response;
                             }
                             
